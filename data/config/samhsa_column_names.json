@@ -1,0 +1,10 @@
+{
+    "aggflg": "aggregate_area_flag",
+    "county": "county_FIPS",
+    "sbst16": "substate_region_id",
+    "sbst16n": "substate_region_name",
+    "sbsta16n": "aggregate_substate_area_id",
+    "sbstfg16": "change_indicator",
+    "state": "state_FIPS",
+    "tract": "census_tract_code"
+}
