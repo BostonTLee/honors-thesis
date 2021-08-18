@@ -17,6 +17,9 @@ def preprocess_samhsa_mapping(df):
     }
     return df.rename(column_name_map, axis=1)
 
+def read_acs_table(filepath):
+    return pd.read_csv(filepath, skiprows=[1], na_values="*****")
+
 def preprocess_acs_demographics(df):
     pass
 
@@ -40,10 +43,12 @@ def main():
     print(substate_tract_full_df)
 
     ACS_DEMOGRAPHICS_PATH = "{}/ACSDP5Y2018.DP05_data_with_overlays_2021-08-12T180023.csv".format(RAW_DATA_PATH)
-    # acs_demographics_df = pd.read_csv(ACS_DEMOGRAPHICS_PATH)
+    acs_demographics_df = read_acs_table(ACS_DEMOGRAPHICS_PATH)
+    print(acs_demographics_df)
 
-    ACS_INCOME_PATH = "{}/ACSDP5Y2018.DP05_data_with_overlays_2021-08-12T180023.csv".format(RAW_DATA_PATH)
-    # acs_income_df = pd.read_csv(ACS_INCOME_PATH)
+    ACS_INCOME_PATH = "{}/ACSST5Y2018.S1901_data_with_overlays_2021-08-12T175539.csv".format(RAW_DATA_PATH)
+    acs_income_df = read_acs_table(ACS_INCOME_PATH)
+    print(acs_income_df)
 
 
 if __name__ == "__main__":
