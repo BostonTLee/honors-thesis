@@ -88,10 +88,16 @@ def preprocess_acs_demographics(df):
         "DP05_0018M": "median_age_moe",
     }
     df = df.loc[:, column_name_map.keys()]
-    return df.rename(column_name_map, axis=1)
+    df = df.rename(column_name_map, axis=1)
+    df["state_code"] = df["geo_id"].str.slice(9, 11).astype(int)
+    df["county_code"] = df["geo_id"].str.slice(11).astype(int)
+    return df
 
 
 def preprocess_acs_income(df):
+    column_name_map = {}
+    df = df.loc[:, column_name_map.keys()]
+    return df.rename(column_name_map, axis=1)
     pass
 
 
