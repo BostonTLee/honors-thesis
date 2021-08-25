@@ -87,18 +87,36 @@ def preprocess_acs_demographics(df):
         "DP05_0018E": "median_age",
         "DP05_0018M": "median_age_moe",
     }
+    # Drop columns not included in the map
     df = df.loc[:, column_name_map.keys()]
+    # Rename using the map
     df = df.rename(column_name_map, axis=1)
+    # Extract state and county code as integers, then drop full geo id
     df["state_code"] = df["geo_id"].str.slice(9, 11).astype(int)
     df["county_code"] = df["geo_id"].str.slice(11).astype(int)
+    df = df.drop("geo_id", axis=1)
     return df
 
 
 def preprocess_acs_income(df):
-    column_name_map = {}
+    column_name_map = {
+        "GEO_ID": "geo_id",
+        "S1901_C01_013E": "mean_income_dollars",
+        "S1901_C01_013M": "mean_income_dollars_moe",
+        "S1901_C01_002E": "percent_households_less_than_10000",
+        "S1901_C01_002M": "percent_households_less_than_10000_moe",
+        "S1901_C01_003E": "percent_households_10000_to_14999",
+        "S1901_C01_003M": "percent_households_10000_to_14999_moe",
+    }
+    # Drop columns not included in the map
     df = df.loc[:, column_name_map.keys()]
-    return df.rename(column_name_map, axis=1)
-    pass
+    # Rename using the map
+    df = df.rename(column_name_map, axis=1)
+    # Extract state and county code as integers, then drop full geo id
+    df["state_code"] = df["geo_id"].str.slice(9, 11).astype(int)
+    df["county_code"] = df["geo_id"].str.slice(11).astype(int)
+    df = df.drop("geo_id", axis=1)
+    return df
 
 
 def main():
@@ -120,16 +138,13 @@ def main():
         RAW_DATA_PATH
     )
     acs_demographics_df = read_acs_table(ACS_DEMOGRAPHICS_PATH)
-    print("Before processing")
-    print(acs_demographics_df)
     acs_demographics_df = preprocess_acs_demographics(acs_demographics_df)
-    print("After processing")
-    print(acs_demographics_df)
 
     ACS_INCOME_PATH = "{}/ACSST5Y2018.S1901_data_with_overlays_2021-08-12T175539.csv".format(
         RAW_DATA_PATH
     )
     acs_income_df = read_acs_table(ACS_INCOME_PATH)
+    acs_income_df = preprocess_acs_income(acs_income_df)
 
 
 if __name__ == "__main__":
