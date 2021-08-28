@@ -24,7 +24,6 @@ def preprocess_samhsa_mapping(df):
         "state": "state_fips",
         "tract": "census_tract_code",
     }
-    print(df)
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df["state_fips"] = (
         df["state_fips"].astype(str).str.pad(width=2, fillchar="0")
@@ -55,8 +54,14 @@ def preprocess_samhsa_table(df, variable_name):
     return df.reset_index(drop=True)
 
 
-def read_acs_table(filepath):
-    return pd.read_csv(filepath, skiprows=[1], na_values="*****")
+def read_acs_table(filepath, colnames):
+    df = pd.read_csv(
+        filepath,
+        skiprows=[1],
+        usecols=colnames,
+        na_values=["*****", "*", "-", "(X)"],
+    )
+    return df
 
 
 def slice_acs_fips_col(df, geo_id_column_name):
@@ -64,10 +69,10 @@ def slice_acs_fips_col(df, geo_id_column_name):
     df["state_fips"] = df[geo_id_column_name].str.slice(9, 11)
     df["county_fips"] = df[geo_id_column_name].str.slice(11)
     df = df.drop(geo_id_column_name, axis=1)
-    pass
+    return df
 
 
-def preprocess_acs_demographics(df):
+def read_and_preprocess_acs_demographics(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "DP05_0001E": "total_pop",
@@ -99,24 +104,26 @@ def preprocess_acs_demographics(df):
         "DP05_0024PE": "percent_65_over_years",
         "DP05_0018E": "median_age",
     }
+    df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df = slice_acs_fips_col(df, "geo_id")
     return df
 
 
-def preprocess_acs_income(df):
+def read_and_preprocess_acs_income(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1901_C01_012E": "median_household_income",
         "S1901_C01_002E": "percent_households_less_than_10000",
         "S1901_C01_003E": "percent_households_10000_to_14999",
     }
+    df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df = slice_acs_fips_col(df, "geo_id")
     return df
 
 
-def preprocess_acs_education(df):
+def read_and_preprocess_acs_education(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1501_C02_007E": "percent_25_years_over_less_than_9th_grade",
@@ -129,12 +136,13 @@ def preprocess_acs_education(df):
         "S1501_C01_014E": "percent_25_years_over_high_school_or_higher",
         "S1501_C01_015E": "percent_25_years_over_bachelors_or_higher",
     }
+    df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df = slice_acs_fips_col(df, "geo_id")
     return df
 
 
-def preprocess_acs_marital_status(df):
+def read_and_preprocess_acs_marital_status(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1201_C02_001E": "percent_married_15_years_and_older",
@@ -143,17 +151,19 @@ def preprocess_acs_marital_status(df):
         "S1201_C05_001E": "percent_separated_15_years_and_older",
         "S1201_C06_001E": "percent_never_married_15_years_and_older",
     }
+    df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df = slice_acs_fips_col(df, "geo_id")
     return df
 
 
-def preprocess_acs_poverty(df):
+def read_and_preprocess_acs_poverty(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1701_C03_001E": "percent_below_poverty_level",
-        "S1701_C01_038E": "percent_below_50_percent_poverty_level"
+        "S1701_C01_038E": "percent_below_50_percent_poverty_level",
     }
+    df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df = slice_acs_fips_col(df, "geo_id")
     pass
@@ -206,38 +216,37 @@ def main():
             RAW_DATA_PATH
         )
     )
-    acs_demographics_df = read_acs_table(ACS_DEMOGRAPHICS_CSV_PATH)
-    acs_demographics_df = preprocess_acs_demographics(acs_demographics_df)
+    acs_demographics_df = read_and_preprocess_acs_demographics(
+        ACS_DEMOGRAPHICS_CSV_PATH
+    )
 
     ACS_INCOME_CSV_PATH = (
         "{}/ACSST5Y2018.S1901_data_with_overlays_2021-08-12T175539.csv".format(
             RAW_DATA_PATH
         )
     )
-    acs_income_df = read_acs_table(ACS_INCOME_CSV_PATH)
-    acs_income_df = preprocess_acs_income(acs_income_df)
+    acs_income_df = read_and_preprocess_acs_income(ACS_INCOME_CSV_PATH)
 
     ACS_EDUCATION_CSV_PATH = "{}/acs_education_data_with_overlays.csv".format(
         RAW_DATA_PATH
     )
-    acs_education_df = read_acs_table(ACS_EDUCATION_CSV_PATH)
-    acs_education_df = preprocess_acs_education(acs_education_df)
+    # acs_education_df = read_acs_table(ACS_EDUCATION_CSV_PATH)
+    acs_education_df = read_and_preprocess_acs_education(
+        ACS_EDUCATION_CSV_PATH
+    )
+    print(acs_education_df)
 
     ACS_MARITAL_STATUS_CSV_PATH = (
         "{}/acs_marital_status_data_with_overlays.csv".format(RAW_DATA_PATH)
     )
-    acs_marital_status_df = read_acs_table(ACS_MARITAL_STATUS_CSV_PATH)
-    acs_marital_status_df = preprocess_acs_marital_status(
-        acs_marital_status_df
+    acs_marital_status_df = read_and_preprocess_acs_marital_status(
+        ACS_MARITAL_STATUS_CSV_PATH
     )
 
-    ACS_POVERTY_CSV_PATH = (
-        "{}/acs_poverty_data_with_overlays.csv".format(RAW_DATA_PATH)
+    ACS_POVERTY_CSV_PATH = "{}/acs_poverty_data_with_overlays.csv".format(
+        RAW_DATA_PATH
     )
-    acs_poverty_df = read_acs_table(ACS_POVERTY_CSV_PATH)
-    acs_poverty_df = preprocess_acs_poverty(
-        acs_poverty_df
-    )
+    acs_poverty_df = read_and_preprocess_acs_poverty(ACS_POVERTY_CSV_PATH)
 
 
 if __name__ == "__main__":
