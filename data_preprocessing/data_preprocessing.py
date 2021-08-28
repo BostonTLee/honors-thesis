@@ -118,6 +118,7 @@ def preprocess_acs_income(df):
 
 def preprocess_acs_education(df):
     column_name_map = {
+        "GEO_ID": "geo_id",
         "S1501_C02_007E": "percent_25_years_over_less_than_9th_grade",
         "S1501_C02_008E": "percent_25_years_over_9th_to_12th_no_diploma",
         "S1501_C02_009E": "percent_25_years_over_high_school",
@@ -135,6 +136,7 @@ def preprocess_acs_education(df):
 
 def preprocess_acs_marital_status(df):
     column_name_map = {
+        "GEO_ID": "geo_id",
         "S1201_C02_001E": "percent_married_15_years_and_older",
         "S1201_C03_001E": "percent_widowed_15_years_and_older",
         "S1201_C04_001E": "percent_divorced_15_years_and_older",
@@ -147,6 +149,13 @@ def preprocess_acs_marital_status(df):
 
 
 def preprocess_acs_poverty(df):
+    column_name_map = {
+        "GEO_ID": "geo_id",
+        "S1701_C03_001E": "percent_below_poverty_level",
+        "S1701_C01_038E": "percent_below_50_percent_poverty_level"
+    }
+    df = drop_and_rename_cols_by_dict(df, column_name_map)
+    df = slice_acs_fips_col(df, "geo_id")
     pass
 
 
