@@ -4,11 +4,23 @@ import us
 
 def drop_and_rename_cols_by_dict(df, column_name_map):
     # Subset to slice only relevant columns
-    # df = df.loc[:, column_name_map.keys()]
     df = df.reindex(columns=column_name_map.keys())
     # Rename using the map
     df = df.rename(column_name_map, axis=1)
     return df.reset_index(drop=True)
+
+
+def merge_list_of_dfs(list_of_dfs, on):
+    if len(list_of_dfs) <= 1:
+        raise ValueError(
+            "List of DataFrames has too few values to be joined: {}".format(
+                list_of_dfs
+            )
+        )
+    full_df = list_of_dfs[0]
+    for temp_df in list_of_dfs[1:]:
+        full_df = full_df.merge(temp_df, how="left", on=on)
+    return full_df
 
 
 def preprocess_samhsa_mapping(df):
@@ -45,7 +57,7 @@ def preprocess_samhsa_table(df, variable_name):
         "Small Area Estimate": variable_name,
     }
     df = drop_and_rename_cols_by_dict(df, column_name_map)
-    df[variable_name] = df[variable_name].str.rstrip("%").astype("float") / 100
+    df[variable_name] = df[variable_name].str.rstrip("%").astype("float")
     # Map the state names to FIPS codes to match the region definitions
     state_name_to_code_map = us.states.mapping("name", "fips")
     df["state_fips"] = df["state"].map(state_name_to_code_map)
@@ -164,11 +176,12 @@ def read_and_preprocess_acs_poverty(filepath):
     df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
     df = slice_acs_fips_col(df, "geo_id")
-    pass
+    return df
 
 
 def main():
     RAW_DATA_PATH = "./../data/raw"
+    PREPROCESSED_DATA_PATH = "./../data/preprocessed"
 
     # Reading in SAMHSA mappings
     SUBSTATE_COUNTY_DEF_PATH = "{}/substate_county141516.csv".format(
@@ -189,26 +202,37 @@ def main():
     )
 
     # Reading SAMHSA data
-    SAMHSA_SERIOUS_MENTAL_ILLNESS_PATH = (
-        "{}/NSDUHsubstateExcelTab28-2018.csv".format(RAW_DATA_PATH)
-    )
-    serious_mental_illness_df = read_samhsa_table(
-        SAMHSA_SERIOUS_MENTAL_ILLNESS_PATH
-    )
-    serious_mental_illness_df = preprocess_samhsa_table(
-        serious_mental_illness_df, "serious_mental_illness"
-    )
+    samhsa_df_list = [substate_tract_full_df]
 
-    # print(serious_mental_illness_df)
-    # print(substate_tract_full_df)
-    merged_df = serious_mental_illness_df.merge(
-        substate_tract_full_df,
-        how="inner",
-        on=["state_fips", "substate_region_name"],
+    SAMHSA_MDE_CSV_PATH = "{}/NSDUHsubstateExcelTab32-2018.csv".format(
+        RAW_DATA_PATH
     )
-    print(merged_df.columns)
+    samhsa_MDE_df = read_samhsa_table(SAMHSA_MDE_CSV_PATH)
+    samhsa_MDE_df = preprocess_samhsa_table(
+        samhsa_MDE_df,
+        "percent_MDE",
+    )
+    samhsa_df_list.append(samhsa_MDE_df)
+
+    SAMHSA_SUIDICIDAL_THOUGHTS_CSV_PATH = (
+        "{}/NSDUHsubstateExcelTab32-2018.csv".format(RAW_DATA_PATH)
+    )
+    samhsa_suidical_thoughts_df = read_samhsa_table(
+        SAMHSA_SUIDICIDAL_THOUGHTS_CSV_PATH
+    )
+    samhsa_suidical_thoughts_df = preprocess_samhsa_table(
+        samhsa_suidical_thoughts_df,
+        "percent_suidical_thoughts",
+    )
+    samhsa_df_list.append(samhsa_suidical_thoughts_df)
+
+    full_samhsa_df = merge_list_of_dfs(
+        samhsa_df_list, on=["state_fips", "substate_region_name"]
+    )
 
     # Reading ACS data
+    acs_df_list = []
+
     ACS_DEMOGRAPHICS_CSV_PATH = (
         "{}/ACSDP5Y2018.DP05_data_with_overlays_2021-08-12T180023.csv".format(
             RAW_DATA_PATH
@@ -217,6 +241,7 @@ def main():
     acs_demographics_df = read_and_preprocess_acs_demographics(
         ACS_DEMOGRAPHICS_CSV_PATH
     )
+    acs_df_list.append(acs_demographics_df)
 
     ACS_INCOME_CSV_PATH = (
         "{}/ACSST5Y2018.S1901_data_with_overlays_2021-08-12T175539.csv".format(
@@ -224,15 +249,15 @@ def main():
         )
     )
     acs_income_df = read_and_preprocess_acs_income(ACS_INCOME_CSV_PATH)
+    acs_df_list.append(acs_income_df)
 
     ACS_EDUCATION_CSV_PATH = "{}/acs_education_data_with_overlays.csv".format(
         RAW_DATA_PATH
     )
-    # acs_education_df = read_acs_table(ACS_EDUCATION_CSV_PATH)
     acs_education_df = read_and_preprocess_acs_education(
         ACS_EDUCATION_CSV_PATH
     )
-    print(acs_education_df)
+    acs_df_list.append(acs_education_df)
 
     ACS_MARITAL_STATUS_CSV_PATH = (
         "{}/acs_marital_status_data_with_overlays.csv".format(RAW_DATA_PATH)
@@ -240,11 +265,25 @@ def main():
     acs_marital_status_df = read_and_preprocess_acs_marital_status(
         ACS_MARITAL_STATUS_CSV_PATH
     )
+    acs_df_list.append(acs_marital_status_df)
 
     ACS_POVERTY_CSV_PATH = "{}/acs_poverty_data_with_overlays.csv".format(
         RAW_DATA_PATH
     )
     acs_poverty_df = read_and_preprocess_acs_poverty(ACS_POVERTY_CSV_PATH)
+    acs_df_list.append(acs_poverty_df)
+
+    full_acs_df = merge_list_of_dfs(
+        acs_df_list, on=["state_fips", "county_fips"]
+    )
+
+
+    final_df = full_samhsa_df.merge(
+        full_acs_df, on=["state_fips", "county_fips"]
+    )
+
+    FINAL_CSV_PATH = "{}/mental_health_2018.csv".format(PREPROCESSED_DATA_PATH)
+    final_df.to_csv(FINAL_CSV_PATH)
 
 
 if __name__ == "__main__":
