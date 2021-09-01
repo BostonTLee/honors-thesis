@@ -1,0 +1,429 @@
+\documentclass{article}
+
+\usepackage[\texttt{margin=1in}]{geometry}
+
+\usepackage{booktabs}
+
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\title{Examining the relationship between financial stress and mental health}
+\author{Boston Lee}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\subsection{Variable descriptions}
+
+Template:
+
+\begin{itemize}
+	\item[\texttt{varname}]
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+\end{itemize}
+
+\begin{itemize}[label={}, align=left]
+	\item[\texttt{aggregate\_area\_flag}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{county\_fips}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{substate\_region\_id}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{substate\_region\_name}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{aggregate\_substate\_area\_name}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{aggregate\_substate\_area\_id}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{state\_fips}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{census\_tract\_code}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{state\_x}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{prop\_MDE}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{state\_y}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_suidical\_thoughts}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{total\_pop}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{prop\_white}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_black}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_native}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_asian}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_pacific\_islander}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_latino}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_other\_race}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_two\_or\_more\_races}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{total\_housing\_units}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{prop\_15\_to\_19\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_20\_to\_24\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_to\_34\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_35\_to\_44\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_45\_to\_54\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_55\_to\_59\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_60\_to\_64\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_65\_to\_74\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_75\_to\_84\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_85\_over\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_18\_over\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_21\_over\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_62\_over\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_65\_over\_years}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{median\_age}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{median\_household\_income}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] What changed
+	      \end{description}
+	\item[\texttt{prop\_households\_less\_than\_10000}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_households\_10000\_to\_14999}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_less\_than\_9th\_grade}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_9th\_to\_12th\_no\_diploma}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_high\_school}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_some\_college}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_associates}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_bachelors}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_high\_school\_or\_higher}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_25\_years\_over\_bachelors\_or\_higher}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_married\_15\_years\_and\_older}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_widowed\_15\_years\_and\_older}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_divorced\_15\_years\_and\_older}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_separated\_15\_years\_and\_older}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_never\_married\_15\_years\_and\_older}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_below\_poverty\_level}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+	\item[\texttt{prop\_below\_50\_percent\_poverty\_level}] \
+	      \begin{description}
+		      \item[Description] Description of what it does
+		      \item[Reason for inclusion] Stuff
+		      \item[Data Source] Source and stuff
+		      \item[Modifications] Changed from a percentage to a proportion.
+	      \end{description}
+\end{itemize}
+
+\section{Descriptive Statistics}
+\section{Methods}
+\section{Results}
+\section{Discussion}
+
+\end{document}
