@@ -10,6 +10,16 @@ def drop_and_rename_cols_by_dict(df, column_name_map):
     return df.reset_index(drop=True)
 
 
+def make_all_percent_cols_proportions(df):
+    print(df)
+    percent_cols = [col for col in df if col.startswith("percent")]
+    # percent_cols = df.columns.str.startswith("percent")
+    df[percent_cols] = df[percent_cols] / 100
+    df.columns = df.columns.str.replace("^percent", "prop")
+    print(df)
+    return df
+
+
 def merge_list_of_dfs(list_of_dfs, on):
     if len(list_of_dfs) <= 1:
         raise ValueError(
@@ -273,10 +283,10 @@ def main():
         acs_df_list, on=["state_fips", "county_fips"]
     )
 
-
     final_df = full_samhsa_df.merge(
         full_acs_df, on=["state_fips", "county_fips"]
     )
+    final_df = make_all_percent_cols_proportions(final_df)
 
     FINAL_CSV_PATH = "{}/mental_health_2018.csv".format(PREPROCESSED_DATA_PATH)
     final_df.to_csv(FINAL_CSV_PATH)
