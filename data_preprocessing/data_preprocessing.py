@@ -142,9 +142,6 @@ def read_and_preprocess_acs_education(filepath):
         "S1501_C02_010E": "percent_25_years_over_some_college",
         "S1501_C02_011E": "percent_25_years_over_associates",
         "S1501_C02_012E": "percent_25_years_over_bachelors",
-        # Redundant but simpler
-        "S1501_C01_014E": "percent_25_years_over_high_school_or_higher",
-        "S1501_C01_015E": "percent_25_years_over_bachelors_or_higher",
     }
     df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
@@ -171,7 +168,6 @@ def read_and_preprocess_acs_poverty(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1701_C03_001E": "percent_below_poverty_level",
-        "S1701_C01_038E": "percent_below_50_percent_poverty_level",
     }
     df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
