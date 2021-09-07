@@ -1,2 +1,9 @@
 data/raw/*
 !data/raw/README.md
+paper/*.aux
+paper/*.bbl
+paper/*.bcf
+paper/*.blf
+paper/*.blg
+paper/*.log
+paper/*.xml
