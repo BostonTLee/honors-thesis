@@ -16,7 +16,7 @@
 
 \bibliography{references.bib}
 
-\title{Examining the relationship between financial stress and mental health}
+\title{The Relationship Between Potential Financial Stress and Mental Health in the United States}
 \author{Boston Lee}
 
 \begin{document}
@@ -47,18 +47,6 @@
     have marital status ``#1".}
 \newcommand\maritalreason{Marital status reflects general socioeconomic status.
     Variables related to marital status are included to account for variation.}
-
-Template:
-
-\begin{itemize}
-    \item[\texttt{varname}]
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
-          \end{description}
-\end{itemize}
 
 \begin{itemize}[label={}, align=left]
     \item[\texttt{aggregate\_area\_flag}] \
@@ -114,19 +102,21 @@ Template:
           \end{description}
     \item[\texttt{state\_fips}] \
           \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
+              \item[Description] FIPS code at the state level (two digits) \\
+              \item[Reason for inclusion] Used as a merge key for all datasets.
+                    Extracted from longer FIPS codes as needed. \\
+              \item[Data Source]
+                    \cite{acs_demographics_data},
+                    \cite{acs_poverty_data},
+                    \cite{acs_income_data},
+                    \cite{acs_marital_data},
+                    \cite{acs_education_data},
+                    \cite{samhsa_data} \\
+              \item[Modifications] State-level FIPS was defined within a
+                    larger string. This string was sliced and zero-padded for all
+                    datasets to produce a consistent key. \\
           \end{description}
     \item[\texttt{census\_tract\_code}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
-          \end{description}
-    \item[\texttt{state\_x}] \
           \begin{description}
               \item[Description] Description of what it does
               \item[Reason for inclusion] Stuff
@@ -137,31 +127,24 @@ Template:
           \begin{description}
               \item[Description] Proportion of adults aged 18 or older major
                     who have had a major depressive episode in the past year
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] This is a candidate for a response
+                    variable. Having a major depressive episode(s) is more
+                    closely linked to life events than general mental illness, in
+                    which there is a lot of variation.
               \item[Data Source] \cite{samhsa_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{state\_y}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_suidical\_thoughts}] \
           \begin{description}
               \item[Description] Proportion of individuals aged 12 or older
                     with an alcohol use disorder in the past year \\
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] This is a potential response variable
+                    to measure overall mental health in a population. Suicidal
+                    thoughts in particular seem to be more closely linked to life
+                    circumstances than genetic factors, as opposed to general
+                    mental illness.
               \item[Data Source] \cite{samhsa_data} \\
               \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{total\_pop}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] What changed
           \end{description}
     \item[\texttt{prop\_white}] \
           \begin{description}
@@ -218,13 +201,6 @@ Template:
               \item[Reason for inclusion] \descentreason
               \item[Data Source] \cite{acs_demographics_data}
               \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{total\_housing\_units}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] What changed
           \end{description}
     \item[\texttt{prop\_15\_to\_19\_years}] \
           \begin{description}
@@ -329,14 +305,18 @@ Template:
               \item[Description] Median age of the population.
               \item[Reason for inclusion] \agereason
               \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] What changed
+              \item[Modifications] N/A
           \end{description}
     \item[\texttt{median\_household\_income}] \
           \begin{description}
-              \item[Description] Description of what it does
+              \item[Description] The median household income for the geographic area, in US dollars.
               \item[Reason for inclusion] Stuff
+                    This is a candidate for a predictor variable. Median income
+                    is a better measure than mean for the distribution of income
+                    when we care about the income of a standard person living in
+                    an area, rather than a measure of economic productivity.
               \item[Data Source] \cite{acs_income_data}
-              \item[Modifications] What changed
+              \item[Modifications] N/A
           \end{description}
     \item[\texttt{prop\_households\_less\_than\_10000}] \
           \begin{description}
