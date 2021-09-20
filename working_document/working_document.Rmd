@@ -21,6 +21,12 @@ mental_health_df <- read_csv("../data/preprocessed/mental_health_2018.csv")
 ```
 
 ```{r summarize-func}
+
+#' Given a dataframe, return a column-level summary of the mean and sd
+#' of the numeric columns
+#'
+#' @param df A dataframe with numeric columns
+#' @return A dataframe with three columns: name_col (column name), sd, and mean
 summarize_data <- function(df) {
   funcs <- list(mean = ~ mean(.x), sd = ~ sd(.x))
   mean_df <- summarize_func(df, "mean")
@@ -29,6 +35,12 @@ summarize_data <- function(df) {
   return(full_summary)
 }
 
+#' Given a dataframe, return a column-level summary of the mean and sd
+#' of the numeric columns
+#'
+#' @param df A dataframe with numeric columns
+#' @return A dataframe with two columns: The original column name and the
+#'   func summary of the original (numeric) column values
 summarize_func <- function(df, func_name) {
   func <- get(func_name)
   namestring <- paste(func_name, "{.col}", sep = "")
@@ -53,6 +65,13 @@ summarize_data(mental_health_df) %>%
 ```
 
 ```{r hist-func}
+
+#' Given a dataframe and a variable name, return a ggplot histogram of the
+#' named variable
+#'
+#' @param df A dataframe
+#' @param variable A variable name (string) which is a column of \code{df}
+#' @return A ggplot2 object
 histogram_variable <- function(df, variable) {
   plot <- ggplot(data = df) +
     theme_bw() +
@@ -65,7 +84,7 @@ histogram_variable <- function(df, variable) {
 
 ```{r testing}
 for (var in colnames(mental_health_df)) {
-  if (is.numeric(mental_health_df[,var])) {
+  if (is.numeric(mental_health_df[, var])) {
     plot <- histogram_variable(mental_health_df, var)
     ggsave(paste("./plots/", var, "_boxplot.png", sep = ""), plot)
   }
