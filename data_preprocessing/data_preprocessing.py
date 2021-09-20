@@ -11,12 +11,10 @@ def drop_and_rename_cols_by_dict(df, column_name_map):
 
 
 def make_all_percent_cols_proportions(df):
-    print(df)
     percent_cols = [col for col in df if col.startswith("percent")]
     # percent_cols = df.columns.str.startswith("percent")
     df[percent_cols] = df[percent_cols] / 100
     df.columns = df.columns.str.replace("^percent", "prop")
-    print(df)
     return df
 
 
@@ -29,7 +27,7 @@ def merge_list_of_dfs(list_of_dfs, on):
         )
     full_df = list_of_dfs[0]
     for temp_df in list_of_dfs[1:]:
-        full_df = full_df.merge(temp_df, how="left", on=on)
+        full_df = full_df.merge(temp_df, how="inner", on=on)
     return full_df
 
 
@@ -95,7 +93,6 @@ def slice_acs_fips_col(df, geo_id_column_name):
 def read_and_preprocess_acs_demographics(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
-        "DP05_0001E": "total_pop",
         # Race
         "DP05_0037PE": "percent_white",
         "DP05_0038PE": "percent_black",
@@ -105,8 +102,6 @@ def read_and_preprocess_acs_demographics(filepath):
         "DP05_0071PE": "percent_latino",
         "DP05_0057PE": "percent_other_race",
         "DP05_0058PE": "percent_two_or_more_races",
-        # Housing
-        "DP05_0086E": "total_housing_units",
         # Age
         "DP05_0008PE": "percent_15_to_19_years",
         "DP05_0009PE": "percent_20_to_24_years",
@@ -203,9 +198,7 @@ def main():
     substate_tract_df = preprocess_samhsa_mapping(substate_tract_df)
 
     # Merging SAMHSA mappings into complete substate regions definition
-    substate_tract_full_df = substate_tract_df.merge(
-        substate_county_df, how="left"
-    )
+    substate_tract_full_df = pd.concat([substate_county_df, substate_tract_df])
 
     # Reading SAMHSA data
     samhsa_df_list = [substate_tract_full_df]
@@ -220,17 +213,29 @@ def main():
     )
     samhsa_df_list.append(samhsa_MDE_df)
 
-    SAMHSA_SUIDICIDAL_THOUGHTS_CSV_PATH = (
+    SAMHSA_SUICIDAL_THOUGHTS_CSV_PATH = (
         "{}/NSDUHsubstateExcelTab32-2018.csv".format(RAW_DATA_PATH)
     )
-    samhsa_suidical_thoughts_df = read_samhsa_table(
-        SAMHSA_SUIDICIDAL_THOUGHTS_CSV_PATH
+    samhsa_suicidal_thoughts_df = read_samhsa_table(
+        SAMHSA_SUICIDAL_THOUGHTS_CSV_PATH
     )
-    samhsa_suidical_thoughts_df = preprocess_samhsa_table(
-        samhsa_suidical_thoughts_df,
-        "percent_suidical_thoughts",
+    samhsa_suicidal_thoughts_df = preprocess_samhsa_table(
+        samhsa_suicidal_thoughts_df,
+        "percent_suicidal_thoughts",
     )
-    samhsa_df_list.append(samhsa_suidical_thoughts_df)
+    samhsa_df_list.append(samhsa_suicidal_thoughts_df)
+
+    SAMHSA_ALCOHOL_USE_DISORDER_CSV_PATH = (
+        "{}/NSDUHsubstateExcelTab23-2018.csv".format(RAW_DATA_PATH)
+    )
+    samhsa_alcohol_use_disorder_df = read_samhsa_table(
+        SAMHSA_ALCOHOL_USE_DISORDER_CSV_PATH
+    )
+    samhsa_alcohol_use_disorder_df = preprocess_samhsa_table(
+        samhsa_alcohol_use_disorder_df,
+        "percent_alcohol_use_disorder",
+    )
+    samhsa_df_list.append(samhsa_alcohol_use_disorder_df)
 
     full_samhsa_df = merge_list_of_dfs(
         samhsa_df_list, on=["state_fips", "substate_region_name"]
