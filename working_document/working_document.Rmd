@@ -51,3 +51,23 @@ summarize_data(mental_health_df) %>%
   column_to_rownames("col_name") %>%
   kable()
 ```
+
+```{r hist-func}
+histogram_variable <- function(df, variable) {
+  plot <- ggplot(data = df) +
+    theme_bw() +
+    geom_histogram(aes_string(variable), fill = "seagreen", color = "black") +
+    ggtitle(sprintf("Histogram of %s", variable)) +
+    xlab(variable)
+  return(plot)
+}
+```
+
+```{r testing}
+for (var in colnames(mental_health_df)) {
+  if (is.numeric(mental_health_df[,var])) {
+    plot <- histogram_variable(mental_health_df, var)
+    ggsave(paste("./plots/", var, "_boxplot.png", sep = ""), plot)
+  }
+}
+```
