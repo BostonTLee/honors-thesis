@@ -1,0 +1,53 @@
+---
+title: "Honors Thesis Working Document"
+author: "Boston Lee"
+date: "9/19/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(knitr)
+library(tidyverse)
+```
+
+# Numerical summaries
+
+```{r read-data}
+mental_health_df <- read_csv("../data/preprocessed/mental_health_2018.csv")
+```
+
+```{r summarize-func}
+summarize_data <- function(df) {
+  funcs <- list(mean = ~ mean(.x), sd = ~ sd(.x))
+  mean_df <- summarize_func(df, "mean")
+  sd_df <- summarize_func(df, "sd")
+  full_summary <- inner_join(mean_df, sd_df, by = "col_name")
+  return(full_summary)
+}
+
+summarize_func <- function(df, func_name) {
+  func <- get(func_name)
+  namestring <- paste(func_name, "{.col}", sep = "")
+  func_df <- df %>%
+    summarize(across(where(is.numeric), func, .names = namestring)) %>%
+    pivot_longer(
+      cols = starts_with(func_name),
+      names_to = "col_name",
+      names_prefix = func_name,
+      values_to = func_name,
+      values_drop_na = FALSE
+    )
+
+  return(func_df)
+}
+```
+
+```{r summary-table}
+summarize_data(mental_health_df) %>%
+  column_to_rownames("col_name") %>%
+  kable()
+```
