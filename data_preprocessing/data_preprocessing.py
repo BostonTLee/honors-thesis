@@ -31,6 +31,12 @@ def merge_list_of_dfs(list_of_dfs, on):
     return full_df
 
 
+def make_full_fips(df, state_fips_col, county_fips_col):
+    df["fips"] = df[state_fips_col] + df[county_fips_col]
+    df = df.drop([state_fips_col, county_fips_col], axis=1)
+    return df
+
+
 def preprocess_samhsa_mapping(df):
     column_name_map = {
         "county": "county_fips",
@@ -289,6 +295,7 @@ def main():
         full_acs_df, on=["state_fips", "county_fips"]
     )
     final_df = make_all_percent_cols_proportions(final_df)
+    final_df = make_full_fips(final_df, "state_fips", "county_fips")
 
     FINAL_CSV_PATH = "{}/mental_health_2018.csv".format(PREPROCESSED_DATA_PATH)
     final_df.to_csv(FINAL_CSV_PATH, index=False)
