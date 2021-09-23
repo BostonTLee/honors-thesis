@@ -33,12 +33,9 @@ def merge_list_of_dfs(list_of_dfs, on):
 
 def preprocess_samhsa_mapping(df):
     column_name_map = {
-        "aggflg": "aggregate_area_flag",
         "county": "county_fips",
         "sbst16": "substate_region_id",
         "sbst16n": "substate_region_name",
-        "sbsta16n": "aggregate_substate_area_name",
-        "sbstag16": "aggregate_substate_area_id",
         "state": "state_fips",
         "tract": "census_tract_code",
     }
@@ -214,7 +211,7 @@ def main():
     samhsa_df_list.append(samhsa_MDE_df)
 
     SAMHSA_SUICIDAL_THOUGHTS_CSV_PATH = (
-        "{}/NSDUHsubstateExcelTab32-2018.csv".format(RAW_DATA_PATH)
+        "{}/NSDUHsubstateExcelTab31-2018.csv".format(RAW_DATA_PATH)
     )
     samhsa_suicidal_thoughts_df = read_samhsa_table(
         SAMHSA_SUICIDAL_THOUGHTS_CSV_PATH
@@ -294,7 +291,7 @@ def main():
     final_df = make_all_percent_cols_proportions(final_df)
 
     FINAL_CSV_PATH = "{}/mental_health_2018.csv".format(PREPROCESSED_DATA_PATH)
-    final_df.to_csv(FINAL_CSV_PATH)
+    final_df.to_csv(FINAL_CSV_PATH, index=False)
 
 
 if __name__ == "__main__":
