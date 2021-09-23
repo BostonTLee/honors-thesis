@@ -108,10 +108,12 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
           \end{description}
     \item[\texttt{census\_tract\_code}] \
           \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
+              \item[Description] 2010 Geography census tract code (where
+                  applicable).
+              \item[Reason for inclusion] Used for identifying tracts belonging
+                  to a substate region defined at the census tract level.
+              \item[Data Source] \cite{samhsa_substate_region_defs}
+              \item[Modifications] N/A
           \end{description}
     \item[\texttt{prop\_MDE}] \
           \begin{description}
@@ -300,25 +302,31 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
     \item[\texttt{median\_household\_income}] \
           \begin{description}
               \item[Description] The median household income for the geographic area, in US dollars.
-              \item[Reason for inclusion] Stuff
-                    This is a candidate for a predictor variable. Median income
-                    is a better measure than mean for the distribution of income
-                    when we care about the income of a standard person living in
-                    an area, rather than a measure of economic productivity.
+              \item[Reason for inclusion] This is a candidate for a predictor
+                  variable. Median income is a better measure than mean for the
+                  distribution of income when we care about the income of a
+                  standard person living in an area, rather than a measure of
+                  economic productivity.
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] N/A
           \end{description}
     \item[\texttt{prop\_households\_less\_than\_10000}] \
           \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
+              \item[Description] The proportion of households making less than
+                  \$10,000US.
+              \item[Reason for inclusion] This is a potential predictor variable
+                  to supplement and add detail to the number of people below the
+                  poverty line.
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_households\_10000\_to\_14999}] \
           \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
+              \item[Description] The proportion of households making \$10,000US to
+                  \$14,999US.
+              \item[Reason for inclusion] This is a potential predictor variable
+                  to supplement and add detail to the number of people below the
+                  poverty line.
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
@@ -367,42 +375,44 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
     \item[\texttt{prop\_married\_15\_years\_and\_older}] \
           \begin{description}
               \item[Description] \maritaldesc{married}
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] \maritalreason
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_widowed\_15\_years\_and\_older}] \
           \begin{description}
               \item[Description] \maritaldesc{widowed}
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] \maritalreason
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_divorced\_15\_years\_and\_older}] \
           \begin{description}
               \item[Description] \maritaldesc{divorced}
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] \maritalreason
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_separated\_15\_years\_and\_older}] \
           \begin{description}
               \item[Description] \maritaldesc{separated}
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] \maritalreason
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_never\_married\_15\_years\_and\_older}] \
           \begin{description}
               \item[Description] \maritaldesc{never married}
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] \maritalreason
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_below\_poverty\_level}] \
           \begin{description}
               \item[Description] Proportion of the population below the poverty level.
-              \item[Reason for inclusion] Stuff
+              \item[Reason for inclusion] This is a potential predictor
+                  variable, providing more detail about poverty specifically
+                  than median income.
               \item[Data Source] \cite{acs_poverty_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
