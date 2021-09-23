@@ -12,7 +12,8 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 
-\usepackage{hyperref}
+\usepackage[bookmarks, bookmarksopen=true, plainpages=false, pdfpagelabels,
+pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
 
 \bibliography{references.bib}
 
@@ -49,13 +50,6 @@
     Variables related to marital status are included to account for variation.}
 
 \begin{itemize}[label={}, align=left]
-    \item[\texttt{aggregate\_area\_flag}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
-          \end{description}
     \item[\texttt{county\_fips}] \
           \begin{description}
               \item[Description] FIPS code at the county level (three digits)
@@ -74,31 +68,27 @@
           \end{description}
     \item[\texttt{substate\_region\_id}] \
           \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
+              \item[Description] A numeric value that corresponds to the
+                  substate region name within a state. If a state has "n"
+                  substate regions, then this variable will take on values 1,
+                  2, ..., n, within that state.
+              \item[Reason for inclusion] This, in combination with state ID,
+                  gives a unique identifier for the substate regions used in the
+                  SAMHSA data.
+              \item[Data Source] \cite{samhsa_substate_region_defs}
+              \item[Modifications] N/A
           \end{description}
     \item[\texttt{substate\_region\_name}] \
           \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
-          \end{description}
-    \item[\texttt{aggregate\_substate\_area\_name}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
-          \end{description}
-    \item[\texttt{aggregate\_substate\_area\_id}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] Stuff
-              \item[Data Source] Source and stuff
-              \item[Modifications] What changed
+              \item[Description] The substate region name used in the 2014-2016
+                  substate report, attached at
+
+                  \parbox[t]{\citefield{samhsa_substate_region_defs}{url}}
+
+              \item[Reason for inclusion] Human-readable name for substate
+                  regions.
+              \item[Data Source] \cite{samhsa_substate_region_defs}
+              \item[Modifications] N/A
           \end{description}
     \item[\texttt{state\_fips}] \
           \begin{description}
