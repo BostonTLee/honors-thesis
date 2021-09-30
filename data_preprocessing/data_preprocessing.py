@@ -96,6 +96,8 @@ def slice_acs_fips_col(df, geo_id_column_name):
 def read_and_preprocess_acs_demographics(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
+        # Population
+        "DP05_0001E": "total_pop",
         # Race
         "DP05_0037PE": "percent_white",
         "DP05_0038PE": "percent_black",
