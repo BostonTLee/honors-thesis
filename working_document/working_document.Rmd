@@ -12,9 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(knitr)
 library(tidyverse)
+# library(tidycensus)
 ```
 
-# Numerical summaries
+# EDA
+
+## Numerical summaries
 
 ```{r read-data}
 mental_health_df <- read_csv("../data/preprocessed/mental_health_2018.csv")
@@ -64,6 +67,8 @@ summarize_data(mental_health_df) %>%
   kable()
 ```
 
+## Visualization
+
 ```{r hist-func}
 
 #' Given a dataframe and a variable name, return a ggplot histogram of the
@@ -82,11 +87,66 @@ histogram_variable <- function(df, variable) {
 }
 ```
 
-```{r testing}
-for (var in colnames(mental_health_df)) {
-  if (is.numeric(mental_health_df[, var])) {
-    plot <- histogram_variable(mental_health_df, var)
-    ggsave(paste("./plots/", var, "_boxplot.png", sep = ""), plot)
+```{r generate-boxplots}
+column_names <- colnames(mental_health_df)
+inds <- sapply(mental_health_df, is.numeric)
+for (i in seq_len(length(colnames(mental_health_df)))) {
+  varname <- column_names[i]
+  if (inds[i]) {
+    plot <- histogram_variable(mental_health_df, varname)
+    ggsave(paste("./plots/", varname, "_boxplot.png", sep = ""), plot)
+    print(plot)
   }
+}
+```
+
+```{r map-func-county}
+map_var <- function(mental_health_df, var_name) {
+  # Grab county FIPS, pad with zeros to match data, and pull out columns
+  maps::county.fips %>%
+    as_tibble() %>%
+    mutate(fips = str_pad(fips, 5, "left", "0")) %>%
+    extract(polyname, c("region", "subregion"), "^([^,]+),([^,]+)$") ->
+  fips_df
+  head(fips_df)
+  # Join county map objects with FIPS, and then use that linkage
+  # to join the mental health data
+  map_data("county") %>%
+    left_join(fips_df) %>%
+    left_join(mental_health_df) ->
+  fips_county_df
+  head(fips_county_df)
+  # Plot overall
+  fips_county_df %>%
+    ggplot(aes(long, lat, group = group)) +
+    geom_polygon(aes_string(fill = var_name), color = "gray70", size = 0.15) +
+    coord_map() +
+    ggtitle(paste("Map of ", var_name, " across the United States")) +
+    scale_fill_distiller(palette = "Spectral")
+}
+```
+
+```{r map-samhsa}
+samhsa_vars <- c(
+  "prop_suicidal_thoughts",
+  "prop_MDE",
+  "prop_alcohol_use_disorder"
+)
+for (samhsa_var in samhsa_vars) {
+  map_plot <- map_var(mental_health_df, samhsa_var)
+  print(map_plot)
+  ggsave(paste("./maps/", samhsa_var, "_map.png", sep = ""), map_plot)
+}
+```
+
+```{r map-acs}
+acs_vars <- c(
+  "prop_below_poverty_level",
+  "median_household_income"
+)
+for (acs_var in acs_vars) {
+  map_plot <- map_var(mental_health_df, acs_var)
+  print(map_plot)
+  ggsave(paste("./maps/", acs_var, "_map.png", sep = ""), map_plot)
 }
 ```
