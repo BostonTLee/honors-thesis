@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import us
 
@@ -13,7 +14,7 @@ def drop_and_rename_cols_by_dict(df, column_name_map):
 def make_all_percent_cols_proportions(df):
     percent_cols = [col for col in df if col.startswith("percent")]
     # percent_cols = df.columns.str.startswith("percent")
-    df[percent_cols] = df[percent_cols] / 100
+    df.loc[:, percent_cols] = df.loc[:, percent_cols] / 100
     df.columns = df.columns.str.replace("^percent", "prop")
     return df
 
@@ -27,13 +28,13 @@ def merge_list_of_dfs(list_of_dfs, on):
         )
     full_df = list_of_dfs[0]
     for temp_df in list_of_dfs[1:]:
-        full_df = full_df.merge(temp_df, how="inner", on=on)
+        full_df = full_df.merge(temp_df, how="left", on=on)
     return full_df
 
 
 def make_full_fips(df, state_fips_col, county_fips_col):
-    df["fips"] = df[state_fips_col] + df[county_fips_col]
-    df = df.drop([state_fips_col, county_fips_col], axis=1)
+    df.loc[:, "fips"] = df[state_fips_col] + df[county_fips_col]
+    # df = df.drop([state_fips_col, county_fips_col], axis=1)
     return df
 
 
@@ -42,16 +43,50 @@ def preprocess_samhsa_mapping(df):
         "county": "county_fips",
         "sbst16": "substate_region_id",
         "sbst16n": "substate_region_name",
+        "sbstag16": "aggregate_substate_area_id",
+        "sbsta16n": "aggregate_substate_area_name",
+        "aggflg16": "aggregate_area_flag",
         "state": "state_fips",
         "tract": "census_tract_code",
     }
     df = drop_and_rename_cols_by_dict(df, column_name_map)
-    df["state_fips"] = (
+    df.loc[:,"state_fips"] = (
         df["state_fips"].astype(str).str.pad(width=2, fillchar="0")
     )
-    df["county_fips"] = (
+    df.loc[:,"county_fips"] = (
         df["county_fips"].astype(str).str.pad(width=3, fillchar="0")
     )
+    # We need to select the values for name and ID, giving priority
+    # to aggregate areas and using the fine-grained names otherwise
+    # df.loc[:, "aggregate_area_flag"] = df.loc[:, "aggregate_area_flag"].astype(
+    #     bool
+    # )
+    aggregate_maps = df.loc[df.aggregate_area_flag == 1, :]
+    aggregate_maps.loc[:, "substate_region_id"] = aggregate_maps.loc[
+        :, "aggregate_substate_area_id"
+    ]
+    aggregate_maps.loc[:, "substate_region_name"] = aggregate_maps.loc[
+        :, "aggregate_substate_area_name"
+    ]
+    # non_aggregate_maps = df.loc[df.aggregate_area_flag != 1, :]
+    non_aggregate_maps = df.copy()
+    df = pd.concat([aggregate_maps, non_aggregate_maps])
+    df = df.drop(
+        [
+            "aggregate_substate_area_id",
+            "aggregate_substate_area_name",
+            "aggregate_area_flag",
+            "census_tract_code"
+        ],
+        axis=1,
+    )
+    # df.loc[:, "substate_region_id"] = df["substate_region_id"].astype(int)
+    # df.loc[:, "substate_region_name"] = df.aggregate_substate_area_name.where(
+    #     df.aggregate_area_flag, df.substate_region_name
+    # )
+    # df.loc[:, "substate_region_id"] = df.aggregate_substate_area_id.where(
+    #     df.aggregate_area_flag, df.substate_region_id
+    # )
     return df
 
 
@@ -68,10 +103,10 @@ def preprocess_samhsa_table(df, variable_name):
         "Small Area Estimate": variable_name,
     }
     df = drop_and_rename_cols_by_dict(df, column_name_map)
-    df[variable_name] = df[variable_name].str.rstrip("%").astype("float")
+    df.loc[:,variable_name] = df[variable_name].str.rstrip("%").astype("float")
     # Map the state names to FIPS codes to match the region definitions
     state_name_to_code_map = us.states.mapping("name", "fips")
-    df["state_fips"] = df["state"].map(state_name_to_code_map)
+    df.loc[:,"state_fips"] = df["state"].map(state_name_to_code_map)
     return df.reset_index(drop=True)
 
 
@@ -87,8 +122,8 @@ def read_acs_table(filepath, colnames):
 
 def slice_acs_fips_col(df, geo_id_column_name):
     # Extract state and county code as integers, then drop full geo id
-    df["state_fips"] = df[geo_id_column_name].str.slice(9, 11)
-    df["county_fips"] = df[geo_id_column_name].str.slice(11)
+    df.loc[:,"state_fips"] = df[geo_id_column_name].str.slice(9, 11)
+    df.loc[:,"county_fips"] = df[geo_id_column_name].str.slice(11)
     df = df.drop(geo_id_column_name, axis=1)
     return df
 
@@ -101,27 +136,27 @@ def read_and_preprocess_acs_demographics(filepath):
         # Race
         "DP05_0037PE": "percent_white",
         "DP05_0038PE": "percent_black",
-        "DP05_0039PE": "percent_native",
-        "DP05_0044PE": "percent_asian",
-        "DP05_0052PE": "percent_pacific_islander",
-        "DP05_0071PE": "percent_latino",
-        "DP05_0057PE": "percent_other_race",
-        "DP05_0058PE": "percent_two_or_more_races",
+        # "DP05_0039PE": "percent_native",
+        # "DP05_0044PE": "percent_asian",
+        # "DP05_0052PE": "percent_pacific_islander",
+        # "DP05_0071PE": "percent_latino",
+        # "DP05_0057PE": "percent_other_race",
+        # "DP05_0058PE": "percent_two_or_more_races",
         # Age
-        "DP05_0008PE": "percent_15_to_19_years",
-        "DP05_0009PE": "percent_20_to_24_years",
-        "DP05_0010PE": "percent_25_to_34_years",
-        "DP05_0011PE": "percent_35_to_44_years",
-        "DP05_0012PE": "percent_45_to_54_years",
-        "DP05_0013PE": "percent_55_to_59_years",
-        "DP05_0014PE": "percent_60_to_64_years",
-        "DP05_0015PE": "percent_65_to_74_years",
-        "DP05_0016PE": "percent_75_to_84_years",
-        "DP05_0017PE": "percent_85_over_years",
-        "DP05_0021PE": "percent_18_over_years",
-        "DP05_0022PE": "percent_21_over_years",
-        "DP05_0023PE": "percent_62_over_years",
-        "DP05_0024PE": "percent_65_over_years",
+        # "DP05_0008PE": "percent_15_to_19_years",
+        # "DP05_0009PE": "percent_20_to_24_years",
+        # "DP05_0010PE": "percent_25_to_34_years",
+        # "DP05_0011PE": "percent_35_to_44_years",
+        # "DP05_0012PE": "percent_45_to_54_years",
+        # "DP05_0013PE": "percent_55_to_59_years",
+        # "DP05_0014PE": "percent_60_to_64_years",
+        # "DP05_0015PE": "percent_65_to_74_years",
+        # "DP05_0016PE": "percent_75_to_84_years",
+        # "DP05_0017PE": "percent_85_over_years",
+        # "DP05_0021PE": "percent_18_over_years",
+        # "DP05_0022PE": "percent_21_over_years",
+        # "DP05_0023PE": "percent_62_over_years",
+        # "DP05_0024PE": "percent_65_over_years",
         "DP05_0018E": "median_age",
     }
     df = read_acs_table(filepath, column_name_map.keys())
@@ -134,8 +169,8 @@ def read_and_preprocess_acs_income(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1901_C01_012E": "median_household_income",
-        "S1901_C01_002E": "percent_households_less_than_10000",
-        "S1901_C01_003E": "percent_households_10000_to_14999",
+        # "S1901_C01_002E": "percent_households_less_than_10000",
+        # "S1901_C01_003E": "percent_households_10000_to_14999",
     }
     df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
@@ -146,12 +181,12 @@ def read_and_preprocess_acs_income(filepath):
 def read_and_preprocess_acs_education(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
-        "S1501_C02_007E": "percent_25_years_over_less_than_9th_grade",
-        "S1501_C02_008E": "percent_25_years_over_9th_to_12th_no_diploma",
+        # "S1501_C02_007E": "percent_25_years_over_less_than_9th_grade",
+        # "S1501_C02_008E": "percent_25_years_over_9th_to_12th_no_diploma",
         "S1501_C02_009E": "percent_25_years_over_high_school",
-        "S1501_C02_010E": "percent_25_years_over_some_college",
-        "S1501_C02_011E": "percent_25_years_over_associates",
-        "S1501_C02_012E": "percent_25_years_over_bachelors",
+        # "S1501_C02_010E": "percent_25_years_over_some_college",
+        # "S1501_C02_011E": "percent_25_years_over_associates",
+        # "S1501_C02_012E": "percent_25_years_over_bachelors",
     }
     df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
@@ -163,10 +198,10 @@ def read_and_preprocess_acs_marital_status(filepath):
     column_name_map = {
         "GEO_ID": "geo_id",
         "S1201_C02_001E": "percent_married_15_years_and_older",
-        "S1201_C03_001E": "percent_widowed_15_years_and_older",
-        "S1201_C04_001E": "percent_divorced_15_years_and_older",
-        "S1201_C05_001E": "percent_separated_15_years_and_older",
-        "S1201_C06_001E": "percent_never_married_15_years_and_older",
+        # "S1201_C03_001E": "percent_widowed_15_years_and_older",
+        # "S1201_C04_001E": "percent_divorced_15_years_and_older",
+        # "S1201_C05_001E": "percent_separated_15_years_and_older",
+        # "S1201_C06_001E": "percent_never_married_15_years_and_older",
     }
     df = read_acs_table(filepath, column_name_map.keys())
     df = drop_and_rename_cols_by_dict(df, column_name_map)
@@ -206,7 +241,7 @@ def main():
     substate_tract_full_df = pd.concat([substate_county_df, substate_tract_df])
 
     # Reading SAMHSA data
-    samhsa_df_list = [substate_tract_full_df]
+    samhsa_df_list = []
 
     SAMHSA_MDE_CSV_PATH = "{}/NSDUHsubstateExcelTab32-2018.csv".format(
         RAW_DATA_PATH
@@ -242,9 +277,15 @@ def main():
     )
     samhsa_df_list.append(samhsa_alcohol_use_disorder_df)
 
-    full_samhsa_df = merge_list_of_dfs(
-        samhsa_df_list, on=["state_fips", "substate_region_name"]
+    full_samhsa_response_df = merge_list_of_dfs(
+        samhsa_df_list, on=["state", "substate_region_name"]
     )
+    full_samhsa_df = substate_tract_full_df.merge(
+            full_samhsa_response_df,
+            on=["state_fips", "substate_region_name"])
+
+    full_samhsa_df.to_csv("../data/preprocessed/samhsa_concat.csv")
+
 
     # Reading ACS data
     acs_df_list = []
@@ -298,6 +339,7 @@ def main():
     )
     final_df = make_all_percent_cols_proportions(final_df)
     final_df = make_full_fips(final_df, "state_fips", "county_fips")
+    final_df = final_df.dropna(axis = 0)
 
     FINAL_CSV_PATH = "{}/mental_health_2018.csv".format(PREPROCESSED_DATA_PATH)
     final_df.to_csv(FINAL_CSV_PATH, index=False)
