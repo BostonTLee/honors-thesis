@@ -317,13 +317,17 @@ make_lms <- function(df) {
 }
 ```
 
-```{r generating-models}
-df_list <- list(primary_model_df, model_with_income_df, model_with_state_df)
-name_vec <- c("primary", "median_income", "state")
-model_list <- vector(mode = "list")
-for (i in 1:2) {
-  model_list[[name_vec[[i]]]] <- make_lms(df_list[[i]])
-}
+### Primary models
+
+```{r primary-models}
+primary_model_list <- make_lms(primary_model_df)
+```
+
+### Secondary/Sensitivity Models
+
+```{r generating-non-primary-models}
+model_with_income_list <- make_lms(model_with_income_df)
+model_with_state_list <- make_lms(model_with_state_df)
 ```
 
 # Discussion
