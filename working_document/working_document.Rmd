@@ -21,6 +21,7 @@ library(tidyverse)
 
 ```{r read-data}
 mental_health_df <- read_csv("../data/preprocessed/mental_health_2018.csv")
+mental_health_df$substate_region_id <- as.character(mental_health_df$substate_region_id)
 ```
 
 ```{r summarize-func}
@@ -127,16 +128,31 @@ map_var <- function(mental_health_df, var_name) {
 ```
 
 ```{r map-samhsa}
+# samhsa_vars <- c(
+#   "prop_suicidal_thoughts",
+#   "prop_MDE",
+#   "prop_alcohol_use_disorder"
+# )
+# for (samhsa_var in samhsa_vars) {
+#   map_plot <- map_var(mental_health_df, samhsa_var)
+#   print(map_plot)
+#   ggsave(paste("./maps/", samhsa_var, "_map.png", sep = ""), map_plot)
+# }
+
 samhsa_vars <- c(
   "prop_suicidal_thoughts",
   "prop_MDE",
   "prop_alcohol_use_disorder"
 )
-for (samhsa_var in samhsa_vars) {
-  map_plot <- map_var(mental_health_df, samhsa_var)
-  print(map_plot)
-  ggsave(paste("./maps/", samhsa_var, "_map.png", sep = ""), map_plot)
+plot_and_save_vars <- function(df, vars, filename_suffix) {
+  for (var in vars) {
+    map_plot <- map_var(df, var)
+    print(map_plot)
+    ggsave(paste("./maps/", var, "_", filename_suffix, ".png", sep = ""), map_plot)
+  }
 }
+
+plot_and_save_vars(mental_health_df, samhsa_vars, "")
 ```
 
 ```{r map-acs}
@@ -144,9 +160,205 @@ acs_vars <- c(
   "prop_below_poverty_level",
   "median_household_income"
 )
-for (acs_var in acs_vars) {
-  map_plot <- map_var(mental_health_df, acs_var)
-  print(map_plot)
-  ggsave(paste("./maps/", acs_var, "_map.png", sep = ""), map_plot)
+plot_and_save_vars(mental_health_df, acs_vars, "")
+# for (acs_var in acs_vars) {
+#   map_plot <- map_var(mental_health_df, acs_var)
+#   print(map_plot)
+#   ggsave(paste("./maps/", acs_var, "_map.png", sep = ""), map_plot)
+# }
+```
+
+
+# Modeling
+
+
+## General Modeling Functions
+
+We can create a general framework for including variables in our model
+for a given dataset (of course requiring that the predictor and response
+variables are present). The model will need to be a logistic regression
+model, given that all of the proposed responses are proportions.
+
+```{r nonspatial-lm-funcs}
+suicidal_thoughts_lm <- function(df) {
+  suicidal_thoughts_lm <- lm(
+    prop_suicidal_thoughts ~ .,
+    data = select(
+      df, -c(region_id, prop_alcohol_use_disorder, prop_MDE)
+    )
+  )
+  return(suicidal_thoughts_lm)
+}
+
+alcohol_use_disorder_lm <- function(df) {
+  alcohol_use_disorder_lm <- lm(
+    prop_alcohol_use_disorder ~ .,
+    data = select(
+      df, -c(region_id, prop_suicidal_thoughts, prop_MDE)
+    )
+  )
+  return(alcohol_use_disorder_lm)
+}
+
+MDE_lm <- function(df) {
+  MDE_lm <- lm(
+    prop_MDE ~ .,
+    data = select(
+      df, -c(region_id, prop_alcohol_use_disorder, prop_suicidal_thoughts)
+    )
+  )
+  return(MDE_lm)
+}
+```
+
+## Datasets for primary analysis
+
+```{r base-data}
+base_model_df <- mental_health_df %>%
+  mutate(region_id = as.factor(paste(as.character(substate_region_id), as.character(state_fips), sep = "-"))) %>%
+  group_by(region_id) %>%
+  mutate(pop_weight = total_pop / sum(total_pop)) %>%
+  summarize_if(is.numeric, ~ sum(. * pop_weight)) %>%
+  select(-c(total_pop, pop_weight))
+```
+
+We will have three primary groups of models. Each group will consist of three models, with each of the SAMHSA variables as responses. The datasets will be as follows:
+
+
+
+1. Predictor: Proportion below poverty level; control variables
+
+```{r average-data}
+primary_model_df <- base_model_df %>% select(-median_household_income)
+print(primary_model_df)
+```
+
+1. Predictor: Proportion below poverty level; median income;  control variables
+
+Here is the data as a population-weighted average, only including a unique row
+ID and the numeric variables:
+
+```{r average-data}
+model_with_income_df <- base_model_df
+print(model_with_income_df)
+```
+
+1. Predictor: Proportion below poverty level; indicator for state; control variables
+
+```{r average-data-state}
+model_with_state_df <- mental_health_df %>%
+  mutate(
+    region_id = as.factor(paste(as.character(substate_region_id), as.factor(state_fips), sep = "-")),
+    state = as.factor(state)
+  ) %>%
+  group_by(state, region_id) %>%
+  mutate(pop_weight = total_pop / sum(total_pop)) %>%
+  summarize_if(is.numeric, ~ sum(. * pop_weight)) %>%
+  select(-c(total_pop, pop_weight, median_household_income))
+print(model_with_state_df)
+```
+
+```{r }
+# MDE_with_state_glm <- MDE_model(model_with_state_df)
+# summary(MDE_with_state_glm)
+# plot(MDE_with_state_glm, which = 1)
+# 
+# suicidal_thoughts_with_state_glm <-
+#   suicidal_thoughts_model(model_with_state_df)
+# summary(suicidal_thoughts_with_state_glm)
+# plot(suicidal_thoughts_with_state_glm, which = 1)
+# 
+# alcohol_use_disorder_with_state_glm <-
+#   alcohol_use_disorder_model(model_with_state_df)
+# summary(alcohol_use_disorder_with_state_glm)
+# plot(alcohol_use_disorder_with_state_glm, which = 1)
+```
+
+## Maps accurate to modeling data
+
+The EDA maps simply described the raw data. However, the data actually
+used was aggregated. To show an accurate depiction of the data for the
+models, we need to revisit mapping:
+
+```{r map-level-model-df}
+modified_full_df <- mental_health_df %>%
+  mutate(
+    region_id = as.factor(paste(as.character(substate_region_id), as.factor(state_fips), sep = "-"))) %>%
+    select(c(region_id, substate_region_id, county_fips, fips))
+map_model_df <- modified_full_df %>%
+  full_join(primary_model_df)
+# map_model_df <- model_df %>%
+#   full_join(modified_full_df)
+```
+
+```{r plot-save-new-maps}
+plot_and_save_vars(map_model_df, samhsa_vars, "aggregated")
+plot_and_save_vars(map_model_df, acs_vars, "aggregated")
+```
+
+```{r scatters}
+ggplot(data = model_df) +
+  geom_point(aes(x = median_household_income, y = prop_suicidal_thoughts)) +
+  geom_smooth(aes(x = median_household_income, y = prop_suicidal_thoughts))
+
+```
+
+## Models
+
+We will fit three types of model all with the same procedure, so we will make the process slightly easier as follows:
+
+```{r model-procedure-func}
+make_lms <- function(df) {
+  ret_list <- vector(mode = "list")
+  ret_list[["prop_MDE"]] <- MDE_lm(df)
+  ret_list[["prop_suicidal_thoughts"]] <- suicidal_thoughts_lm(df)
+  ret_list[["prop_alcohol_use_disorder"]] <- alcohol_use_disorder_lm(df)
+  return(ret_list)
+}
+```
+
+```{r generating-models}
+df_list <- list(primary_model_df, model_with_income_df, model_with_state_df)
+name_vec <- c("primary", "median_income", "state")
+model_list <- vector(mode = "list")
+for (i in 1:2) {
+  model_list[[name_vec[[i]]]] <- make_lms(df_list[[i]])
+}
+```
+
+# Discussion
+
+```{r nonspatial-glm-funcs}
+suicidal_thoughts_glm <- function(df) {
+  suicidal_thoughts_glm <- glm(
+    prop_suicidal_thoughts ~ .,
+    data = select(
+      df, -c(region_id, prop_alcohol_use_disorder, prop_MDE)
+    ),
+    family = "binomial"
+  )
+  return(suicidal_thoughts_glm)
+}
+
+alcohol_use_disorder_glm <- function(df) {
+  alcohol_use_disorder_glm <- glm(
+    prop_alcohol_use_disorder ~ .,
+    data = select(
+      df, -c(region_id, prop_suicidal_thoughts, prop_MDE)
+    ),
+    family = "binomial"
+  )
+  return(alcohol_use_disorder_glm)
+}
+
+MDE_glm <- function(df) {
+  MDE_glm <- glm(
+    prop_MDE ~ .,
+    data = select(
+      df, -c(region_id, prop_alcohol_use_disorder, prop_suicidal_thoughts)
+    ),
+    family = "binomial"
+  )
+  return(MDE_glm)
 }
 ```
