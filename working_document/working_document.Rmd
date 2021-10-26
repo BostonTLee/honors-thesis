@@ -238,7 +238,7 @@ print(primary_model_df)
 Here is the data as a population-weighted average, only including a unique row
 ID and the numeric variables:
 
-```{r average-data}
+```{r average-data-income}
 model_with_income_df <- base_model_df
 print(model_with_income_df)
 ```
@@ -286,7 +286,7 @@ modified_full_df <- mental_health_df %>%
     region_id = as.factor(paste(as.character(substate_region_id), as.factor(state_fips), sep = "-"))) %>%
     select(c(region_id, substate_region_id, county_fips, fips))
 map_model_df <- modified_full_df %>%
-  full_join(primary_model_df)
+  full_join(model_with_income_df)
 # map_model_df <- model_df %>%
 #   full_join(modified_full_df)
 ```
@@ -297,9 +297,9 @@ plot_and_save_vars(map_model_df, acs_vars, "aggregated")
 ```
 
 ```{r scatters}
-ggplot(data = model_df) +
-  geom_point(aes(x = median_household_income, y = prop_suicidal_thoughts)) +
-  geom_smooth(aes(x = median_household_income, y = prop_suicidal_thoughts))
+# ggplot(data = model_df) +
+#   geom_point(aes(x = median_household_income, y = prop_suicidal_thoughts)) +
+#   geom_smooth(aes(x = median_household_income, y = prop_suicidal_thoughts))
 
 ```
 
