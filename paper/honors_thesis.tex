@@ -26,7 +26,157 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
 
 \section{Introduction}
 
-\subsection{Variable descriptions}
+\section{Data Sources}
+
+TODO
+The data included in the final dataset came from two main sources, the American
+Community Survey (ACS), and the Substance Abuse and Mental Health Services
+Administration (SAMHSA). The main three response variables originated from the
+SAMHSA data, while ACS provided demographic data used as controlling variables.
+
+\subsection{Variables}
+
+Note that in all of the below descriptions, the variables are described in their
+non-aggregated state. A full description of the census-level variables would
+include a caveat that these variables are actually weighted averages of
+county-level estimates. For more information on variable aggregation, see
+Section \ref{sec:transformation}. Treat references to, for instance, the
+median income, as references to the population-weighted average of
+median income across a given substate region.
+
+It should also be noted that because data is aggregated to regional
+levels, we cannot infer a relationship between financial variables and
+mental health variables on an individual level, but rather on a regional
+level. We may be able to say that, for instance, a difference of $x$ in the
+average proportion of individuals living below poverty in a region is
+correlated to a difference of $y$ in the average proportion of
+individuals experiencing a major depressive episode. We may \textbf{not}
+say that a difference of $x$ in an individual's average income is
+correlated to a difference of $y$ in the average of an individual's
+probability of experiencing a major depressive episode.
+
+In addition, all variables are relative to time period. See Section
+\ref{sec:variables} for details.
+
+The main response variables were chosen to measure mental health
+symptoms that could have a relationship to environmental factors.
+General mental illness, for instance, can be related to genetic factors
+even more strongly than our predictor(s) of interest. The
+mental-health-related variables chosen were: the proportion of individuals 12
+or older who reported experiencing a major depressive episode in the
+past year, the proportion of individuals 12 or older who reported
+experiencing suicidal thoughts in the past year, and the proportion of
+individuals 12 or older who reported an alcohol use disorder in the past
+year. Each of these variables could intuitively have a relationship with
+environmental variables, notably income, rather than genetic factors.
+
+The main predictor variable, the (population weighted average of) the
+proportion of individuals (FIXME) below the poverty level, was chosen
+because we are attempting to discern the relationship between financial
+stress and mental health. The proportion of individuals below the
+poverty level encodes information about the lower tail of the
+distribution of incomes, not simply the center of the distribution.
+If a given region has more people living below the poverty line, we
+would expect that to give us more information about financial stress
+than simply a measure of centrality.
+
+A secondary question is whether the (population-weighted average of)
+median income of a region does give us more information about mental
+health outcomes, even given the proportion of individuals below the
+poverty level. It is still feasible that a measure of center does encode
+relevant information about financial stress, or is still related to
+mental health outcomes. Median income was included rather than mean
+income because mean income is sensitive to larger outliers, meaning in a
+region where a proportion of the population is very wealthy, mean income
+does not carry as much information about the income of a middle-income person
+living in the region.
+
+The model also included several demographic variables to control for
+variability. 
+
+The proportion of population of Caucasian and African
+American descent were chosen to control for potential socio-economic
+effects on mental health outcomes. Other ethnicities were omitted to
+ensure that no multicollinearity (FIXME) occured, given that knowing
+multiple demographic variables gives information about what values other
+proportions may be. 
+
+Median age was included as a controlling variable
+both because median age could be related to mental health effects (in
+that a region with a younger average population may experience more
+reported or actual mental health problems in general) or income effects.
+
+Education was accounted for by including the proportion of the
+population in a region with a high school diploma or above. This
+variable was included primarily to control for effects on income, given
+that greater educational achievement is correlated with greater income.
+
+Finally, the proportion of the population 15 years or older that is
+married was included, to control for socioeconomic effects arising from
+a greater marriage rate. For instance, reported household income is
+likely higher in areas where more households consist of married
+individuals (FIXME).
+
+% 
+% county_fips
+% substate_region_id
+% substate_region_name
+% state_fips
+% state
+% prop_MDE
+% state_fips_x
+% prop_suicidal_thoughts
+% state_fips_y
+% prop_alcohol_use_disorder
+% total_pop
+% prop_white
+% prop_black
+% median_age
+% median_household_income
+% prop_25_years_over_high_school
+% prop_married_15_years_and_older
+% prop_below_poverty_level
+% fips
+% 
+
+
+
+For a full description of variables, including data sources, see
+Appendix, Section \ref{sec:variables}.
+
+\subsection{Data Aggregation}\label{sec:aggregation}
+
+\subsection{Data Transformation}\label{sec:transformation}
+
+All variables in the model dataset were aggregated to the substate region level,
+as defined by the SAMHSA data \cite{samhsa_substate_region_defs}. The ACS
+estimates were only available at the county level, while the response variables
+were only available at the substate region level. Hence, while the data was
+initially represented at the county level, with repeated observations for the
+SAMHSA estimates (see Section \ref{sec:aggregation}), the final models were
+constructed at the substate region level. The ACS estimates were collapsed to
+the substate region level by a population weighted average for the
+substate region in question. Each numeric variable was grouped by
+substate region in the following way: Assume group $g$ contains indices $I_g$
+observations, each of which is associated with a county-level population
+$p_{i}, i \in I_g$. Then given a set of observations $x_{i}$, $i \in
+I_g$ from a numeric variable, the condensed estimate $x_g$ would be as
+follows:
+
+\begin{equation*}
+    x_g = \sum_{i \in I_g} 
+    \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right]
+\end{equation*}
+
+
+\section{Descriptive Statistics}
+\section{Methods}
+\section{Results}
+\section{Discussion}
+
+\section{Appendix}
+
+\subsection{Variable Descriptions}\label{sec:variables}
 
 \newcommand\censuscodes{https://www.census.gov/programs-surveys/acs/technical-documentation/code-lists.2018.html}
 \newcommand\descentdesc[1]{ Proportion of the population which is of
@@ -417,12 +567,6 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
 \end{itemize}
-
-\section{Descriptive Statistics}
-\section{Methods}
-\section{Results}
-\section{Discussion}
-
 \printbibliography
 
 \end{document}
