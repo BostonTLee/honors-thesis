@@ -40,20 +40,20 @@ Note that in all of the below descriptions, the variables are described in their
 non-aggregated state. A full description of the census-level variables would
 include a caveat that these variables are actually weighted averages of
 county-level estimates. For more information on variable aggregation, see
-Section \ref{sec:transformation}. Treat references to, for instance, the
+Section \ref{sec:aggregation}. Treat references to, for instance, the
 median income, as references to the population-weighted average of
 median income across a given substate region.
 
-It should also be noted that because data is aggregated to regional
-levels, we cannot infer a relationship between financial variables and
-mental health variables on an individual level, but rather on a regional
-level. We may be able to say that, for instance, a difference of $x$ in the
-average proportion of individuals living below poverty in a region is
-correlated to a difference of $y$ in the average proportion of
-individuals experiencing a major depressive episode. We may \textbf{not}
-say that a difference of $x$ in an individual's average income is
-correlated to a difference of $y$ in the average of an individual's
-probability of experiencing a major depressive episode.
+It should also be noted that because data is aggregated to regional levels, we
+cannot infer a relationship between financial variables and mental health
+variables on an individual level, but rather on a regional level. We may be
+able to say that, for instance, a difference of $x$ in the average proportion
+of individuals living below poverty in a region is correlated to a difference
+of $y$ in the average proportion of individuals experiencing a major depressive
+episode. We may \textbf{not} say, given our data, that a difference of $x$ in
+an individual's average income is correlated to a difference of $y$ in the
+average of an individual's probability of experiencing a major depressive
+episode.
 
 In addition, all variables are relative to time period. See Section
 \ref{sec:variables} for details.
@@ -92,14 +92,14 @@ does not carry as much information about the income of a middle-income person
 living in the region.
 
 The model also included several demographic variables to control for
-variability. 
+variability.
 
 The proportion of population of Caucasian and African
 American descent were chosen to control for potential socio-economic
 effects on mental health outcomes. Other ethnicities were omitted to
 ensure that no multicollinearity (FIXME) occured, given that knowing
 multiple demographic variables gives information about what values other
-proportions may be. 
+proportions may be.
 
 Median age was included as a controlling variable
 both because median age could be related to mental health effects (in
@@ -144,49 +144,66 @@ individuals (FIXME).
 For a full description of variables, including data sources, see
 Appendix, Section \ref{sec:variables}.
 
+\subsection{Data Joining}\label{sec:joining}
+
+The dataset was formed with substate regions corresponding to
+``substate/aggregate region-level estimates included in the [SAMHSA] maps"
+\cite{samhsa_data}. All substate regions appearing in datasets with the response
+variables of interest were used as individual data points in the final dataset.
+However, the final dataset also included ACS county-level estimates. As such,
+the SAMHSA estimates were duplicated for every county belonging to the region,
+and then aggregated back to substate-region estimates (see Section
+\ref{sec:aggregation}).
+
 \subsection{Data Aggregation}\label{sec:aggregation}
 
-\subsection{Data Transformation}\label{sec:transformation}
-
 All variables in the model dataset were aggregated to the substate region level,
-as defined by the SAMHSA data \cite{samhsa_substate_region_defs}. The ACS
-estimates were only available at the county level, while the response variables
-were only available at the substate region level. Hence, while the data was
-initially represented at the county level, with repeated observations for the
-SAMHSA estimates (see Section \ref{sec:aggregation}), the final models were
-constructed at the substate region level. The ACS estimates were collapsed to
-the substate region level by a population weighted average for the
-substate region in question. Each numeric variable was grouped by
-substate region in the following way: Assume group $g$ contains indices $I_g$
-observations, each of which is associated with a county-level population
-$p_{i}, i \in I_g$. Then given a set of observations $x_{i}$, $i \in
-I_g$ from a numeric variable, the condensed estimate $x_g$ would be as
-follows:
+as defined by the SAMHSA data \cite{samhsa_substate_region_defs}. 
+The ACS estimates were only available at the county level, 
+while the response variables were only available at the substate region level. 
+Hence, while the data was initially represented at the county level, 
+with repeated observations for the SAMHSA estimates 
+(see Section \ref{sec:joining}), 
+the final models were constructed at the substate region level. 
+The ACS estimates were collapsed to the substate region level 
+by a population weighted average for the substate region in question. 
+Each numeric variable was grouped by substate region 
+in the following way: 
+Assume group $g$ contains dataset indices $I_g$, 
+each of which is associated with a county-level population 
+$p_{i}, i \in I_g$. 
+Then given a set of observations $x_{i}, i \in I_g$ 
+from a numeric variable, 
+the condensed estimate $x_g$ would be as follows:
 
 \begin{equation*}
-    x_g = \sum_{i \in I_g} 
+    x_g = \sum_{i \in I_g}
     \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right]
 \end{equation*}
 
-Note that because of the aggregation procedure, we want the SAMHSA variables
-measured at the substate regional level, that is, the level to which we are
-aggregating, to remain the same as before the aggregation procedure. We can see
-that the above approach accomplishes this. If all $x_i, i \in I_g$ are equal,
+Note that because of the joining procedure, 
+we want the SAMHSA variables measured at the substate regional level, 
+that is, the level to which we are aggregating, 
+to remain the same as before the joining procedure. 
+We can see that the above approach accomplishes this. 
+If all $x_i, i \in I_g$ are equal to $\xi$, 
 then our procedure reduces to the following:
 
 \begin{equation*}
-    x_g = 
-    \sum_{i \in I_g} 
+    x_g =
+    \sum_{i \in I_g}
     \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right] =
-    \left[ \frac{\sum_{i \in I_g}p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right] =
-    x_i
+    \sum_{i \in I_g}
+    \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} \xi \right] =
+    \left[ \frac{\sum_{i \in I_g}p_{i}}{\sum_{k \in I_g} p_{k}} \xi \right] =
+    \xi
 \end{equation*}
 
-This type of aggregation thus has an asymmetrical (albeit desirable) effect on
-the variables from different sources. It leaves the substate-region-level SAMHSA
-estimates unchanged, while providing substate-region-level ACS aggregated
-estimates that reflect the weight of relative population within a given substate
-region.
+This type of aggregation thus has an asymmetrical (albeit desirable) 
+effect on the variables from different sources. 
+It leaves the substate-region-level SAMHSA estimates unchanged, 
+while providing substate-region-level ACS aggregated estimates 
+that reflect the weight of relative population within a given substate region.
 
 \section{Descriptive Statistics}
 \section{Methods}
@@ -238,24 +255,24 @@ region.
     \item[\texttt{substate\_region\_id}] \
           \begin{description}
               \item[Description] A numeric value that corresponds to the
-                  substate region name within a state. If a state has "n"
-                  substate regions, then this variable will take on values 1,
-                  2, ..., n, within that state.
+                    substate region name within a state. If a state has "n"
+                    substate regions, then this variable will take on values 1,
+                    2, ..., n, within that state.
               \item[Reason for inclusion] This, in combination with state ID,
-                  gives a unique identifier for the substate regions used in the
-                  SAMHSA data.
+                    gives a unique identifier for the substate regions used in the
+                    SAMHSA data.
               \item[Data Source] \cite{samhsa_substate_region_defs}
               \item[Modifications] N/A
           \end{description}
     \item[\texttt{substate\_region\_name}] \
           \begin{description}
               \item[Description] The substate region name used in the 2014-2016
-                  substate report, attached at
+                    substate report, attached at
 
-                  \parbox[t]{\citefield{samhsa_substate_region_defs}{url}}
+                    \parbox[t]{\textwidth}{\citefield{samhsa_substate_region_defs}{url}}
 
               \item[Reason for inclusion] Human-readable name for substate
-                  regions.
+                    regions.
               \item[Data Source] \cite{samhsa_substate_region_defs}
               \item[Modifications] N/A
           \end{description}
@@ -278,9 +295,9 @@ region.
     \item[\texttt{census\_tract\_code}] \
           \begin{description}
               \item[Description] 2010 Geography census tract code (where
-                  applicable).
+                    applicable).
               \item[Reason for inclusion] Used for identifying tracts belonging
-                  to a substate region defined at the census tract level.
+                    to a substate region defined at the census tract level.
               \item[Data Source] \cite{samhsa_substate_region_defs}
               \item[Modifications] N/A
           \end{description}
@@ -472,30 +489,30 @@ region.
           \begin{description}
               \item[Description] The median household income for the geographic area, in US dollars.
               \item[Reason for inclusion] This is a candidate for a predictor
-                  variable. Median income is a better measure than mean for the
-                  distribution of income when we care about the income of a
-                  standard person living in an area, rather than a measure of
-                  economic productivity.
+                    variable. Median income is a better measure than mean for the
+                    distribution of income when we care about the income of a
+                    standard person living in an area, rather than a measure of
+                    economic productivity.
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] N/A
           \end{description}
     \item[\texttt{prop\_households\_less\_than\_10000}] \
           \begin{description}
               \item[Description] The proportion of households making less than
-                  \$10,000US.
+                    \$10,000US.
               \item[Reason for inclusion] This is a potential predictor variable
-                  to supplement and add detail to the number of people below the
-                  poverty line.
+                    to supplement and add detail to the number of people below the
+                    poverty line.
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
     \item[\texttt{prop\_households\_10000\_to\_14999}] \
           \begin{description}
               \item[Description] The proportion of households making \$10,000US to
-                  \$14,999US.
+                    \$14,999US.
               \item[Reason for inclusion] This is a potential predictor variable
-                  to supplement and add detail to the number of people below the
-                  poverty line.
+                    to supplement and add detail to the number of people below the
+                    poverty line.
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
@@ -580,8 +597,8 @@ region.
           \begin{description}
               \item[Description] Proportion of the population below the poverty level.
               \item[Reason for inclusion] This is a potential predictor
-                  variable, providing more detail about poverty specifically
-                  than median income.
+                    variable, providing more detail about poverty specifically
+                    than median income.
               \item[Data Source] \cite{acs_poverty_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
