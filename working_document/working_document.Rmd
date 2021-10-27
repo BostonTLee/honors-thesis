@@ -12,7 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(knitr)
 library(tidyverse)
-# library(tidycensus)
 ```
 
 # EDA
@@ -262,12 +261,12 @@ print(model_with_state_df)
 # MDE_with_state_glm <- MDE_model(model_with_state_df)
 # summary(MDE_with_state_glm)
 # plot(MDE_with_state_glm, which = 1)
-# 
+#
 # suicidal_thoughts_with_state_glm <-
 #   suicidal_thoughts_model(model_with_state_df)
 # summary(suicidal_thoughts_with_state_glm)
 # plot(suicidal_thoughts_with_state_glm, which = 1)
-# 
+#
 # alcohol_use_disorder_with_state_glm <-
 #   alcohol_use_disorder_model(model_with_state_df)
 # summary(alcohol_use_disorder_with_state_glm)
@@ -283,8 +282,9 @@ models, we need to revisit mapping:
 ```{r map-level-model-df}
 modified_full_df <- mental_health_df %>%
   mutate(
-    region_id = as.factor(paste(as.character(substate_region_id), as.factor(state_fips), sep = "-"))) %>%
-    select(c(region_id, substate_region_id, county_fips, fips))
+    region_id = as.factor(paste(as.character(substate_region_id), as.factor(state_fips), sep = "-"))
+  ) %>%
+  select(c(region_id, substate_region_id, county_fips, fips))
 map_model_df <- modified_full_df %>%
   full_join(model_with_income_df)
 # map_model_df <- model_df %>%
@@ -315,6 +315,47 @@ make_lms <- function(df) {
   ret_list[["prop_alcohol_use_disorder"]] <- alcohol_use_disorder_lm(df)
   return(ret_list)
 }
+```
+
+We can also extract the coefficient of interest as follows:
+
+```{r tabulate-poverty-func}
+extract_coef <- function(model, variable) {
+  return(model$coefficients[[variable]])
+}
+extract_pval <- function(model, variable) {
+  return(coef(summary(model))[variable, "Pr(>|t|)"])
+}
+poverty_table <- function(model_list) {
+  print(model_list[["prop_MDE"]]$coefficients[["prop_below_poverty_level"]])
+  ret_table <- data.frame(
+    c(
+      "Major Depressive Episode (MDE)",
+      "Suicidal Thoughts",
+      "Alcohol Use Disorder"
+    ),
+    c(
+      extract_coef(model_list[["prop_MDE"]], "prop_below_poverty_level"),
+      extract_coef(model_list[["prop_suicidal_thoughts"]], "prop_below_poverty_level"),
+      extract_coef(model_list[["prop_alcohol_use_disorder"]], "prop_below_poverty_level")
+    ),
+    c(
+      extract_pval(model_list[["prop_MDE"]], "prop_below_poverty_level"),
+      extract_pval(model_list[["prop_suicidal_thoughts"]], "prop_below_poverty_level"),
+      extract_pval(model_list[["prop_alcohol_use_disorder"]], "prop_below_poverty_level")
+    )
+  )
+  names(ret_table) <- c(
+    "Response variable",
+    "Coefficient",
+    "$p$-value"
+  )
+  return(ret_table)
+}
+```
+
+```{r table-primary}
+poverty_table(make_lms(primary_model_df))  %>% kable()
 ```
 
 ### Primary models
