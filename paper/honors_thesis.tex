@@ -168,6 +168,25 @@ follows:
     \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right]
 \end{equation*}
 
+Note that because of the aggregation procedure, we want the SAMHSA variables
+measured at the substate regional level, that is, the level to which we are
+aggregating, to remain the same as before the aggregation procedure. We can see
+that the above approach accomplishes this. If all $x_i, i \in I_g$ are equal,
+then our procedure reduces to the following:
+
+\begin{equation*}
+    x_g = 
+    \sum_{i \in I_g} 
+    \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right] =
+    \left[ \frac{\sum_{i \in I_g}p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right] =
+    x_i
+\end{equation*}
+
+This type of aggregation thus has an asymmetrical (albeit desirable) effect on
+the variables from different sources. It leaves the substate-region-level SAMHSA
+estimates unchanged, while providing substate-region-level ACS aggregated
+estimates that reflect the weight of relative population within a given substate
+region.
 
 \section{Descriptive Statistics}
 \section{Methods}
