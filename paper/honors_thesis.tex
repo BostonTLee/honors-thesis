@@ -34,13 +34,13 @@ Community Survey (ACS), and the Substance Abuse and Mental Health Services
 Administration (SAMHSA). The main three response variables originated from the
 SAMHSA data, while ACS provided demographic data used as controlling variables.
 
-\subsection{Variables}
+\subsection{Variables}\label{sec:finalvars}
 
 Note that in all of the below descriptions, the variables are described in their
 non-aggregated state. A full description of the census-level variables would
-include a caveat that these variables are actually weighted averages of
+include a caveat that the ACS variables are actually weighted averages of
 county-level estimates. For more information on variable aggregation, see
-Section \ref{sec:aggregation}. Treat references to, for instance, the
+Section~\ref{sec:aggregation}. Treat references to, for instance, the
 median income, as references to the population-weighted average of
 median income across a given substate region.
 
@@ -55,8 +55,8 @@ an individual's average income is correlated to a difference of $y$ in the
 average of an individual's probability of experiencing a major depressive
 episode.
 
-In addition, all variables are relative to time period. See Section
-\ref{sec:variables} for details.
+In addition, all variables are relative to time period.
+See Section~\ref{sec:variables} for details.
 
 The main response variables were chosen to measure mental health
 symptoms that could have a relationship to environmental factors.
@@ -158,22 +158,22 @@ and then aggregated back to substate-region estimates (see Section
 \subsection{Data Aggregation}\label{sec:aggregation}
 
 All variables in the model dataset were aggregated to the substate region level,
-as defined by the SAMHSA data \cite{samhsa_substate_region_defs}. 
-The ACS estimates were only available at the county level, 
-while the response variables were only available at the substate region level. 
-Hence, while the data was initially represented at the county level, 
-with repeated observations for the SAMHSA estimates 
-(see Section \ref{sec:joining}), 
-the final models were constructed at the substate region level. 
-The ACS estimates were collapsed to the substate region level 
-by a population weighted average for the substate region in question. 
-Each numeric variable was grouped by substate region 
-in the following way: 
-Assume group $g$ contains dataset indices $I_g$, 
-each of which is associated with a county-level population 
-$p_{i}, i \in I_g$. 
-Then given a set of observations $x_{i}, i \in I_g$ 
-from a numeric variable, 
+as defined by the SAMHSA data \cite{samhsa_substate_region_defs}.
+The ACS estimates were only available at the county level,
+while the response variables were only available at the substate region level.
+Hence, while the data was initially represented at the county level,
+with repeated observations for the SAMHSA estimates
+(see Section \ref{sec:joining}),
+the final models were constructed at the substate region level.
+The ACS estimates were collapsed to the substate region level
+by a population weighted average for the substate region in question.
+Each numeric variable was grouped by substate region
+in the following way:
+Assume group $g$ contains dataset indices $I_g$,
+each of which is associated with a county-level population
+$p_{i}, i \in I_g$.
+Then given a set of observations $x_{i}, i \in I_g$
+from a numeric variable,
 the condensed estimate $x_g$ would be as follows:
 
 \begin{equation*}
@@ -181,12 +181,12 @@ the condensed estimate $x_g$ would be as follows:
     \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right]
 \end{equation*}
 
-Note that because of the joining procedure, 
-we want the SAMHSA variables measured at the substate regional level, 
-that is, the level to which we are aggregating, 
-to remain the same as before the joining procedure. 
-We can see that the above approach accomplishes this. 
-If all $x_i, i \in I_g$ are equal to $\xi$, 
+Note that because of the joining procedure,
+we want the SAMHSA variables measured at the substate regional level,
+that is, the level to which we are aggregating,
+to remain the same as before the joining procedure.
+We can see that the above approach accomplishes this.
+If all $x_i, i \in I_g$ are equal to $\xi$,
 then our procedure reduces to the following:
 
 \begin{equation*}
@@ -199,11 +199,18 @@ then our procedure reduces to the following:
     \xi
 \end{equation*}
 
-This type of aggregation thus has an asymmetrical (albeit desirable) 
-effect on the variables from different sources. 
-It leaves the substate-region-level SAMHSA estimates unchanged, 
-while providing substate-region-level ACS aggregated estimates 
+This type of aggregation thus has an asymmetrical (albeit desirable)
+effect on the variables from different sources.
+It leaves the substate-region-level SAMHSA estimates unchanged,
+while providing substate-region-level ACS aggregated estimates
 that reflect the weight of relative population within a given substate region.
+
+After the county-level population estimates were used
+to create a weighted average for the numeric variables,
+they were dropped from the final dataset.
+That is, population was not used as a predictor or response variable.
+Only the variables mentioned in \ref{sec:finalvars}
+were included in the final model.
 
 \section{Descriptive Statistics}
 \section{Methods}
