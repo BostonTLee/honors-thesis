@@ -27,6 +27,8 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
 
 \maketitle
 
+\pagebreak
+
 \section{Introduction}
 
 Given that it may be intuitively plausible that financial hardship has a
@@ -192,7 +194,7 @@ The ACS estimates were only available at the county level,
 while the response variables were only available at the substate region level.
 Hence, while the data was initially represented at the county level,
 with repeated observations for the SAMHSA estimates
-(see Section \ref{sec:joining}),
+(see Section~\ref{sec:joining}),
 the final models were constructed at the substate region level.
 The ACS estimates were collapsed to the substate region level
 by a population weighted average for the substate region in question.
@@ -224,7 +226,7 @@ then our procedure reduces to the following:
     \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} x_i \right] =
     \sum_{i \in I_g}
     \left[ \frac{p_{i}}{\sum_{k \in I_g} p_{k}} \xi \right] =
-    \left[ \frac{\sum_{i \in I_g}p_{i}}{\sum_{k \in I_g} p_{k}} \xi \right] =
+    \left[ \frac{\sum_{i \in I_g}p_{i}}{\sum_{k \in I_g} p_{k}} \right] \xi =
     \xi
 \end{equation*}
 
