@@ -1,10 +1,15 @@
 data/*
 !data/raw/README.md
 !data/preprocessed/README.md
+*.csv
+*.pdf
+*.log
+*.png
 paper/*.aux
 paper/*.bbl
 paper/*.bcf
 paper/*.blf
 paper/*.blg
 paper/*.log
+paper/*.out
 paper/*.xml
