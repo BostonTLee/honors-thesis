@@ -61,12 +61,6 @@ summarize_func <- function(df, func_name) {
 }
 ```
 
-```{r summary-table}
-summarize_data(mental_health_df) %>%
-  column_to_rownames("col_name") %>%
-  kable()
-```
-
 ## Visualization
 
 ```{r hist-func}
@@ -119,10 +113,11 @@ map_var <- function(mental_health_df, var_name) {
   # Plot overall
   fips_county_df %>%
     ggplot(aes(long, lat, group = group)) +
-    geom_polygon(aes_string(fill = var_name), color = "gray70", size = 0.15) +
+    geom_polygon(aes_string(fill = var_name), color = "gray70", size = 0.05) +
     coord_map() +
     ggtitle(paste("Map of ", var_name, " across the United States")) +
-    scale_fill_distiller(palette = "Spectral")
+    scale_fill_distiller(palette = "Spectral") +
+    theme_void()
 }
 ```
 
@@ -240,6 +235,13 @@ ID and the numeric variables:
 ```{r average-data-income}
 model_with_income_df <- base_model_df
 print(model_with_income_df)
+```
+
+```{r summary-table-with-income}
+summarize_data(model_with_income_df) %>%
+  column_to_rownames("col_name") %>%
+  round(3) %>%
+  kable("latex")
 ```
 
 1. Predictor: Proportion below poverty level; indicator for state; control variables
