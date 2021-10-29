@@ -1,5 +1,6 @@
-data/raw/*
+data/*
 !data/raw/README.md
+!data/preprocessed/README.md
 paper/*.aux
 paper/*.bbl
 paper/*.bcf
