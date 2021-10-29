@@ -8,6 +8,9 @@
 
 \usepackage{enumitem}
 
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
@@ -239,11 +242,92 @@ Only the variables mentioned in \ref{sec:finalvars}
 were included in the final model.
 
 \section{Descriptive Statistics}
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{l r r}
+    \hline
+    Variable & Mean & SD\\
+    \hline
+    prop\_MDE & 0.073 & 0.009\\
+    prop\_suicidal\_thoughts & 0.045 & 0.006\\
+    prop\_alcohol\_use\_disorder & 0.057 & 0.012\\
+    prop\_white & 0.766 & 0.162\\
+    prop\_black & 0.111 & 0.128\\
+    median\_age & 38.792 & 3.650\\
+    median\_household\_income & 59911.078 & 14078.759\\
+    prop\_25\_years\_over\_high\_school & 0.289 & 0.063\\
+    prop\_married\_15\_years\_and\_older & 0.485 & 0.057\\
+    prop\_below\_poverty\_level & 0.143 & 0.043\\
+    \hline
+\end{tabular}
+\end{center}
+\caption{\label{tab:summary}Mean and standard deviation of
+all numeric variables included in the final dataset used for modeling.
+This includes median income, although median income was not included
+in the primary model, and only included in a sensitivity model.
+Variable names are given as they were coded in the model.
+For details, see Section~\ref{sec:variables}.}
+\end{table}
+
+% \begin{figure}[!htb]
+    % \centering
+    % \includegraphics[width=0.75\textwidth]{}
+    % \caption{a nice plot}
+    % \label{fig:}
+% \end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_below_poverty_level_aggregated.png}
+    \caption{A map of the population-weighted average of the proportion of
+    people living below poverty in each substate region.
+	For more information about how this data was aggregated,
+	see Section~\ref{sec:aggregation}.
+	}
+    \label{fig:map-poverty}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_MDE_aggregated.png}
+    \caption{A map of the proportion of individuals 12 and older who
+	reported having a Major Depressive Episode during the last 12 months.}
+    \label{fig:map-MDE}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_aggregated.png}
+    \caption{A map of the proportion of individuals 12 and older who
+	reported having suicidal thoughts during the last 12 months.}
+    \label{fig:map-suicidal-thoughts}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_alcohol_use_disorder_aggregated.png}
+    \caption{A map of the proportion of individuals 12 and older who
+	reported having an alcohol use disorder during the last 12 months.}
+    \label{fig:map-alcohol-use}
+\end{figure}
+
+
 \section{Methods}
 \section{Results}
 \section{Discussion}
 
 \section{Appendix}
+
+All data cleaning and joining was done with the \texttt{Pandas} Python 3 package
+\cite{python_pandas}, as well as the package \texttt{python-us}~\cite{python_us}.
+Of course, this required the use of Python 3 programming language
+\cite{python_lang}.
+
+All model creation was done using the \texttt{R} programming
+language~\cite{r_lang}.
+All data aggregation and visualization was done with the
+\texttt{tidyverse} package in \texttt{R}~\cite{r_tidyverse}.
 
 \subsection{Variable Descriptions}\label{sec:variables}
 
