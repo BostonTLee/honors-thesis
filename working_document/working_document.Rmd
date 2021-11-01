@@ -357,7 +357,11 @@ poverty_table <- function(model_list) {
 ```
 
 ```{r table-primary}
-poverty_table(make_lms(primary_model_df))  %>% kable()
+primary_table <- poverty_table(make_lms(primary_model_df))
+primary_table[["$p$-value"]] <- p.adjust(primary_table[["$p$-value"]], "holm")
+primary_table %>% kable("latex")
+poverty_table(make_lms(model_with_income_df)) %>% kable("latex")
+poverty_table(make_lms(model_with_state_df)) %>% kable("latex")
 ```
 
 ### Primary models
