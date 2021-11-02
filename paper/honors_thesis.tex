@@ -405,6 +405,33 @@ that captured all the specially-defined SAMHSA substate regions.
 \end{center}
 \end{table}
 
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_MDE_fitted.png}
+    \caption{A map of the fitted values for proportion of people experiencing an
+    MDE, from the primary model group. For the origial values, see
+    Figure~\ref{fig:map-MDE}.}
+    \label{fig:map-fitted-MDE}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_fitted.png}
+    \caption{A map of the fitted values for proportion of people experiencing
+    suicidal thoughts, from the primary model group. For the origial values, see
+    Figure~\ref{fig:map-suicidal-thoughts}.}
+    \label{fig:map-fitted-suicidal-thoughts}
+\end{figure}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_alcohol_use_disorder_fitted.png}
+    \caption{A map of the fitted values for proportion of people experiencing an
+    alcohol use disorder, from the primary model group.
+    For the origial values, see Figure~\ref{fig:map-alcohol-use}.}
+    \label{fig:map-fitted-alcohol-use}
+\end{figure}
+
 \subsection{Median Income Model Group}
 
 \begin{table}[!htb]
@@ -420,7 +447,7 @@ that captured all the specially-defined SAMHSA substate regions.
 % \end{tabular}
 \begin{tabular}{l r r l}
     \hline
-    Response variable & Coefficient & \$p\$-value & 95\% CI\\
+    Response variable & Coefficient & $p$-value & 95\% CI\\
     \hline
     Major Depressive Episode (MDE) & -0.0268210 & 0.2176127 & (-0.028, -0.025)\\
     \hline
@@ -508,7 +535,7 @@ Of course, this required the use of Python 3 programming language
 \cite{python_lang}.
 
 All model creation was done using the \texttt{R} programming
-language~\cite{r_lang}.
+language, version 3.6.3~\cite{r_lang}.
 All data aggregation and visualization was done with the
 \texttt{tidyverse} package in \texttt{R}~\cite{r_tidyverse}.
 
@@ -903,6 +930,31 @@ All data aggregation and visualization was done with the
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
 \end{itemize}
+
+\pagebreak
+
+\subsection{Tables}
+
+\begin{table}[!htb]
+\begin{center}
+\begin{tabular}{l l l}
+    \hline
+    Response Variable & Minimum fitted value & Maximum fitted value\\
+    \hline
+    prop\_MDE & 0.052 & 0.085\\
+    prop\_suicidal\_thoughts & 0.034 & 0.056\\
+    prop\_alcohol\_use\_disorder & 0.037 & 0.082\\
+    \hline
+\end{tabular}
+\end{center}
+\caption{\label{tab:fitted} Minimum and maximum fitted values
+    for the primary model group. For variable descriptions,
+    see~\ref{sec:variables}.
+}
+\end{table}
+
+\pagebreak
+
 \printbibliography
 
 \end{document}
