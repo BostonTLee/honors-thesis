@@ -409,13 +409,24 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{center}
-\begin{tabular}{l r r}
+% \begin{tabular}{l r r}
+    % \hline
+    % Response variable & Coefficient & $p$-value\\
+    % \hline
+    % Major Depressive Episode (MDE) & -0.0268 & 0.218\\
+    % Suicidal Thoughts & -0.030 & 0.046\\
+    % Alcohol Use Disorder & -0.0677 & 0.006 \\
+    % \hline
+% \end{tabular}
+\begin{tabular}{l r r l}
     \hline
-    Response variable & Coefficient & $p$-value\\
+    Response variable & Coefficient & \$p\$-value & 95\% CI\\
     \hline
-    Major Depressive Episode (MDE) & -0.0268 & 0.218\\
-    Suicidal Thoughts & -0.030 & 0.046\\
-    Alcohol Use Disorder & -0.0677 & 0.006 \\
+    Major Depressive Episode (MDE) & -0.0268210 & 0.2176127 & (-0.028, -0.025)\\
+    \hline
+    Suicidal Thoughts & -0.0300877 & 0.0456943 & (-0.031, -0.029)\\
+    \hline
+    Alcohol Use Disorder & -0.0677253 & 0.0062886 & (-0.069, -0.066)\\
     \hline
 \end{tabular}
 \caption{\label{tab:median-income-model-results} The coefficients and $p$-values
@@ -429,13 +440,24 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{center}
-\begin{tabular}{l r r}
+% \begin{tabular}{l r r}
+    % \hline
+    % Response variable & Coefficient & $p$-value\\
+    % \hline
+    % Major Depressive Episode (MDE) & -0.022 & 0.093\\
+    % Suicidal Thoughts & 0.0005108 & 0.944\\
+    % Alcohol Use Disorder & -0.0204304 & 0.176\\
+    % \hline
+% \end{tabular}
+\begin{tabular}{l|r|r|l}
     \hline
-    Response variable & Coefficient & $p$-value\\
+    Response variable & Coefficient & \$p\$-value & 95\% CI\\
     \hline
-    Major Depressive Episode (MDE) & -0.022 & 0.093\\
-    Suicidal Thoughts & 0.0005108 & 0.944\\
-    Alcohol Use Disorder & -0.0204304 & 0.176\\
+    Major Depressive Episode (MDE) & -0.0216585 & 0.0928447 & (-0.022, -0.021)\\
+    \hline
+    Suicidal Thoughts & 0.0005108 & 0.9444232 & (0, 0.001)\\
+    \hline
+    Alcohol Use Disorder & -0.0204304 & 0.1763716 & (-0.021, -0.019)\\
     \hline
 \end{tabular}
 \caption{\label{tab:median-income-model-results} The coefficients and $p$-values
@@ -445,11 +467,38 @@ that captured all the specially-defined SAMHSA substate regions.
 \end{center}
 \end{table}
 
-\section{Discussion}
+\subsection{Response Variable Correlations}
 
-\subsection{Primary Model Group}
-\subsection{Median Income Model Group}
-\subsection{State Indicator Model Group}
+The correlation between the proportion of people who reported experiencing
+a major depressive episode and
+who reported experiencing suicidal thoughts was
+0.765.
+This is intuitive; we would expect depressive symptoms and suicidal thoughts
+to be positively correlated.
+Furthermore, this correlation is fairly strong.
+
+The correlation between the proportion of people who reported experiencing
+a major depressive episode and
+who reported experiencing an alcohol use disorder was
+0.224.
+This correlation is positive, but significantly weaker than
+the previous correlation.
+The correlation between the proportion of people who reported experiencing
+suicidal thoughts and
+who reported experiencing an alcohol use disorder was
+0.162.
+Again, this correlation is positive, but still weaker than
+both the previous correlations.
+
+The results from these correlations show that the proportion individuals
+experiencing MDE and suicidal thoughts are much more strongly related to each
+other than either of them are to the proportion of people experiencing
+an alcohol use disorder.
+Of the three responses, the proportion of people experiencing an
+alcohol use disorder is the least specific.
+
+
+\section{Discussion}
 
 \section{Appendix}
 
