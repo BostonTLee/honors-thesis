@@ -20,7 +20,7 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
 
 \bibliography{references.bib}
 
-\title{The Relationship Between Potential Financial Stress and Mental Health in the United States}
+\title{The Relationship Between Financial Stress and Mental Health in the United States}
 \author{Boston Lee}
 
 \begin{document}
@@ -31,63 +31,46 @@ pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
 
 \section{Introduction}
 
-Given that it may be intuitively plausible that financial hardship has a
-delitarious effect on mental health on a personal level,
-we aim to answer whether there is any relationship
-between financial hardship and mental health on a group level.
-If it were discovered that financial hardship and mental
-health issues covary, it would perhaps inform
-either mental health policy, economic policy, or both.
-Although the standard statistical methods used in this paper
-cannot be used to draw causal conclusions with observational data,
-perhaps insight into whether there is evidence that there
-is a linear relationship between poverty and negative mental health effects
-could be used to guide more sophisticated future research.
-
-Note that given the unavailability of individual-level data,
-and the implausibility of conducting randomized trials with our chosen responses,
-some compromises were made in the research questions explored in this paper.
-Data for our responses and predictors was only available on a regional level,
-hence any inferential conclusions drawn
-concern geographic regions, not individuals.
-Furthermore, any inferential conclusions drawn will concern correlative
-relationships.
-Data about prevalence of mental health issues and poverty is observational
-in nature, and thus modeling these phenomena does not license causal
-conclusions.
+Mental health issues are a growing societal and public health concern
+in the United States.
+There are a myriad of potential causes for the prevalence mental health
+of mental health issues in the United States.
+One plausible reason for mental health issues arising 
+on an individual or group level
+is financial stress.
 
 \section{Data Sources}
 
-TODO
-
 The data included in the final dataset came from two main sources, the American
 Community Survey (ACS), and the Substance Abuse and Mental Health Services
-Administration (SAMHSA). The main three response variables originated from the
+Administration (SAMHSA). SAMHSA is an agency within 
+the U.S Department of Health and Human services which 
+``aims to reduce the impact of substance abuse and mental
+illness on America's communities''~\cite{samhsa_about_us}.
+
+All ACS estimates were obtained from 
+the ACS 5-Year Estimates from the year 2018.
+
+All SAMHSA estimates originated from 
+the National Survey on Drug Use and Health (NSDUH),
+specifically the 
+2016-2018 NSDUH Substate Region Estimates,
+which provides
+``prevalence estimates for 15 measures of substance use and mental illness''
+\cite{samhsa_data}.
+
+NSDUH provides definitions for substate regions in terms of 
+counties and census tracts for each collection term.
+The 2016-2018 substate region definitions were 
+pragmatically identical to the 2014-2016 substate region definitions,
+and the 2014-2016 provided substate region definitions in a
+usable data format, so the 2014-2016 substate region definitions 
+were used~\cite{samhsa_substate_region_defs}.
+
+The main three response variables originated from the
 SAMHSA data, while ACS provided demographic data used as controlling variables.
 
 \subsection{Variables}\label{sec:finalvars}
-
-Note that in all of the below descriptions, the variables are described in their
-non-aggregated state. A full description of the census-level variables would
-include a caveat that the ACS variables are actually weighted averages of
-county-level estimates. For more information on variable aggregation, see
-Section~\ref{sec:aggregation}. Treat references to, for instance, the
-median income, as references to the population-weighted average of
-median income across a given substate region.
-
-It should also be noted that because data is aggregated to regional levels, we
-cannot infer a relationship between financial variables and mental health
-variables on an individual level, but rather on a regional level. We may be
-able to say that, for instance, a difference of $x$ in the average proportion
-of individuals living below poverty in a region is correlated to a difference
-of $y$ in the average proportion of individuals experiencing a major depressive
-episode. We may \textbf{not} say, given our data, that a difference of $x$ in
-an individual's average income is correlated to a difference of $y$ in the
-average of an individual's probability of experiencing a major depressive
-episode.
-
-In addition, all variables are relative to time period.
-See Section~\ref{sec:variables} for details.
 
 The main response variables were chosen to measure mental health
 symptoms that could have a relationship to environmental factors.
@@ -110,6 +93,9 @@ distribution of incomes, not simply the center of the distribution.
 If a given region has more people living below the poverty line, we
 would expect that to give us more information about financial stress
 than simply a measure of centrality.
+
+In addition, all variables are relative to time period.
+See Section~\ref{sec:variables} for details.
 
 A secondary question is whether the (population-weighted average of)
 median income of a region does give us more information about mental
@@ -170,6 +156,13 @@ individuals (FIXME).
 % fips
 %
 
+Note that in all of the below descriptions, the variables are described in their
+non-aggregated state. A full description of the census-level variables would
+include a caveat that the ACS variables are actually weighted averages of
+county-level estimates. For more information on variable aggregation, see
+Section~\ref{sec:aggregation}. Treat references to, for instance, the
+median income, as references to the population-weighted average of
+median income across a given substate region.
 
 
 For a full description of variables, including data sources, see
@@ -192,10 +185,13 @@ All variables in the model dataset were aggregated to the substate region level,
 as defined by the SAMHSA data \cite{samhsa_substate_region_defs}.
 The ACS estimates were only available at the county level,
 while the response variables were only available at the substate region level.
-Hence, while the data was initially represented at the county level,
+Hence, while the preprocessed and joined data was 
+initially represented at the county level,
 with repeated observations for the SAMHSA estimates
-(see Section~\ref{sec:joining}),
 the final models were constructed at the substate region level.
+That is, the final models were fit using data at the original
+scale provided by the SAMHSA estimates, before the joining described in
+Section~\ref{sec:joining}.
 The ACS estimates were collapsed to the substate region level
 by a population weighted average for the substate region in question.
 Each numeric variable was grouped by substate region
@@ -247,20 +243,20 @@ were included in the final model.
 
 \begin{table}[!htb]
 \begin{center}
-\begin{tabular}{l r r}
+\begin{tabular}{l r r r r r}
     \hline
-    Variable & Mean & SD\\
+    & Mean & SD & Min & Median & Max\\
     \hline
-    prop\_MDE & 0.073 & 0.009\\
-    prop\_suicidal\_thoughts & 0.045 & 0.006\\
-    prop\_alcohol\_use\_disorder & 0.057 & 0.012\\
-    prop\_white & 0.766 & 0.162\\
-    prop\_black & 0.111 & 0.128\\
-    median\_age & 38.792 & 3.650\\
-    median\_household\_income & 59911.078 & 14078.759\\
-    prop\_25\_years\_over\_high\_school & 0.289 & 0.063\\
-    prop\_married\_15\_years\_and\_older & 0.485 & 0.057\\
-    prop\_below\_poverty\_level & 0.143 & 0.043\\
+    prop\_MDE & 0.073 & 0.009 & 0.050 & 0.073 & 0.102\\
+    prop\_suicidal\_thoughts & 0.045 & 0.006 & 0.030 & 0.044 & 0.071\\
+    prop\_alcohol\_use\_disorder & 0.057 & 0.012 & 0.035 & 0.055 & 0.119\\
+    prop\_white & 0.766 & 0.162 & 0.180 & 0.815 & 0.971\\
+    prop\_black & 0.111 & 0.128 & 0.001 & 0.060 & 0.630\\
+    median\_age & 38.792 & 3.650 & 24.600 & 38.839 & 51.431\\
+    median\_household\_income & 59911.078 & 14078.759 & 32334.991 & 56552.785 & 117265.848\\
+    prop\_25\_years\_over\_high\_school & 0.289 & 0.063 & 0.123 & 0.292 & 0.466\\
+    prop\_married\_15\_years\_and\_older & 0.485 & 0.057 & 0.269 & 0.492 & 0.613\\
+    prop\_below\_poverty\_level & 0.143 & 0.043 & 0.054 & 0.141 & 0.305\\
     \hline
 \end{tabular}
 \end{center}
@@ -526,6 +522,39 @@ alcohol use disorder is the least specific.
 
 
 \section{Discussion}
+
+% It should also be noted that because data is aggregated to regional levels, we
+% cannot infer a relationship between financial variables and mental health
+% variables on an individual level, but rather on a regional level. We may be
+% able to say that, for instance, a difference of $x$ in the average proportion
+% of individuals living below poverty in a region is correlated to a difference
+% of $y$ in the average proportion of individuals experiencing a major depressive
+% episode. We may \textbf{not} say, given our data, that a difference of $x$ in
+% an individual's average income is correlated to a difference of $y$ in the
+% average of an individual's probability of experiencing a major depressive
+% episode.
+
+If it were discovered that financial hardship and mental
+health issues covary, it would perhaps inform
+either mental health policy, economic policy, or both.
+Although the standard statistical methods used in this paper
+cannot be used to draw causal conclusions with observational data,
+perhaps insight into whether there is evidence that there
+is a linear relationship between poverty and negative mental health effects
+could be used to guide more sophisticated future research.
+
+Note that given the unavailability of individual-level data,
+and the implausibility of conducting randomized trials with our chosen responses,
+some compromises were made in the research questions explored in this paper.
+Data for our responses and predictors was only available on a regional level,
+hence any inferential conclusions drawn
+concern geographic regions, not individuals.
+Furthermore, any inferential conclusions drawn will concern correlative
+relationships.
+Data about prevalence of mental health issues and poverty is observational
+in nature, and thus modeling these phenomena does not license causal
+conclusions.
+
 
 \section{Appendix}
 
