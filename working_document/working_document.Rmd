@@ -31,10 +31,26 @@ mental_health_df$substate_region_id <- as.character(mental_health_df$substate_re
 #' @param df A dataframe with numeric columns
 #' @return A dataframe with three columns: name_col (column name), sd, and mean
 summarize_data <- function(df) {
-  funcs <- list(mean = ~ mean(.x), sd = ~ sd(.x))
+  funcs <- list(mean = ~ mean(.x),
+    sd = ~ sd(.x),
+    min = ~ min(.x),
+    median = ~ median(.x),
+    max = ~ max(.x)
+  )
   mean_df <- summarize_func(df, "mean")
   sd_df <- summarize_func(df, "sd")
-  full_summary <- inner_join(mean_df, sd_df, by = "col_name")
+  min_df <- summarize_func(df, "min")
+  median_df <- summarize_func(df, "median")
+  max_df <- summarize_func(df, "max")
+  # full_summary <- inner_join(mean_df, sd_df, by = "col_name")
+  full_summary <- list(
+  mean_df,
+  sd_df,
+  min_df,
+  median_df,
+  max_df) %>% reduce(inner_join, by = "col_name")
+
+  # full_summary <- inner_join(mean_df, sd_df, by = "col_name")
   return(full_summary)
 }
 
