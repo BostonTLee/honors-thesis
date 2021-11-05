@@ -243,6 +243,24 @@ were included in the final model.
 
 \section{Descriptive Statistics}
 
+As seen in Table~\ref{tab:variables},
+most variables in the dataset were proportions restricted to $[0, 1]$.
+However, many of the proportion variables took values on a much cmaller range.
+Proportion of individuals experiencing a major depressive episode
+(\texttt{prop\_MDE}),
+for instance, achieved a maximum of 0.102.
+The other two SAMHSA NSDUH variables achieved maxima under 0.2.
+As a result, these variables had very low standard deviation.
+The proportion of individuals under the poverty line was similarly
+restricted to a narrower range.
+Median age had very low deviation compared to the mean value.
+
+The distributional characteristics of the proportion of African Americans
+in a region showed significant skew.
+Although the median proportion of African Americans in a region was 0.06,
+the maximum was 0.63, and the mean was 0.111.
+
+
 \begin{table}[!htb]
 \begin{center}
 \begin{tabular}{l r r r r r}
@@ -262,7 +280,7 @@ were included in the final model.
     \hline
 \end{tabular}
 \end{center}
-\caption{\label{tab:summary}Mean and standard deviation of
+\caption{\label{tab:summary}Measures of distribution of
 all numeric variables included in the final dataset used for modeling.
 This includes median income, although median income was not included
 in the primary model, and only included in a sensitivity model.
