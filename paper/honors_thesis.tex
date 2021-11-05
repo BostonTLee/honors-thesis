@@ -35,38 +35,38 @@ Mental health issues are a growing societal and public health concern
 in the United States.
 There are a myriad of potential causes for the prevalence mental health
 of mental health issues in the United States.
-One plausible reason for mental health issues arising 
+One plausible reason for mental health issues arising
 on an individual or group level
 is financial stress.
 
 \section{Data Sources}
 
 We obtained data from nationally representative sources
-in the United States: 
+in the United States:
 the American Community Survey (ACS),
-and the Substance Abuse and Mental Health Services Administration (SAMHSA). 
-SAMHSA is an agency within 
-the U.S Department of Health and Human services which 
+and the Substance Abuse and Mental Health Services Administration (SAMHSA).
+SAMHSA is an agency within
+the U.S Department of Health and Human services which
 ``aims to reduce the impact of substance abuse and mental
 illness on America's communities''~\cite{samhsa_about_us}.
 
-All ACS estimates were obtained from 
+All ACS estimates were obtained from
 the ACS 5-Year Estimates from the year 2018.
 
-All SAMHSA estimates originated from 
+All SAMHSA estimates originated from
 the National Survey on Drug Use and Health (NSDUH),
-specifically the 
+specifically the
 2016-2018 NSDUH Substate Region Estimates,
 which provides
 ``prevalence estimates for 15 measures of substance use and mental illness''
 \cite{samhsa_data}.
 
-NSDUH provides definitions for substate regions in terms of 
+NSDUH provides definitions for substate regions in terms of
 counties and census tracts for each collection term.
-The 2016-2018 substate region definitions were 
+The 2016-2018 substate region definitions were
 pragmatically identical to the 2014-2016 substate region definitions,
 and the 2014-2016 provided substate region definitions in a
-usable data format, so the 2014-2016 substate region definitions 
+usable data format, so the 2014-2016 substate region definitions
 were used~\cite{samhsa_substate_region_defs}.
 
 The main three response variables originated from the
@@ -187,7 +187,7 @@ All variables in the model dataset were aggregated to the substate region level,
 as defined by the SAMHSA data \cite{samhsa_substate_region_defs}.
 The ACS estimates were only available at the county level,
 while the response variables were only available at the substate region level.
-Hence, while the preprocessed and joined data was 
+Hence, while the preprocessed and joined data was
 initially represented at the county level,
 with repeated observations for the SAMHSA estimates
 the final models were constructed at the substate region level.
@@ -696,146 +696,6 @@ All data aggregation and visualization was done with the
               \item[Data Source] \cite{acs_demographics_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
-    \item[\texttt{prop\_native}] \
-          \begin{description}
-              \item[Description] \descentdesc{Native}
-              \item[Reason for inclusion] \descentreason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_asian}] \
-          \begin{description}
-              \item[Description] Description of what it does
-              \item[Reason for inclusion] \descentreason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_pacific\_islander}] \
-          \begin{description}
-              \item[Description] \descentdesc{Pacific Islander}
-              \item[Reason for inclusion] \descentreason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_latino}] \
-          \begin{description}
-              \item[Description] \descentdesc{Latino}
-              \item[Reason for inclusion] \descentreason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_other\_race}] \
-          \begin{description}
-              \item[Description] \descentdesc{any not previously included (single-ethnicity)}
-              \item[Reason for inclusion] \descentreason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_two\_or\_more\_races}] \
-          \begin{description}
-              \item[Description] \descentdesc{two or more races in}
-              \item[Reason for inclusion] \descentreason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_15\_to\_19\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{15}{19}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_20\_to\_24\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{20}{24}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_25\_to\_34\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{25}{30}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_35\_to\_44\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{35}{44}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_45\_to\_54\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{45}{54}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_55\_to\_59\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{55}{59}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_60\_to\_64\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{60}{64}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_65\_to\_74\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{65}{74}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_75\_to\_84\_years}] \
-          \begin{description}
-              \item[Description] \agedescto{75}{84}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_85\_over\_years}] \
-          \begin{description}
-              \item[Description] \agedescover{85}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_18\_over\_years}] \
-          \begin{description}
-              \item[Description] \agedescover{18}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_21\_over\_years}] \
-          \begin{description}
-              \item[Description] \agedescover{21}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_62\_over\_years}] \
-          \begin{description}
-              \item[Description] \agedescover{62}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_65\_over\_years}] \
-          \begin{description}
-              \item[Description] \agedescover{65}
-              \item[Reason for inclusion] \agereason
-              \item[Data Source] \cite{acs_demographics_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
     \item[\texttt{median\_age}] \
           \begin{description}
               \item[Description] Median age of the population.
@@ -854,40 +714,6 @@ All data aggregation and visualization was done with the
               \item[Data Source] \cite{acs_income_data}
               \item[Modifications] N/A
           \end{description}
-    \item[\texttt{prop\_households\_less\_than\_10000}] \
-          \begin{description}
-              \item[Description] The proportion of households making less than
-                    \$10,000US.
-              \item[Reason for inclusion] This is a potential predictor variable
-                    to supplement and add detail to the number of people below the
-                    poverty line.
-              \item[Data Source] \cite{acs_income_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_households\_10000\_to\_14999}] \
-          \begin{description}
-              \item[Description] The proportion of households making \$10,000US to
-                    \$14,999US.
-              \item[Reason for inclusion] This is a potential predictor variable
-                    to supplement and add detail to the number of people below the
-                    poverty line.
-              \item[Data Source] \cite{acs_income_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_25\_years\_over\_less\_than\_9th\_grade}] \
-          \begin{description}
-              \item[Description] \educationdesc{less than 9th grade}
-              \item[Reason for inclusion] \educationreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_25\_years\_over\_9th\_to\_12th\_no\_diploma}] \
-          \begin{description}
-              \item[Description] \educationdesc{9th to 12th grade, with no diploma}
-              \item[Reason for inclusion] \educationreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
     \item[\texttt{prop\_25\_years\_over\_high\_school}] \
           \begin{description}
               \item[Description] \educationdesc{high school, with a diploma}
@@ -895,58 +721,9 @@ All data aggregation and visualization was done with the
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
           \end{description}
-    \item[\texttt{prop\_25\_years\_over\_some\_college}] \
-          \begin{description}
-              \item[Description] \educationdesc{some college}
-              \item[Reason for inclusion] \educationreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_25\_years\_over\_associates}] \
-          \begin{description}
-              \item[Description] \educationdesc{an associate's degree}
-              \item[Reason for inclusion] \educationreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_25\_years\_over\_bachelors}] \
-          \begin{description}
-              \item[Description] \educationdesc{a bachelor's degree}
-              \item[Reason for inclusion] \educationreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
     \item[\texttt{prop\_married\_15\_years\_and\_older}] \
           \begin{description}
               \item[Description] \maritaldesc{married}
-              \item[Reason for inclusion] \maritalreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_widowed\_15\_years\_and\_older}] \
-          \begin{description}
-              \item[Description] \maritaldesc{widowed}
-              \item[Reason for inclusion] \maritalreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_divorced\_15\_years\_and\_older}] \
-          \begin{description}
-              \item[Description] \maritaldesc{divorced}
-              \item[Reason for inclusion] \maritalreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_separated\_15\_years\_and\_older}] \
-          \begin{description}
-              \item[Description] \maritaldesc{separated}
-              \item[Reason for inclusion] \maritalreason
-              \item[Data Source] \cite{acs_education_data}
-              \item[Modifications] Changed from a percentage to a proportion.
-          \end{description}
-    \item[\texttt{prop\_never\_married\_15\_years\_and\_older}] \
-          \begin{description}
-              \item[Description] \maritaldesc{never married}
               \item[Reason for inclusion] \maritalreason
               \item[Data Source] \cite{acs_education_data}
               \item[Modifications] Changed from a percentage to a proportion.
