@@ -235,7 +235,6 @@ base_model_df <- mental_health_df %>%
 We will have three primary groups of models. Each group will consist of three models, with each of the SAMHSA variables as responses. The datasets will be as follows:
 
 
-
 1. Predictor: Proportion below poverty level; control variables
 
 ```{r average-data}
@@ -251,6 +250,7 @@ ID and the numeric variables:
 ```{r average-data-income}
 model_with_income_df <- base_model_df
 print(model_with_income_df)
+write.csv(model_with_income_df, "../data/preprocessed/reduced.csv")
 ```
 
 ```{r summary-table-with-income}
@@ -273,6 +273,14 @@ model_with_state_df <- mental_health_df %>%
   summarize_if(is.numeric, ~ sum(. * pop_weight)) %>%
   select(-c(total_pop, pop_weight, median_household_income))
 print(model_with_state_df)
+```
+
+1. Predictor: Proportion below poverty level; indicator for state; *no* control variables
+
+```{r data-state-no-adjust}
+model_with_state_no_adjust_df <- model_with_state_df %>%
+  select(prop_below_poverty_level, state, prop_MDE, prop_suicidal_thoughts, prop_alcohol_use_disorder, region_id)
+print(model_with_state_no_adjust_df)
 ```
 
 ```{r }
@@ -347,12 +355,12 @@ extract_pval <- function(model, variable) {
 format_confint <- function(model, variable) {
   # adjusted_model <- summary(model, test= adjusted(type = "holm"))
   # confidence <- confint(adjusted_model, variable, level = 0.05)
-  confidence <- confint(model, variable, level = 0.05)
+  confidence <- confint(model, variable, level = 0.95)
   return(
     paste("(", round(confidence[1], 3), ", ", round(confidence[2], 3), ")", sep = "")
   )
 }
-poverty_table <- function(model_list) {
+poverty_table <- function(model_list, adjust=FALSE, round=TRUE) {
   print(model_list[["prop_MDE"]]$coefficients[["prop_below_poverty_level"]])
   ret_table <- data.frame(
     c(
@@ -381,16 +389,48 @@ poverty_table <- function(model_list) {
     "Coefficient",
     "$p$-value"
   )
+  if (adjust) {
+    ret_table[["$p$-value"]] <- p.adjust(ret_table[["$p$-value"]], "holm")
+  }
+  if (round) {
+    ret_table[["Coefficient"]] <- round(ret_table[["Coefficient"]], 3)
+    ret_table[["$p$-value"]] <- round(ret_table[["$p$-value"]], 3)
+  }
   return(ret_table)
 }
 ```
 
 ```{r table-primary}
-primary_table <- poverty_table(make_lms(primary_model_df))
-primary_table[["$p$-value"]] <- p.adjust(primary_table[["$p$-value"]], "holm")
-primary_table %>% kable("latex")
+poverty_table(make_lms(primary_model_df), adjust=TRUE) %>% kable("latex")
+poverty_table(make_lms(primary_model_df), adjust=TRUE, round=FALSE) %>% kable("latex")
 poverty_table(make_lms(model_with_income_df)) %>% kable("latex")
-poverty_table(make_lms(model_with_state_df)) %>% kable("latex")
+poverty_table(make_lms(model_with_state_df)) %>% kable("latex", escape=F)
+poverty_table(make_lms(model_with_state_no_adjust_df)) %>% kable("latex", escape=F)
+poverty_table(make_lms(model_with_state_no_adjust_df), round=F) %>% kable("latex", escape=F)
+```
+
+```{r tables-appendix}
+confint_col <- function(model) {
+  # adjusted_model <- summary(model, test= adjusted(type = "holm"))
+  # confidence <- confint(adjusted_model, variable, level = 0.05)
+  confidence <- confint(model, level = 0.95)
+  return(
+    paste("(", round(confidence[,1], 3), ", ", round(confidence[,2], 3), ")", sep = "")
+  )
+}
+table_point_confint <- function(model) {
+  coefs <- round(coef(model),5)
+  ret_table <- cbind(
+    names(coefs),
+    unname(coefs),
+    confint_col(model)
+  )
+  colnames(ret_table) <- c("Variable","Estimate", "95\\% CI")
+  return(ret_table)
+}
+table_point_confint(make_lms(primary_model_df)$prop_MDE) %>% kable("latex", escape=F, booktabs=T)
+table_point_confint(make_lms(primary_model_df)$prop_suicidal_thoughts) %>% kable("latex", escape=F, booktabs=T)
+table_point_confint(make_lms(primary_model_df)$prop_alcohol_use_disorder) %>% kable("latex", escape=F, booktabs=T)
 ```
 
 ### Primary models
@@ -442,6 +482,7 @@ max_min_fitted_table %>% kable("latex")
 ```{r generating-non-primary-models}
 model_with_income_list <- make_lms(model_with_income_df)
 model_with_state_list <- make_lms(model_with_state_df)
+model_with_state_no_adjust_list <- make_lms(model_with_state_no_adjust_df)
 ```
 
 ### Variable correlations
@@ -453,38 +494,3 @@ cor(base_model_df$prop_suicidal_thoughts, base_model_df$prop_alcohol_use_disorde
 ```
 
 # Discussion
-
-```{r nonspatial-glm-funcs}
-suicidal_thoughts_glm <- function(df) {
-  suicidal_thoughts_glm <- glm(
-    prop_suicidal_thoughts ~ .,
-    data = select(
-      df, -c(region_id, prop_alcohol_use_disorder, prop_MDE)
-    ),
-    family = "binomial"
-  )
-  return(suicidal_thoughts_glm)
-}
-
-alcohol_use_disorder_glm <- function(df) {
-  alcohol_use_disorder_glm <- glm(
-    prop_alcohol_use_disorder ~ .,
-    data = select(
-      df, -c(region_id, prop_suicidal_thoughts, prop_MDE)
-    ),
-    family = "binomial"
-  )
-  return(alcohol_use_disorder_glm)
-}
-
-MDE_glm <- function(df) {
-  MDE_glm <- glm(
-    prop_MDE ~ .,
-    data = select(
-      df, -c(region_id, prop_alcohol_use_disorder, prop_suicidal_thoughts)
-    ),
-    family = "binomial"
-  )
-  return(MDE_glm)
-}
-```
