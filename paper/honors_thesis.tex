@@ -421,6 +421,18 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \subsection{Primary Model Group}
 
+As can be seen from Table~\ref{tab:primary-model-results},
+after adjustment,
+the coefficient for the percentage of people below the poverty level
+was only significantly different from zero
+in the model with proportion of people reporting
+alcohol use disorder as a response.
+
+We can see that the (unadjusted) confidence intervals for both
+the proportion of people reporting a MDE
+and the proportion of people reporting suicidal thoughts
+are relatively narrow around zero.
+
 \begin{table}[!htb]
 \begin{center}
     \begin{tabular}{lrrl}
@@ -466,6 +478,20 @@ that captured all the specially-defined SAMHSA substate regions.
     \label{fig:map-fitted-alcohol-use}
 \end{figure}
 
+One concern with using linear models was extrapolation
+beyond the bounds of a proportion.
+The fitted values for each region can be seen in
+Figures~\ref{fig:map-fitted-MDE},\
+~\ref{fig:map-fitted-suicidal-thoughts},\
+~and~\ref{fig:map-fitted-alcohol-use}.
+None of the fitted values were outside of $[0,1]$,
+meaning there was no structural violation of the
+variables in the fitted values.
+A table of the minimum and maximum fitted values
+attained by each model is found in the Appendix,
+Table~\ref{tab:fitted}.
+
+
 \subsection{Median Income Model Group}
 
 \begin{table}[!htb]
@@ -486,7 +512,37 @@ that captured all the specially-defined SAMHSA substate regions.
 \end{center}
 \end{table}
 
+As seen in Table~\label{tab:median-income-model-results},
+ompared to the primary model the model adjusted for median income
+was not drastically different with respect to coefficient values and
+confidence interval bounds.
+
+The coefficient for the proportion of people under
+poverty in the model with suicidal thoughts as the response
+was an order of magnitude larger in the median-income-adjusted model,
+with an overall difference in the coefficient was only 0.027.
+
+% FIXME
+The right bound of the CI for $\hat{\beta}_{pov}$ in the
+model with suicidal thoughts as the response
+shifted to the other side of zero than the corresponding model
+in the primary model group.
+However, the right bound was very close to zero,
+with a value of -0.001.
+
+
 \subsection{State Indicator Model Group}
+
+As seen in Table~\label{tab:state-ind-model-results},
+all three of the confidence intervals for
+$\hat{\beta}_{pov}$ contained zero.
+
+The coefficient $\hat{\beta}_{pov}$ was smaller
+in the state-adjusted model compared to the
+corresponding model in the
+primary model group.
+The other two coefficients were close to their
+primary model counterparts.
 
 \begin{table}[!htb]
 \begin{center}
@@ -507,6 +563,24 @@ that captured all the specially-defined SAMHSA substate regions.
 \end{table}
 
 \subsection{Only State Indicator Model Group}
+
+
+As seen in Table~\label{tab:state-ind-only-model-results},
+the confidence intervals for $\hat{\beta}_{pov}$
+in the models with the proportion of people
+reporting suicidal thoughts
+and the proportion of people reporting an alcohol use disorder
+both did not contain zero.
+In addition, all values of $\hat{\beta}_{pov}$
+were positive in this model group,
+while in the primary model group,
+the values of $\hat{\beta}_{pov}$
+were all negative.
+This model group was the most different from the primary model group,
+given that the coefficients of the models had the opposite sign,
+and that $\hat{\beta}_{pov}$ in the model
+with the proportion of people reporting suicidal thoughts
+as the response had a CI that did not contain zero.
 
 \begin{table}[!htb]
 \begin{tabular}{l r r l}
