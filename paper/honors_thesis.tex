@@ -282,9 +282,9 @@ the maximum was 0.63, and the mean was 0.111.
 \begin{table}[!htb]
 \begin{center}
 \begin{tabular}{l r r r r r}
-    \hline
+    \toprule
     & Mean & SD & Min & Median & Max\\
-    \hline
+    \midrule
     prop\_MDE & 0.073 & 0.009 & 0.050 & 0.073 & 0.102\\
     prop\_suicidal\_thoughts & 0.045 & 0.006 & 0.030 & 0.044 & 0.071\\
     prop\_alcohol\_use\_disorder & 0.057 & 0.012 & 0.035 & 0.055 & 0.119\\
@@ -295,7 +295,7 @@ the maximum was 0.63, and the mean was 0.111.
     prop\_25\_years\_over\_high\_school & 0.289 & 0.063 & 0.123 & 0.292 & 0.466\\
     prop\_married\_15\_years\_and\_older & 0.485 & 0.057 & 0.269 & 0.492 & 0.613\\
     prop\_below\_poverty\_level & 0.143 & 0.043 & 0.054 & 0.141 & 0.305\\
-    \hline
+    \bottomrule
 \end{tabular}
 \end{center}
 \caption{\label{tab:summary}Measures of distribution of
@@ -423,14 +423,14 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{center}
-    \begin{tabular}{l|r|r|l}
-        \hline
+    \begin{tabular}{lrrl}
+        \toprule
         Response variable & Coefficient & $p$-value & 95\% CI\\
-        \hline
+        \midrule
         Major Depressive Episode (MDE) & -0.024 & 0.155 & (-0.05, 0.003)\\
         Suicidal Thoughts & -0.003 & 0.729 & (-0.022, 0.015)\\
         Alcohol Use Disorder & -0.086 & 1.0e-7 & (-0.116, -0.056)\\
-        \hline
+        \bottomrule
     \end{tabular}
 \caption{\label{tab:primary-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
@@ -471,13 +471,13 @@ that captured all the specially-defined SAMHSA substate regions.
 \begin{table}[!htb]
 \begin{center}
 \begin{tabular}{l r r l}
-    \hline
+    \toprule
     Response variable & Coefficient & $p$-value & 95\% CI\\
-    \hline
+    \midrule
     Major Depressive Episode (MDE) & -0.027 & 0.218 & (-0.07, 0.016)\\
     Suicidal Thoughts & -0.030 & 0.046 & (-0.06, -0.001)\\
     Alcohol Use Disorder & -0.068 & 0.006 & (-0.116, -0.019)\\
-    \hline
+    \bottomrule
 \end{tabular}
 \caption{\label{tab:median-income-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
@@ -491,12 +491,13 @@ that captured all the specially-defined SAMHSA substate regions.
 \begin{table}[!htb]
 \begin{center}
 \begin{tabular}{l r r l}
-    \hline
+    \toprule
     Response variable & Coefficient & $p$-value & 95\% CI\\
+    \midrule
     Major Depressive Episode (MDE) & -0.022 & 0.093 & (-0.047, 0.004)\\
     Suicidal Thoughts & 0.001 & 0.944 & (-0.014, 0.015)\\
     Alcohol Use Disorder & -0.020 & 0.176 & (-0.05, 0.009)\\
-    \hline
+    \bottomrule
 \end{tabular}
 \caption{\label{tab:state-ind-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
@@ -509,13 +510,13 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{tabular}{l r r l}
-    \hline
+    \toprule
     Response variable & Coefficient & $p$-value & 95\% CI\\
-    \hline
+    \midrule
     Major Depressive Episode (MDE) & 0.004 & 0.680 & (-0.014, 0.022)\\
     Suicidal Thoughts & 0.019 & 4.33e-4 & (0.008, 0.029)\\
     Alcohol Use Disorder & 0.021 & 0.045 & (0.001, 0.042)\\
-    \hline
+    \bottomrule
 \end{tabular}
 
 \begin{center}
@@ -777,16 +778,90 @@ All data aggregation and visualization was done with the
 
 \subsection{Tables}
 
+
+\begin{table}[!htb]
+\begin{center}
+\begin{tabular}{lll}
+    \toprule
+    Variable & Estimate & 95\% CI\\
+    \midrule
+    (Intercept) & 0.09913 & (0.083, 0.115)\\
+    prop\_white & 0.03951 & (0.031, 0.048)\\
+    prop\_black & 0.0044 & (-0.006, 0.015)\\
+    median\_age & -0.00086 & (-0.001, -0.001)\\
+    prop\_25\_years\_over\_high\_school & 0.01934 & (0.001, 0.037)\\
+    \addlinespace
+    prop\_married\_15\_years\_and\_older & -0.053 & (-0.078, -0.028)\\
+    prop\_below\_poverty\_level & -0.02371 & (-0.05, 0.003)\\
+    \bottomrule
+\end{tabular}
+\end{center}
+\caption{\label{tab:primary-mde-full-summary}
+    Full model summary for the primary model with
+    proportion of MDE
+    as the response.
+}
+\end{table}
+
+\begin{table}[!htb]
+\begin{center}
+    \begin{tabular}{lll}
+    \toprule
+    Variable & Estimate & 95\% CI\\
+    \midrule
+    (Intercept) & 0.06173 & (0.051, 0.073)\\
+    prop\_white & 0.01665 & (0.011, 0.023)\\
+    prop\_black & -0.00443 & (-0.012, 0.003)\\
+    median\_age & -0.00075 & (-0.001, -0.001)\\
+    prop\_25\_years\_over\_high\_school & 0.01301 & (0, 0.026)\\
+    \addlinespace
+    prop\_married\_15\_years\_and\_older & -0.00745 & (-0.025, 0.01)\\
+    prop\_below\_poverty\_level & -0.00324 & (-0.022, 0.015)\\
+    \bottomrule
+\end{tabular}
+\end{center}
+\caption{\label{tab:primary-suicidal-thoughts-full-summary}
+    Full model summary for the primary model with
+    reported proportion of suicidal thoughts
+    as the response.
+}
+\end{table}
+
+\begin{table}[!htb]
+\begin{center}
+    \begin{tabular}{lll}
+        \toprule
+        Variable & Estimate & 95\% CI\\
+        \midrule
+        (Intercept) & 0.16519 & (0.147, 0.184)\\
+        prop\_white & 0.02282 & (0.013, 0.033)\\
+        prop\_black & -0.02457 & (-0.036, -0.013)\\
+        median\_age & -0.00021 & (-0.001, 0)\\
+        prop\_25\_years\_over\_high\_school & -0.04412 & (-0.065, -0.024)\\
+        \addlinespace
+        prop\_married\_15\_years\_and\_older & -0.18505 & (-0.213, -0.157)\\
+        prop\_below\_poverty\_level & -0.08641 & (-0.116, -0.056)\\
+        \bottomrule
+    \end{tabular}
+\end{center}
+\caption{\label{tab:primary-alcohol-use-full-summary}
+    Full model summary for the primary model with
+    reported proportion of alcohol use disorder
+    as the response.
+}
+\end{table}
+
+
 \begin{table}[!htb]
 \begin{center}
 \begin{tabular}{l l l}
-    \hline
+    \toprule
     Response Variable & Minimum fitted value & Maximum fitted value\\
-    \hline
+    \midrule
     prop\_MDE & 0.052 & 0.085\\
     prop\_suicidal\_thoughts & 0.034 & 0.056\\
     prop\_alcohol\_use\_disorder & 0.037 & 0.082\\
-    \hline
+    \bottomrule
 \end{tabular}
 \end{center}
 \caption{\label{tab:fitted} Minimum and maximum fitted values
