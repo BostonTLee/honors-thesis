@@ -423,15 +423,15 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{center}
-\begin{tabular}{l r r}
-    \hline
-    Response variable & Coefficient & $p$-value\\
-    \hline
-    Major Depressive Episode (MDE) & -0.0237073 & 0.1553641\\
-    Suicidal Thoughts & -0.0032383 & 0.7285177\\
-    Alcohol Use Disorder & -0.0864114 & 0.0000001\\
-    \hline
-\end{tabular}
+    \begin{tabular}{l|r|r|l}
+        \hline
+        Response variable & Coefficient & $p$-value & 95\% CI\\
+        \hline
+        Major Depressive Episode (MDE) & -0.024 & 0.155 & (-0.05, 0.003)\\
+        Suicidal Thoughts & -0.003 & 0.729 & (-0.022, 0.015)\\
+        Alcohol Use Disorder & -0.086 & 1.0e-7 & (-0.116, -0.056)\\
+        \hline
+    \end{tabular}
 \caption{\label{tab:primary-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
     in the primary model group.
@@ -470,24 +470,13 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{center}
-% \begin{tabular}{l r r}
-    % \hline
-    % Response variable & Coefficient & $p$-value\\
-    % \hline
-    % Major Depressive Episode (MDE) & -0.0268 & 0.218\\
-    % Suicidal Thoughts & -0.030 & 0.046\\
-    % Alcohol Use Disorder & -0.0677 & 0.006 \\
-    % \hline
-% \end{tabular}
 \begin{tabular}{l r r l}
     \hline
     Response variable & Coefficient & $p$-value & 95\% CI\\
     \hline
-    Major Depressive Episode (MDE) & -0.0268210 & 0.2176127 & (-0.028, -0.025)\\
-    \hline
-    Suicidal Thoughts & -0.0300877 & 0.0456943 & (-0.031, -0.029)\\
-    \hline
-    Alcohol Use Disorder & -0.0677253 & 0.0062886 & (-0.069, -0.066)\\
+    Major Depressive Episode (MDE) & -0.027 & 0.218 & (-0.07, 0.016)\\
+    Suicidal Thoughts & -0.030 & 0.046 & (-0.06, -0.001)\\
+    Alcohol Use Disorder & -0.068 & 0.006 & (-0.116, -0.019)\\
     \hline
 \end{tabular}
 \caption{\label{tab:median-income-model-results} The coefficients and $p$-values
@@ -501,29 +490,38 @@ that captured all the specially-defined SAMHSA substate regions.
 
 \begin{table}[!htb]
 \begin{center}
-% \begin{tabular}{l r r}
-    % \hline
-    % Response variable & Coefficient & $p$-value\\
-    % \hline
-    % Major Depressive Episode (MDE) & -0.022 & 0.093\\
-    % Suicidal Thoughts & 0.0005108 & 0.944\\
-    % Alcohol Use Disorder & -0.0204304 & 0.176\\
-    % \hline
-% \end{tabular}
-\begin{tabular}{l|r|r|l}
+\begin{tabular}{l r r l}
     \hline
-    Response variable & Coefficient & \$p\$-value & 95\% CI\\
-    \hline
-    Major Depressive Episode (MDE) & -0.0216585 & 0.0928447 & (-0.022, -0.021)\\
-    \hline
-    Suicidal Thoughts & 0.0005108 & 0.9444232 & (0, 0.001)\\
-    \hline
-    Alcohol Use Disorder & -0.0204304 & 0.1763716 & (-0.021, -0.019)\\
+    Response variable & Coefficient & $p$-value & 95\% CI\\
+    Major Depressive Episode (MDE) & -0.022 & 0.093 & (-0.047, 0.004)\\
+    Suicidal Thoughts & 0.001 & 0.944 & (-0.014, 0.015)\\
+    Alcohol Use Disorder & -0.020 & 0.176 & (-0.05, 0.009)\\
     \hline
 \end{tabular}
-\caption{\label{tab:median-income-model-results} The coefficients and $p$-values
+\caption{\label{tab:state-ind-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
     in the state-indicator-adjusted model group.
+}
+\end{center}
+\end{table}
+
+\subsection{Only State Indicator Model Group}
+
+\begin{table}[!htb]
+\begin{tabular}{l r r l}
+    \hline
+    Response variable & Coefficient & $p$-value & 95\% CI\\
+    \hline
+    Major Depressive Episode (MDE) & 0.004 & 0.680 & (-0.014, 0.022)\\
+    Suicidal Thoughts & 0.019 & 4.33e-4 & (0.008, 0.029)\\
+    Alcohol Use Disorder & 0.021 & 0.045 & (0.001, 0.042)\\
+    \hline
+\end{tabular}
+
+\begin{center}
+\caption{\label{tab:state-ind-only-model-results} The coefficients and $p$-values
+    for the main predictor for each of the three models
+    in the state-indicator-adjusted model group with no controlling demographic variables.
 }
 \end{center}
 \end{table}
