@@ -17,7 +17,8 @@
 \usepackage{amssymb}
 
 \usepackage[bookmarks, bookmarksopen=true, plainpages=false, pdfpagelabels,
-pdfpagelayout=SinglePage, breaklinks = true]{hyperref}
+pdfpagelayout=SinglePage, breaklinks = true, colorlinks=true, linkcolor=blue,
+urlcolor=cyan]{hyperref}
 
 \bibliography{references.bib}
 
@@ -712,6 +713,39 @@ as to what mediating effects may exist,
 and how then we might interpret the significance of
 the coefficient for this particular model.
 
+A second concern was that of spatial correlation.
+There was no evidence of spatial correlation in the residuals
+of the primary models;
+however, the resesarch plan laid out the state-indicator
+models to investigate whether a proxy for geographic
+location would affect the significance of
+$\hat{\beta}_{pov}$
+in any of the models.
+The state-indicator models including demographic variables
+did not have any models whose 95\% CIs for
+$\hat{\beta}_{pov}$
+did not include zero
+(see Table~\ref{state-ind-model-results}).
+That is, the addition of state indicator variables did
+not seem to cause the model to detect a non-zero effect,
+for any of the response variables considered,
+including alcohol use disorder, which did have a
+CI that did not include zero in the primary model.
+This could be a function of the fact that adding
+state indicators adds fifty additional predictor
+variables, causing a loss of power.
+The second state-indicator model group
+(see Table~\ref{state-ind-only-model-results})
+which did \textit{not} adjust with any demographic variables,
+did have two confidence intervals not containing zero.
+This could be because there is spatial variation
+in the two responses whose CIs did not contain zero
+(reported suicidal thoughts and reported alcohol use disorder).
+However, this could have also been because there is
+spatial variation in an important demographic covariate of
+these two responses, causing the appearance of spatial variation.
+
+
 Note that given the unavailability of individual-level data,
 and the implausibility of conducting randomized trials with our chosen responses,
 some compromises were made in the research questions explored in this paper.
@@ -754,7 +788,7 @@ major depressive episodes.
 
 A different approach along the same lines would be
 to measure reported financial stress directly,
-and---with this more accurate predictor in hand---again 
+and---with this more accurate predictor in hand---again
 investigate the link between financial stress
 and mental health.
 Not only may financial stress be poorly linked to
@@ -767,7 +801,7 @@ there may be no good widely-available proxy for financial stress.
 Both of the complications mentioned above---either
 that financial hardship is is linked to different mental
 health effects than the ones used here,
-or that financial hardship is a poor proxy for financial 
+or that financial hardship is a poor proxy for financial
 stress---individually or jointly account for the
 failure of the primary models to detect a relationship
 between the proportion of the population below the poverty line
@@ -775,6 +809,11 @@ and either of the two strictly mental health effects,
 reported MDEs and suicidal thoughts.
 
 \section{Appendix}
+
+The code used to clean data and fit the models for this
+paper, as well as the raw document itself,
+is publicly available at
+\url{https://github.com/BostonTLee/honors-thesis}.
 
 All data cleaning and joining was done with the \texttt{Pandas} Python 3 package
 \cite{python_pandas}, as well as the package \texttt{python-us}~\cite{python_us}.
@@ -1044,7 +1083,7 @@ All data aggregation and visualization was done with the
 \end{center}
 \caption{\label{tab:fitted} Minimum and maximum fitted values
     for the primary model group. For variable descriptions,
-    see~\ref{sec:variables}.
+    see Section~\ref{sec:variables}.
 }
 \end{table}
 
