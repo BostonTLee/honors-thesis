@@ -92,7 +92,7 @@ usable data format, so the 2014-2016 substate region definitions
 were used~\cite{samhsa_substate_region_defs}.
 
 The main three response variables originated from the
-SAMHSA data, while ACS provided demographic data used as controlling variables.
+NSDUH data, while ACS provided demographic data used as controlling variables.
 
 \subsection{Variables}\label{sec:finalvars}
 
@@ -195,11 +195,11 @@ Appendix, Section \ref{sec:variables}.
 \subsection{Data Joining}\label{sec:joining}
 
 The dataset was formed with substate regions corresponding to
-``substate/aggregate region-level estimates included in the [SAMHSA] maps''
+``substate/aggregate region-level estimates included in the [NSDUH] maps''
 \cite{samhsa_data}. All substate regions appearing in datasets with the response
 variables of interest were used as individual data points in the final dataset.
 However, the final dataset also included ACS county-level estimates. As such,
-the SAMHSA estimates were duplicated for every county belonging to the region,
+the NSDUH estimates were duplicated for every county belonging to the region,
 and then aggregated back to substate-region estimates (see Section
 \ref{sec:aggregation}).
 For census-tract-level data, the ACS estimates
@@ -208,15 +208,15 @@ were applied for the county to which the census tract belongs.
 \subsection{Data Aggregation}\label{sec:aggregation}
 
 All variables in the model dataset were aggregated to the substate region level,
-as defined by the SAMHSA data \cite{samhsa_substate_region_defs}.
+as defined by the NSDUH data \cite{samhsa_substate_region_defs}.
 The ACS estimates were only available at the county level,
 while the response variables were only available at the substate region level.
 Hence, while the preprocessed and joined data was
 initially represented at the county level,
-with repeated observations for the SAMHSA estimates
+with repeated observations for the NSDUH estimates
 the final models were constructed at the substate region level.
 That is, the final models were fit using data at the original
-scale provided by the SAMHSA estimates, before the joining described in
+scale provided by the NSDUH estimates, before the joining described in
 Section~\ref{sec:joining}.
 The ACS estimates were collapsed to the substate region level
 by a population weighted average for the substate region in question.
@@ -235,7 +235,7 @@ the condensed estimate $x_g$ would be as follows:
 \end{equation*}
 
 Note that because of the joining procedure,
-we want the SAMHSA variables measured at the substate regional level,
+we want the NSDUH variables measured at the substate regional level,
 that is, the level to which we are aggregating,
 to remain the same as before the joining procedure.
 We can see that the above approach accomplishes this.
@@ -254,7 +254,7 @@ then our procedure reduces to the following:
 
 This type of aggregation thus has an asymmetrical (albeit desirable)
 effect on the variables from different sources.
-It leaves the substate-region-level SAMHSA estimates unchanged,
+It leaves the substate-region-level NSDUH estimates unchanged,
 while providing substate-region-level ACS aggregated estimates
 that reflect the weight of relative population within a given substate region.
 
@@ -273,7 +273,7 @@ However, many of the proportion variables took values on a much cmaller range.
 Proportion of individuals experiencing a major depressive episode
 (\texttt{prop\_MDE}),
 for instance, achieved a maximum of 0.102.
-The other two SAMHSA NSDUH variables achieved maxima under 0.2.
+The other two NSDUH variables achieved maxima under 0.2.
 As a result, these variables had very low standard deviation.
 The proportion of individuals under the poverty line was similarly
 restricted to a narrower range.
@@ -359,7 +359,7 @@ For details, see Section~\ref{sec:variables}.}
 
 \subsection{Primary Model Group}
 
-The primary models used were linear regression models with the three SAMHSA
+The primary models used were linear regression models with the three NSDUH
 variables as response variables, and
 (the population-weighted average of)
 proportion of individuals below the poverty line as a primary predictor.
@@ -375,7 +375,7 @@ $p$-value adjustment was performed \cite{holm}.
 For tests, interest was in the relationship between
 (the population-weighted average of)
 proportion of individuals below the poverty line
-and each of the three SAMHSA variables.
+and each of the three NSDUH variables.
 The other controlling variables were not
 observed for significance,
 and thus not considered in the testing adjustment.
@@ -392,7 +392,7 @@ These three models were fit to ascertain whether
 the relationship between the
 (the population-weighted average of)
 proportion of individuals below the poverty line
-and the SAMHSA variables was altered in the
+and the NSDUH variables was altered in the
 with the inclusion of a measure of center for income.
 
 \subsection{State Indicator Model Group}
@@ -400,7 +400,7 @@ with the inclusion of a measure of center for income.
 The third group of three linear regression models included all variables
 from the primary model,
 and and indicator for US state for each the
-substate regions defined in the SAMHSA data.
+substate regions defined in the NSDUH data.
 State membership was a variable of interest for two
 reasons:
 First, the visualizations of the predictor and response variables
@@ -420,7 +420,7 @@ the predictor and response for each model.
 Adding an indicator for state helped accomplish both goals.
 Furthermore, adding an indicator for state was much less
 time-intensive than attempting to form a precise spatial model
-that captured all the specially-defined SAMHSA substate regions.
+that captured all the specially-defined NSDUH substate regions.
 
 
 \section{Results}
@@ -911,7 +911,7 @@ All data aggregation and visualization was done with the
                     2, ..., n, within that state.
               \item[Reason for inclusion] This, in combination with state ID,
                     gives a unique identifier for the substate regions used in the
-                    SAMHSA data.
+                    NSDUH data.
               \item[Data Source] \cite{samhsa_substate_region_defs}
               \item[Modifications] N/A
           \end{description}
