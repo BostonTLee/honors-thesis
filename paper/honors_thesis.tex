@@ -22,6 +22,18 @@ urlcolor=cyan]{hyperref}
 
 \bibliography{references.bib}
 
+\newcommand\customtable[2]{
+    \begin{table}[!htb]
+    \begin{center}
+    \sbox0{#1}% measure width
+    \begin{minipage}{\wd0}
+          \usebox0
+          #2
+        \end{minipage}
+    \end{center}
+    \end{table}
+}
+
 \title{The Relationship Between Financial Stress and Mental Health in the United States}
 \author{Boston Lee}
 
@@ -280,8 +292,7 @@ Although the median proportion of African Americans in a region was 0.06,
 the maximum was 0.63, and the mean was 0.111.
 
 
-\begin{table}[!htb]
-\begin{center}
+\customtable{
 \begin{tabular}{l r r r r r}
     \toprule
     & Mean & SD & Min & Median & Max\\
@@ -298,14 +309,15 @@ the maximum was 0.63, and the mean was 0.111.
     prop\_below\_poverty\_level & 0.143 & 0.043 & 0.054 & 0.141 & 0.305\\
     \bottomrule
 \end{tabular}
-\end{center}
+}
+{
 \caption{\label{tab:summary}Measures of distribution of
 all numeric variables included in the final dataset used for modeling.
 This includes median income, although median income was not included
 in the primary model, and only included in a sensitivity model.
 Variable names are given as they were coded in the model.
 For details, see Section~\ref{sec:variables}.}
-\end{table}
+}
 
 % \begin{figure}[!htb]
     % \centering
@@ -584,6 +596,7 @@ with the proportion of people reporting suicidal thoughts
 as the response had a CI that did not contain zero.
 
 \begin{table}[!htb]
+\begin{center}
 \begin{tabular}{l r r l}
     \toprule
     Response variable & Coefficient & $p$-value & 95\% CI\\
@@ -593,8 +606,6 @@ as the response had a CI that did not contain zero.
     Alcohol Use Disorder & 0.021 & 0.045 & (0.001, 0.042)\\
     \bottomrule
 \end{tabular}
-
-\begin{center}
 \caption{\label{tab:state-ind-only-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
     in the state-indicator-adjusted model group with no controlling demographic variables.
@@ -744,6 +755,12 @@ in the two responses whose CIs did not contain zero
 However, this could have also been because there is
 spatial variation in an important demographic covariate of
 these two responses, causing the appearance of spatial variation.
+Overall, given the differing results
+between the two state-indicator-adjusted models,
+it is difficult to say whether there is any true spatial
+variation in the responses,
+especially given that the primary model group residuals
+did not show spatial variation.
 
 The considerations above are complicated by the fact that
 state membership is a rather crude proxy for the spatial relationships
@@ -833,6 +850,8 @@ failure of the primary models to detect a relationship
 between the proportion of the population below the poverty line
 and either of the two strictly mental health effects,
 reported MDEs and suicidal thoughts.
+
+\newpage
 
 \section{Appendix}
 
@@ -1094,9 +1113,27 @@ All data aggregation and visualization was done with the
 }
 \end{table}
 
+%
+%\begin{table}[!htb]
+%\begin{center}
+%\begin{tabular}{l l l}
+%    \toprule
+%    Response Variable & Minimum fitted value & Maximum fitted value\\
+%    \midrule
+%    prop\_MDE & 0.052 & 0.085\\
+%    prop\_suicidal\_thoughts & 0.034 & 0.056\\
+%    prop\_alcohol\_use\_disorder & 0.037 & 0.082\\
+%    \bottomrule
+%\end{tabular}
+%\end{center}
+%\caption{\label{tab:fitted} Minimum and maximum fitted values
+%    for the primary model group. For variable descriptions,
+%    see Section~\ref{sec:variables}.
+%}
+%\end{table}
+%
 
-\begin{table}[!htb]
-\begin{center}
+\customtable{
 \begin{tabular}{l l l}
     \toprule
     Response Variable & Minimum fitted value & Maximum fitted value\\
@@ -1106,12 +1143,14 @@ All data aggregation and visualization was done with the
     prop\_alcohol\_use\_disorder & 0.037 & 0.082\\
     \bottomrule
 \end{tabular}
-\end{center}
+}
+{
 \caption{\label{tab:fitted} Minimum and maximum fitted values
     for the primary model group. For variable descriptions,
     see Section~\ref{sec:variables}.
 }
-\end{table}
+}
+
 
 \pagebreak
 
