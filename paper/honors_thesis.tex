@@ -82,6 +82,9 @@ estimates~\cite{nsduh_description}.
 
 NSDUH provides definitions for substate regions in terms of
 counties and census tracts for each collection term.
+Each substate region is a collection of multiple
+counties or census tracts contained within a single
+given state~\cite{samhsa_substate_region_defs}.
 The 2016-2018 substate region definitions were
 pragmatically identical to the 2014-2016 substate region definitions,
 and the 2014-2016 provided substate region definitions in a
@@ -192,13 +195,15 @@ Appendix, Section \ref{sec:variables}.
 \subsection{Data Joining}\label{sec:joining}
 
 The dataset was formed with substate regions corresponding to
-``substate/aggregate region-level estimates included in the [SAMHSA] maps"
+``substate/aggregate region-level estimates included in the [SAMHSA] maps''
 \cite{samhsa_data}. All substate regions appearing in datasets with the response
 variables of interest were used as individual data points in the final dataset.
 However, the final dataset also included ACS county-level estimates. As such,
 the SAMHSA estimates were duplicated for every county belonging to the region,
 and then aggregated back to substate-region estimates (see Section
 \ref{sec:aggregation}).
+For census-tract-level data, the ACS estimates
+were applied for the county to which the census tract belongs.
 
 \subsection{Data Aggregation}\label{sec:aggregation}
 
@@ -584,6 +589,7 @@ with the proportion of people reporting suicidal thoughts
 as the response had a CI that did not contain zero.
 
 \begin{table}[!htb]
+\begin{center}
 \begin{tabular}{l r r l}
     \toprule
     Response variable & Coefficient & $p$-value & 95\% CI\\
@@ -593,8 +599,6 @@ as the response had a CI that did not contain zero.
     Alcohol Use Disorder & 0.021 & 0.045 & (0.001, 0.042)\\
     \bottomrule
 \end{tabular}
-
-\begin{center}
 \caption{\label{tab:state-ind-only-model-results} The coefficients and $p$-values
     for the main predictor for each of the three models
     in the state-indicator-adjusted model group with no controlling demographic variables.
