@@ -57,6 +57,35 @@ One plausible reason for mental health issues arising
 on an individual or group level
 is financial stress.
 
+The variable choices for this paper were informed both
+by the research question and
+by the availability of data for a
+meaningfully large, represenative sample of the U.S. population.
+The main predictor variable, the
+proportion of individuals below the poverty level, was chosen
+because we are attempting to discern the relationship between financial
+stress and mental health.
+The main response variables were chosen to measure mental health
+symptoms that could have a relationship to environmental factors.
+General mental illness, for instance, can be related to genetic factors
+even more strongly than our predictor(s) of interest. The
+mental-health-related variables chosen were: the proportion of individuals 12
+or older who reported experiencing a major depressive episode in the
+past year, the proportion of individuals 12 or older who reported
+experiencing suicidal thoughts in the past year, and the proportion of
+individuals 12 or older who reported an alcohol use disorder in the past
+year. Each of these variables could intuitively have a relationship with
+environmental variables, notably income, rather than genetic factors.
+
+A secondary question
+to be explored is whether
+median income of a region does give us more information about mental
+health outcomes, even given the proportion of individuals below the
+poverty level. It is still feasible that a measure of center does encode
+relevant information about financial stress, or is still related to
+mental health outcomes.
+
+
 \section{Methods}
 
 \subsection{Data Sources}
@@ -118,37 +147,16 @@ ACS provided demographic data used as controlling variables.
 
 \subsection{Variables}\label{sec:finalvars}
 
-The main response variables were chosen to measure mental health
-symptoms that could have a relationship to environmental factors.
-General mental illness, for instance, can be related to genetic factors
-even more strongly than our predictor(s) of interest. The
-mental-health-related variables chosen were: the proportion of individuals 12
-or older who reported experiencing a major depressive episode in the
-past year, the proportion of individuals 12 or older who reported
-experiencing suicidal thoughts in the past year, and the proportion of
-individuals 12 or older who reported an alcohol use disorder in the past
-year. Each of these variables could intuitively have a relationship with
-environmental variables, notably income, rather than genetic factors.
-
-The main predictor variable, the (population weighted average of) the
-proportion of individuals (FIXME) below the poverty level, was chosen
-because we are attempting to discern the relationship between financial
-stress and mental health. The proportion of individuals below the
+The predictor variable in each of the
+models was the proportion of individuals below the poverty level in a region.
+The proportion of individuals below the
 poverty level encodes information about the lower tail of the
 distribution of incomes, not simply the center of the distribution.
 If a given region has more people living below the poverty line, we
 would expect that to give us more information about financial stress
 than simply a measure of centrality.
 
-In addition, all variables are relative to time period.
-See Section~\ref{sec:variables} for details.
-
-A secondary question is whether the (population-weighted average of)
-median income of a region does give us more information about mental
-health outcomes, even given the proportion of individuals below the
-poverty level. It is still feasible that a measure of center does encode
-relevant information about financial stress, or is still related to
-mental health outcomes. Median income was included rather than mean
+Median income was included in the secondary analyses rather than mean
 income because mean income is sensitive to larger outliers, meaning in a
 region where a proportion of the population is very wealthy, mean income
 does not carry as much information about the income of a middle-income person
@@ -156,24 +164,20 @@ living in the region.
 
 The model also included several demographic variables to control for
 variability.
-
-The proportion of population of Caucasian and African
-American descent were chosen to control for potential socio-economic
+The proportion of population of black and white ethnicity
+were chosen to control for potential socio-economic
 effects on mental health outcomes. Other ethnicities were omitted to
-ensure that no multicollinearity (FIXME) occured, given that knowing
+ensure that no multicollinearity occured, given that knowing
 multiple demographic variables gives information about what values other
 proportions may be.
-
 Median age was included as a controlling variable
 both because median age could be related to mental health effects (in
 that a region with a younger average population may experience more
 reported or actual mental health problems in general) or income effects.
-
 Education was accounted for by including the proportion of the
 population in a region with a high school diploma or above. This
 variable was included primarily to control for effects on income, given
 that greater educational achievement is correlated with greater income.
-
 Finally, the proportion of the population 15 years or older that is
 married was included, to control for socioeconomic effects arising from
 a greater marriage rate. For instance, reported household income is
@@ -202,14 +206,13 @@ individuals (FIXME).
 % fips
 %
 
-Note that in all of the below descriptions, the variables are described in their
+Note that in all of the above descriptions, the variables are described in their
 non-aggregated state. A full description of the census-level variables would
 include a caveat that the ACS variables are actually weighted averages of
 county-level estimates. For more information on variable aggregation, see
 Section~\ref{sec:aggregation}. Treat references to, for instance, the
 median income, as references to the population-weighted average of
 median income across a given substate region.
-
 
 For a full description of variables, including data sources, see
 Appendix, Section \ref{sec:variables}.
