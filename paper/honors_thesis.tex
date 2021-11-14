@@ -309,7 +309,7 @@ observed for significance,
 and thus not considered in the testing adjustment.
 
 
-\subsection{Median Income Model Group}
+\subsection{Secondary Analyses}
 
 The second group of three linear regression models included all variables
 from the primary model,
@@ -322,8 +322,6 @@ the relationship between the
 proportion of individuals below the poverty line
 and the NSDUH variables was altered in the
 with the inclusion of a measure of center for income.
-
-\subsection{State Indicator Model Group}
 
 The third group of three linear regression models included all variables
 from the primary model,
@@ -350,6 +348,18 @@ Furthermore, adding an indicator for state was much less
 time-intensive than attempting to form a precise spatial model
 that captured all the specially-defined NSDUH substate regions.
 
+Finally, a fourth group of sensitivity models was fit
+containing only the proportion of individuals living
+under the poverty line and state indicators as predictors
+in each of the models.
+We fit this model group to supplement the state indicator
+model group with demographic adjustments.
+This model group, including no demographic adjustments,
+aimed to ascertain whether
+$\hat{\beta}_{pov}$ would change or remain significant
+in any of the models
+if only spatial variation was accounted for,
+but not any auxiliary controlling variables.
 
 \section{Results}
 
@@ -468,7 +478,6 @@ Of the three responses, the proportion of people experiencing an
 alcohol use disorder is the least specific.
 
 
-
 \subsection{Primary Model Group}
 
 As can be seen from Table~\ref{tab:primary-model-results},
@@ -543,7 +552,7 @@ attained by each model is found in the Appendix,
 Table~\ref{tab:fitted}.
 
 
-\subsection{Median Income Model Group}
+\subsection{Secondary Analyses}
 
 \begin{table}[!htb]
 \begin{center}
@@ -575,7 +584,7 @@ while the overall difference in the coefficient was 0.027.
 
 The other notable difference between this model group and the
 primary model group was the reduction in the
-size of $\hat{\beta}_{pov}$ in the model with 
+size of $\hat{\beta}_{pov}$ in the model with
 proportion of reported alcohol use disorder as the response.
 After the addition of median income as an adjusting variable,
 the value of $\hat{\beta}_{pov}$ fell from -0.86 to -0.68,
@@ -588,9 +597,6 @@ shifted to the other side of zero than the corresponding model
 in the primary model group.
 However, the right bound was very close to zero,
 with a value of -0.001.
-
-
-\subsection{State Indicator Model Group}
 
 As seen in Table~\label{tab:state-ind-model-results},
 all three of the confidence intervals for
@@ -620,9 +626,6 @@ primary model counterparts.
 }
 \end{center}
 \end{table}
-
-\subsection{Only State Indicator Model Group}
-
 
 As seen in Table~\label{tab:state-ind-only-model-results},
 the confidence intervals for $\hat{\beta}_{pov}$
