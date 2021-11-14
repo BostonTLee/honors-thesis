@@ -219,12 +219,24 @@ Appendix, Section \ref{sec:variables}.
 
 \subsection{Data Joining}\label{sec:joining}
 
+The datasets from disparate data sources were joined
+in a dataset before being finalized for analysis
+via aggregating the data to the substate region level,
+producing a final dataset
+The process for this data aggregation, coming after
+the data joining, is described in Section~\label{sec:aggregation}.
 The dataset was formed with substate regions corresponding to
-``substate/aggregate region-level estimates included in the [NSDUH] maps''
-\cite{samhsa_data}. All substate regions appearing in datasets with the response
-variables of interest were used as individual data points in the final dataset.
-However, the final dataset also included ACS county-level estimates. As such,
-the NSDUH estimates were duplicated for every county belonging to the region,
+the NSUH substate region estimates,
+not including any estimates that did not appear in
+the substate region definition maps
+\cite{samhsa_data}~\cite{samhsa_substate_region_defs}.
+All substate regions appearing in datasets with the response
+variables of interest were used as individual data points in the
+final (aggregated) dataset.
+The pre-aggregated dataset also included variables
+corresponding to ACS county-level estimates.
+As such, the NSDUH estimates were duplicated
+for every county belonging to the region,
 and then aggregated back to substate-region estimates (see Section
 \ref{sec:aggregation}).
 For census-tract-level data, the ACS estimates
