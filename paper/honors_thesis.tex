@@ -63,34 +63,36 @@ is financial stress.
 
 We obtained data from nationally representative sources
 in the United States:
-the American Community Survey (ACS),
+the American Community Survey (ACS), and
 the National Survey on Drug Use and Health (NSDUH).
 
 The United States Census Bureau
-conducts a yearly American Community Survey
+conducts the ACS yearly
 to determine how to allocate federal
 funding~\cite{acs_description}.
-ACS estimates are obtained by
-sending surveys to households
-``randomly selected through a process of scientific sampling''
-aimed at representing other similar households~\cite{acs_sampling}.
+ACS samples a representative subset of
+approximately 3.5 million households per year
+in the U.S.~\cite{acs_sampling}.
 
 
 All ACS estimates were obtained from
 the ACS 5-Year Estimates from the year 2018.
 
-SAMHSA is an agency within
+The Substance Abuse and Mental Health Services Administration
+(SAMHSA)
+is an agency within
 the U.S Department of Health and Human services which
-``aims to reduce the impact of substance abuse and mental
-illness on America's communities''~\cite{samhsa_about_us}.
+aims to combat substance abuse and mental health
+issues in America~\cite{samhsa_about_us}.
 SAMHSA conducts
 the National Survey on Drug Use and Health (NSDUH),
 which provides
-``prevalence estimates for 15 measures of substance use and mental illness''
+estimates of the prevalence of drug use and mental illness
+in the U.S.
 \cite{samhsa_data}.
 
 The NSDUH estimates used in this paper are the
-2016-2018 NSDUH Substate Region Estimates,
+2016-2018 NSDUH Substate Region Estimates.
 NSDUH data is collected via a multistage area probability sample,
 in which regions are divided
 into progressively smaller geographic units,
@@ -98,19 +100,21 @@ and interviews conducted with individuals at the smallest unit.
 These interviews are aggregated to produce the NSDUH
 estimates~\cite{nsduh_description}.
 
-NSDUH provides definitions for substate regions in terms of
+NSDUH creates definitions for substate regions in terms of
 counties and census tracts for each collection term.
 Each substate region is a collection of multiple
 counties or census tracts contained within a single
 given state~\cite{samhsa_substate_region_defs}.
-The 2016-2018 substate region definitions were
-pragmatically identical to the 2014-2016 substate region definitions,
-and the 2014-2016 provided substate region definitions in a
-usable data format, so the 2014-2016 substate region definitions
+The 2014-2016 substate region definitions
+(identical to those in 2018)
 were used~\cite{samhsa_substate_region_defs}.
 
-The main three response variables originated from the
-NSDUH data, while ACS provided demographic data used as controlling variables.
+The main three response
+variables---proportion of reported major depressive episodes,
+proportion of reported suicidal thoughts,
+and proportion of reported alcohol use disorder---originated
+from the NSDUH data.
+ACS provided demographic data used as controlling variables.
 
 \subsection{Variables}\label{sec:finalvars}
 
@@ -289,12 +293,9 @@ were included in the final model.
 
 The primary models used were linear regression models with the three NSDUH
 variables as response variables, and
-(the population-weighted average of)
-proportion of individuals below the poverty line as a primary predictor.
+the proportion of individuals below the poverty line as a primary predictor.
 The other demographic variables were included as control variables,
-and
-(the population-weighted average of)
-median household income was not included.
+and median household income was not included.
 
 These three models were treated as the primary test
 of a significant relationship,
@@ -404,6 +405,8 @@ Summary of
 all numeric variables included in the final dataset used for modeling.
 For details, see Section~\ref{sec:variables}.}
 \end{table}
+
+A
 
 % \begin{figure}[!htb]
     % \centering
@@ -701,7 +704,8 @@ Intuitively, reported MDEs and suicidal thoughts
 are signals of strong negative mental health events,
 and both seem more strongly indicative of negative mental health events
 than alcohol use disorder.
-This is bourne out by the fact that reported MDEs and suicidal thoughts
+This is borne out by the fact that
+reported rates of MDEs and suicidal thoughts
 are correlated relatively strongly.
 While alcohol use disorder may result from the type of negative
 mental stress that this paper aims to study,
@@ -732,7 +736,7 @@ Table \ref{tab:primary-model-results}
 summary of the model in question).
 The fact that the direction of this coefficient is opposite of
 what we would expect given the subject matter
-indicates there are likely mediating variables in this relationship.
+indicates there are likely counfounding variables in this relationship.
 For instance, the price of alcohol may mean those living below
 the poverty line are less inclined to buy alcohol,
 and thus less likely to experience an alcohol use disorder.
