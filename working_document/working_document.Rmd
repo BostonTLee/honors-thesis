@@ -2,7 +2,9 @@
 title: "Honors Thesis Working Document"
 author: "Boston Lee"
 date: "9/19/2021"
-output: pdf_document
+output: 
+  pdf_document:
+    extra_dependencies: ["booktabs"]
 ---
 
 ```{r setup, include=FALSE}
@@ -14,7 +16,6 @@ library(knitr)
 library(tidyverse)
 ```
 
-# EDA
 
 ## Numerical summaries
 
@@ -23,160 +24,6 @@ mental_health_df <- read_csv("../data/preprocessed/mental_health_2018.csv")
 mental_health_df$substate_region_id <- as.character(mental_health_df$substate_region_id)
 ```
 
-```{r summarize-func}
-
-#' Given a dataframe, return a column-level summary of the mean and sd
-#' of the numeric columns
-#'
-#' @param df A dataframe with numeric columns
-#' @return A dataframe with three columns: name_col (column name), sd, and mean
-summarize_data <- function(df) {
-  funcs <- list(mean = ~ mean(.x),
-    sd = ~ sd(.x),
-    min = ~ min(.x),
-    median = ~ median(.x),
-    max = ~ max(.x)
-  )
-  mean_df <- summarize_func(df, "mean")
-  sd_df <- summarize_func(df, "sd")
-  min_df <- summarize_func(df, "min")
-  median_df <- summarize_func(df, "median")
-  max_df <- summarize_func(df, "max")
-  # full_summary <- inner_join(mean_df, sd_df, by = "col_name")
-  full_summary <- list(
-  mean_df,
-  sd_df,
-  min_df,
-  median_df,
-  max_df) %>% reduce(inner_join, by = "col_name")
-
-  # full_summary <- inner_join(mean_df, sd_df, by = "col_name")
-  return(full_summary)
-}
-
-#' Given a dataframe, return a column-level summary of the mean and sd
-#' of the numeric columns
-#'
-#' @param df A dataframe with numeric columns
-#' @return A dataframe with two columns: The original column name and the
-#'   func summary of the original (numeric) column values
-summarize_func <- function(df, func_name) {
-  func <- get(func_name)
-  namestring <- paste(func_name, "{.col}", sep = "")
-  func_df <- df %>%
-    summarize(across(where(is.numeric), func, .names = namestring)) %>%
-    pivot_longer(
-      cols = starts_with(func_name),
-      names_to = "col_name",
-      names_prefix = func_name,
-      values_to = func_name,
-      values_drop_na = FALSE
-    )
-
-  return(func_df)
-}
-```
-
-## Visualization
-
-```{r hist-func}
-
-#' Given a dataframe and a variable name, return a ggplot histogram of the
-#' named variable
-#'
-#' @param df A dataframe
-#' @param variable A variable name (string) which is a column of \code{df}
-#' @return A ggplot2 object
-histogram_variable <- function(df, variable) {
-  plot <- ggplot(data = df) +
-    theme_bw() +
-    geom_histogram(aes_string(variable), fill = "seagreen", color = "black") +
-    ggtitle(sprintf("Histogram of %s", variable)) +
-    xlab(variable)
-  return(plot)
-}
-```
-
-```{r generate-boxplots}
-column_names <- colnames(mental_health_df)
-inds <- sapply(mental_health_df, is.numeric)
-for (i in seq_len(length(colnames(mental_health_df)))) {
-  varname <- column_names[i]
-  if (inds[i]) {
-    plot <- histogram_variable(mental_health_df, varname)
-    ggsave(paste("./plots/", varname, "_boxplot.png", sep = ""), plot)
-    print(plot)
-  }
-}
-```
-
-```{r map-func-county}
-map_var <- function(mental_health_df, var_name) {
-  # Grab county FIPS, pad with zeros to match data, and pull out columns
-  maps::county.fips %>%
-    as_tibble() %>%
-    mutate(fips = str_pad(fips, 5, "left", "0")) %>%
-    extract(polyname, c("region", "subregion"), "^([^,]+),([^,]+)$") ->
-  fips_df
-  head(fips_df)
-  # Join county map objects with FIPS, and then use that linkage
-  # to join the mental health data
-  map_data("county") %>%
-    left_join(fips_df) %>%
-    left_join(mental_health_df) ->
-  fips_county_df
-  head(fips_county_df)
-  # Plot overall
-  fips_county_df %>%
-    ggplot(aes(long, lat, group = group)) +
-    geom_polygon(aes_string(fill = var_name), color = "gray70", size = 0.05) +
-    coord_map() +
-    # ggtitle(paste("Map of ", var_name, " across the United States")) +
-    scale_fill_distiller(palette = "Spectral") +
-    theme_void()
-}
-```
-
-```{r map-samhsa}
-# samhsa_vars <- c(
-#   "prop_suicidal_thoughts",
-#   "prop_MDE",
-#   "prop_alcohol_use_disorder"
-# )
-# for (samhsa_var in samhsa_vars) {
-#   map_plot <- map_var(mental_health_df, samhsa_var)
-#   print(map_plot)
-#   ggsave(paste("./maps/", samhsa_var, "_map.png", sep = ""), map_plot)
-# }
-
-samhsa_vars <- c(
-  "prop_suicidal_thoughts",
-  "prop_MDE",
-  "prop_alcohol_use_disorder"
-)
-plot_and_save_vars <- function(df, vars, filename_suffix) {
-  for (var in vars) {
-    map_plot <- map_var(df, var)
-    print(map_plot)
-    ggsave(paste("./maps/", var, "_", filename_suffix, ".png", sep = ""), map_plot)
-  }
-}
-
-plot_and_save_vars(mental_health_df, samhsa_vars, "")
-```
-
-```{r map-acs}
-acs_vars <- c(
-  "prop_below_poverty_level",
-  "median_household_income"
-)
-plot_and_save_vars(mental_health_df, acs_vars, "")
-# for (acs_var in acs_vars) {
-#   map_plot <- map_var(mental_health_df, acs_var)
-#   print(map_plot)
-#   ggsave(paste("./maps/", acs_var, "_map.png", sep = ""), map_plot)
-# }
-```
 
 
 # Modeling
@@ -249,15 +96,6 @@ ID and the numeric variables:
 
 ```{r average-data-income}
 model_with_income_df <- base_model_df
-print(model_with_income_df)
-write.csv(model_with_income_df, "../data/preprocessed/reduced.csv")
-```
-
-```{r summary-table-with-income}
-summarize_data(model_with_income_df) %>%
-  column_to_rownames("col_name") %>%
-  round(3) %>%
-  kable("latex")
 ```
 
 1. Predictor: Proportion below poverty level; indicator for state; control variables
@@ -283,27 +121,11 @@ model_with_state_no_adjust_df <- model_with_state_df %>%
 print(model_with_state_no_adjust_df)
 ```
 
-```{r }
-# MDE_with_state_glm <- MDE_model(model_with_state_df)
-# summary(MDE_with_state_glm)
-# plot(MDE_with_state_glm, which = 1)
-#
-# suicidal_thoughts_with_state_glm <-
-#   suicidal_thoughts_model(model_with_state_df)
-# summary(suicidal_thoughts_with_state_glm)
-# plot(suicidal_thoughts_with_state_glm, which = 1)
-#
-# alcohol_use_disorder_with_state_glm <-
-#   alcohol_use_disorder_model(model_with_state_df)
-# summary(alcohol_use_disorder_with_state_glm)
-# plot(alcohol_use_disorder_with_state_glm, which = 1)
-```
 
 ## Maps accurate to modeling data
 
-The EDA maps simply described the raw data. However, the data actually
-used was aggregated. To show an accurate depiction of the data for the
-models, we need to revisit mapping:
+
+## Maps
 
 ```{r map-level-model-df}
 modified_full_df <- mental_health_df %>%
@@ -317,16 +139,123 @@ map_model_df <- modified_full_df %>%
 #   full_join(modified_full_df)
 ```
 
-```{r plot-save-new-maps}
-plot_and_save_vars(map_model_df, samhsa_vars, "aggregated")
-plot_and_save_vars(map_model_df, acs_vars, "aggregated")
+```{r map-func-county}
+map_var <- function(mental_health_df, var_name, legend_title="", percent_flag = FALSE) {
+  # Grab county FIPS, pad with zeros to match data, and pull out columns
+  maps::county.fips %>%
+    as_tibble() %>%
+    mutate(fips = str_pad(fips, 5, "left", "0")) %>%
+    extract(polyname, c("region", "subregion"), "^([^,]+),([^,]+)$") ->
+  fips_df
+  head(fips_df)
+  # Join county map objects with FIPS, and then use that linkage
+  # to join the mental health data
+  map_data("county") %>%
+    left_join(fips_df) %>%
+    left_join(mental_health_df) ->
+  fips_county_df
+  head(fips_county_df)
+  # Plot overall
+  fips_county_df %>%
+    ggplot(aes(long, lat, group = group)) +
+    geom_polygon(aes_string(fill = var_name), color = "gray70", size = 0.05) +
+    coord_map() +
+    # ggtitle(paste("Map of ", var_name, " across the United States")) +
+    theme(plot.margin = grid::unit(c(0, 0, 0, 0), "mm")) +
+    theme_void() +
+    theme(legend.position = "bottom", legend.key.width = unit(2.5, "cm")) -> temp_map
+  guide <- guide_colorbar(direction = "horizontal", title.position = "top")
+  if (percent_flag) {
+    return(temp_map +
+      scale_fill_distiller(
+        palette = "Spectral", labels = scales::percent,
+        guide = guide, name = legend_title
+      ))
+  } else {
+    return(temp_map +
+      scale_fill_distiller(palette = "Spectral", guide = guide, name = legend_title))
+  }
+}
+
+map_and_save_var <- function(filename, mental_health_df, var_name, legend_title="", percent_flag = FALSE) {
+  map_plot <- map_var(mental_health_df, var_name, legend_title, percent_flag)
+  ggsave(filename, map_plot, width=7, height=5)
+}
 ```
 
-```{r scatters}
-# ggplot(data = model_df) +
-#   geom_point(aes(x = median_household_income, y = prop_suicidal_thoughts)) +
-#   geom_smooth(aes(x = median_household_income, y = prop_suicidal_thoughts))
+```{r plot-save-results-figs}
+# Main results figures
+map_and_save_var("./maps/prop_MDE_aggregated.png", map_model_df, "prop_MDE", "Percent of reported MDEs", percent_flag = TRUE)
+map_and_save_var("./maps/prop_suicidal_thoughts_aggregated.png", map_model_df, "prop_suicidal_thoughts", "Percent of reported suicidal thoughts", percent_flag = TRUE)
+map_and_save_var("./maps/prop_alcohol_use_disorder_aggregated.png",map_model_df, "prop_alcohol_use_disorder", "Percent of reported alcohol use disorder", percent_flag = TRUE)
+map_and_save_var("./maps/median_household_income_aggregated.png", map_model_df, "median_household_income", "Median Household Income", percent_flag = FALSE)
+map_and_save_var("./maps/prop_below_poverty_level_aggregated.png", map_model_df, "prop_below_poverty_level", "Percent of the population below poverty level", percent_flag = TRUE)
+```
 
+
+## Numerical Summaries
+
+```{r summarize-func}
+
+#' Given a dataframe, return a column-level summary of the mean and sd
+#' of the numeric columns
+#'
+#' @param df A dataframe with numeric columns
+#' @return A dataframe with three columns: name_col (column name), sd, and mean
+summarize_data <- function(df) {
+  funcs <- list(
+    mean = ~ mean(.x),
+    sd = ~ sd(.x),
+    min = ~ min(.x),
+    median = ~ median(.x),
+    max = ~ max(.x)
+  )
+  mean_df <- summarize_func(df, "mean")
+  sd_df <- summarize_func(df, "sd")
+  min_df <- summarize_func(df, "min")
+  median_df <- summarize_func(df, "median")
+  max_df <- summarize_func(df, "max")
+  # full_summary <- inner_join(mean_df, sd_df, by = "col_name")
+  full_summary <- list(
+    mean_df,
+    sd_df,
+    min_df,
+    median_df,
+    max_df
+  ) %>% reduce(inner_join, by = "col_name")
+
+  # full_summary <- inner_join(mean_df, sd_df, by = "col_name")
+  return(full_summary)
+}
+
+#' Given a dataframe, return a column-level summary of the mean and sd
+#' of the numeric columns
+#'
+#' @param df A dataframe with numeric columns
+#' @return A dataframe with two columns: The original column name and the
+#'   func summary of the original (numeric) column values
+summarize_func <- function(df, func_name) {
+  func <- get(func_name)
+  namestring <- paste(func_name, "{.col}", sep = "")
+  func_df <- df %>%
+    summarize(across(where(is.numeric), func, .names = namestring)) %>%
+    pivot_longer(
+      cols = starts_with(func_name),
+      names_to = "col_name",
+      names_prefix = func_name,
+      values_to = func_name,
+      values_drop_na = FALSE
+    )
+
+  return(func_df)
+}
+```
+
+```{r summary-table-with-income}
+summarize_data(model_with_income_df) %>%
+  column_to_rownames("col_name") %>%
+  round(3) %>%
+  kable("latex")
 ```
 
 ## Models
@@ -360,7 +289,7 @@ format_confint <- function(model, variable) {
     paste("(", round(confidence[1], 3), ", ", round(confidence[2], 3), ")", sep = "")
   )
 }
-poverty_table <- function(model_list, adjust=FALSE, round=TRUE) {
+poverty_table <- function(model_list, adjust = FALSE, round = TRUE) {
   print(model_list[["prop_MDE"]]$coefficients[["prop_below_poverty_level"]])
   ret_table <- data.frame(
     c(
@@ -401,12 +330,12 @@ poverty_table <- function(model_list, adjust=FALSE, round=TRUE) {
 ```
 
 ```{r table-primary}
-poverty_table(make_lms(primary_model_df), adjust=TRUE) %>% kable("latex")
-poverty_table(make_lms(primary_model_df), adjust=TRUE, round=FALSE) %>% kable("latex")
+poverty_table(make_lms(primary_model_df), adjust = TRUE) %>% kable("latex")
+poverty_table(make_lms(primary_model_df), adjust = TRUE, round = FALSE) %>% kable("latex")
 poverty_table(make_lms(model_with_income_df)) %>% kable("latex")
-poverty_table(make_lms(model_with_state_df)) %>% kable("latex", escape=F)
-poverty_table(make_lms(model_with_state_no_adjust_df)) %>% kable("latex", escape=F)
-poverty_table(make_lms(model_with_state_no_adjust_df), round=F) %>% kable("latex", escape=F)
+poverty_table(make_lms(model_with_state_df)) %>% kable("latex", escape = F)
+poverty_table(make_lms(model_with_state_no_adjust_df)) %>% kable("latex", escape = F)
+poverty_table(make_lms(model_with_state_no_adjust_df), round = F) %>% kable("latex", escape = F)
 ```
 
 ```{r tables-appendix}
@@ -415,22 +344,22 @@ confint_col <- function(model) {
   # confidence <- confint(adjusted_model, variable, level = 0.05)
   confidence <- confint(model, level = 0.95)
   return(
-    paste("(", round(confidence[,1], 3), ", ", round(confidence[,2], 3), ")", sep = "")
+    paste("(", round(confidence[, 1], 3), ", ", round(confidence[, 2], 3), ")", sep = "")
   )
 }
 table_point_confint <- function(model) {
-  coefs <- round(coef(model),5)
+  coefs <- round(coef(model), 5)
   ret_table <- cbind(
     names(coefs),
     unname(coefs),
     confint_col(model)
   )
-  colnames(ret_table) <- c("Variable","Estimate", "95\\% CI")
+  colnames(ret_table) <- c("Variable", "Estimate", "95\\% CI")
   return(ret_table)
 }
-table_point_confint(make_lms(primary_model_df)$prop_MDE) %>% kable("latex", escape=F, booktabs=T)
-table_point_confint(make_lms(primary_model_df)$prop_suicidal_thoughts) %>% kable("latex", escape=F, booktabs=T)
-table_point_confint(make_lms(primary_model_df)$prop_alcohol_use_disorder) %>% kable("latex", escape=F, booktabs=T)
+# table_point_confint(make_lms(primary_model_df)$prop_MDE) %>% kable("latex", escape=F, booktabs=T)
+# table_point_confint(make_lms(primary_model_df)$prop_suicidal_thoughts) %>% kable("latex", escape=F, booktabs=T)
+# table_point_confint(make_lms(primary_model_df)$prop_alcohol_use_disorder) %>% kable("latex", escape=F, booktabs=T)
 ```
 
 ### Primary models
@@ -448,33 +377,67 @@ fitted_primary_model_df$prop_alcohol_use_disorder_fitted <- fitted(primary_model
 map_fitted_model_df <- modified_full_df %>%
   full_join(fitted_primary_model_df)
 
-MDE_fitted_map <- map_var(map_fitted_model_df, "prop_MDE_fitted")
-ggsave(paste("./maps/", "prop_MDE_fitted.png", sep = ""), MDE_fitted_map)
-suicidal_thoughts_fitted_map <- map_var(map_fitted_model_df, "prop_suicidal_thoughts_fitted")
-ggsave(paste("./maps/", "prop_suicidal_thoughts_fitted.png", sep = ""), suicidal_thoughts_fitted_map)
-alcohol_use_disorder_fitted_map <- map_var(map_fitted_model_df, "prop_alcohol_use_disorder_fitted")
-ggsave(paste("./maps/", "prop_alcohol_use_disorder_fitted.png", sep = ""), alcohol_use_disorder_fitted_map)
+# Maps of fitted values for primary model
+map_and_save_var("./maps/prop_MDE_fitted.png", map_fitted_model_df, "prop_MDE_fitted", "Fitted values for primary MDE model", percent_flag = FALSE)
+map_and_save_var("./maps/prop_suicidal_thoughts_fitted.png", map_fitted_model_df,  "prop_suicidal_thoughts_fitted", "Fitted values for primary suicidal thoughts model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_alcohol_use_disorder_fitted.png", map_fitted_model_df, "prop_alcohol_use_disorder_fitted", "Fitted values for primary alcohol use disorder model", percent_flag=FALSE)
 
 max_min_fitted_table <- cbind(
-c(
-"prop_MDE",
-"prop_suicidal_thoughts",
-"prop_alcohol_use_disorder"
-),
-c(
-round(min(fitted_primary_model_df$prop_MDE_fitted),3),
-round(min(fitted_primary_model_df$prop_suicidal_thoughts_fitted),3),
-round(min(fitted_primary_model_df$prop_alcohol_use_disorder_fitted),3)
-),
-c(
-round(max(fitted_primary_model_df$prop_MDE_fitted),3),
-round(max(fitted_primary_model_df$prop_suicidal_thoughts_fitted),3),
-round(max(fitted_primary_model_df$prop_alcohol_use_disorder_fitted),3)
-)
+  c(
+    "prop_MDE",
+    "prop_suicidal_thoughts",
+    "prop_alcohol_use_disorder"
+  ),
+  c(
+    round(min(fitted_primary_model_df$prop_MDE_fitted), 3),
+    round(min(fitted_primary_model_df$prop_suicidal_thoughts_fitted), 3),
+    round(min(fitted_primary_model_df$prop_alcohol_use_disorder_fitted), 3)
+  ),
+  c(
+    round(max(fitted_primary_model_df$prop_MDE_fitted), 3),
+    round(max(fitted_primary_model_df$prop_suicidal_thoughts_fitted), 3),
+    round(max(fitted_primary_model_df$prop_alcohol_use_disorder_fitted), 3)
+  )
 )
 colnames(max_min_fitted_table) <- c("Variable", "Minimum fitted value", "Maximum fitted value")
 
 max_min_fitted_table %>% kable("latex")
+```
+
+```{r}
+resid_primary_model_df <- primary_model_df
+resid_primary_model_df$prop_MDE_resid <- resid(primary_model_list[["prop_MDE"]])
+resid_primary_model_df$prop_suicidal_thoughts_resid <- resid(primary_model_list[["prop_suicidal_thoughts"]])
+resid_primary_model_df$prop_alcohol_use_disorder_resid <- resid(primary_model_list[["prop_alcohol_use_disorder"]])
+
+map_resid_model_df <- modified_full_df %>%
+  full_join(resid_primary_model_df)
+
+MDE_resid_map <- map_var(map_resid_model_df, "prop_MDE_resid")
+ggsave(paste("./maps/", "prop_MDE_resid.png", sep = ""), MDE_resid_map)
+suicidal_thoughts_resid_map <- map_var(map_resid_model_df, "prop_suicidal_thoughts_resid")
+ggsave(paste("./maps/", "prop_suicidal_thoughts_resid.png", sep = ""), suicidal_thoughts_resid_map)
+alcohol_use_disorder_resid_map <- map_var(map_resid_model_df, "prop_alcohol_use_disorder_resid")
+ggsave(paste("./maps/", "prop_alcohol_use_disorder_resid.png", sep = ""), alcohol_use_disorder_resid_map)
+```
+
+```{r }
+model_with_state_list <- make_lms(model_with_state_df)
+
+resid_model_with_state_df <- model_with_state_df
+resid_model_with_state_df$prop_MDE_resid <- resid(model_with_state_list[["prop_MDE"]])
+resid_model_with_state_df$prop_suicidal_thoughts_resid <- resid(model_with_state_list[["prop_suicidal_thoughts"]])
+resid_model_with_state_df$prop_alcohol_use_disorder_resid <- resid(model_with_state_list[["prop_alcohol_use_disorder"]])
+
+map_resid_adj_model_df <- modified_full_df %>%
+  full_join(resid_model_with_state_df)
+
+MDE_resid_adj_map <- map_var(map_resid_adj_model_df, "prop_MDE_resid")
+ggsave(paste("./maps/", "prop_MDE_adj_resid.png", sep = ""), MDE_resid_adj_map)
+suicidal_thoughts_resid_adj_map <- map_var(map_resid_adj_model_df, "prop_suicidal_thoughts_resid")
+ggsave(paste("./maps/", "prop_suicidal_thoughts_adj_resid.png", sep = ""), suicidal_thoughts_resid_adj_map)
+alcohol_use_disorder_resid_adj_map <- map_var(map_resid_adj_model_df, "prop_alcohol_use_disorder_resid")
+ggsave(paste("./maps/", "prop_alcohol_use_disorder_adj_resid.png", sep = ""), alcohol_use_disorder_resid_adj_map)
 ```
 
 ### Secondary/Sensitivity Models
@@ -492,5 +455,3 @@ cor(base_model_df$prop_MDE, base_model_df$prop_suicidal_thoughts)
 cor(base_model_df$prop_MDE, base_model_df$prop_alcohol_use_disorder)
 cor(base_model_df$prop_suicidal_thoughts, base_model_df$prop_alcohol_use_disorder)
 ```
-
-# Discussion
