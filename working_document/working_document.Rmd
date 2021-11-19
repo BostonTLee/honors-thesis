@@ -404,7 +404,7 @@ colnames(max_min_fitted_table) <- c("Variable", "Minimum fitted value", "Maximum
 max_min_fitted_table %>% kable("latex")
 ```
 
-```{r}
+```{r resid-primary-plots}
 resid_primary_model_df <- primary_model_df
 resid_primary_model_df$prop_MDE_resid <- resid(primary_model_list[["prop_MDE"]])
 resid_primary_model_df$prop_suicidal_thoughts_resid <- resid(primary_model_list[["prop_suicidal_thoughts"]])
@@ -413,15 +413,14 @@ resid_primary_model_df$prop_alcohol_use_disorder_resid <- resid(primary_model_li
 map_resid_model_df <- modified_full_df %>%
   full_join(resid_primary_model_df)
 
-MDE_resid_map <- map_var(map_resid_model_df, "prop_MDE_resid")
-ggsave(paste("./maps/", "prop_MDE_resid.png", sep = ""), MDE_resid_map)
-suicidal_thoughts_resid_map <- map_var(map_resid_model_df, "prop_suicidal_thoughts_resid")
-ggsave(paste("./maps/", "prop_suicidal_thoughts_resid.png", sep = ""), suicidal_thoughts_resid_map)
-alcohol_use_disorder_resid_map <- map_var(map_resid_model_df, "prop_alcohol_use_disorder_resid")
-ggsave(paste("./maps/", "prop_alcohol_use_disorder_resid.png", sep = ""), alcohol_use_disorder_resid_map)
+map_and_save_var("./maps/prop_MDE_resid.png", map_resid_model_df, "prop_MDE_resid", "Residuals for primary MDE model", percent_flag=FALSE)
+
+map_and_save_var("./maps/prop_alcohol_use_disorder_resid.png", map_resid_model_df, "prop_alcohol_use_disorder_resid", "Residuals for primary alcohol use disorder model", percent_flag=FALSE)
+
+map_and_save_var("./maps/prop_suicidal_thoughts_resid.png", map_resid_model_df, "prop_suicidal_thoughts_resid", "Residuals for primary suicidal thoughts model", percent_flag=FALSE)
 ```
 
-```{r }
+```{r resid-state-plots}
 model_with_state_list <- make_lms(model_with_state_df)
 
 resid_model_with_state_df <- model_with_state_df
@@ -432,12 +431,11 @@ resid_model_with_state_df$prop_alcohol_use_disorder_resid <- resid(model_with_st
 map_resid_adj_model_df <- modified_full_df %>%
   full_join(resid_model_with_state_df)
 
-MDE_resid_adj_map <- map_var(map_resid_adj_model_df, "prop_MDE_resid")
-ggsave(paste("./maps/", "prop_MDE_adj_resid.png", sep = ""), MDE_resid_adj_map)
-suicidal_thoughts_resid_adj_map <- map_var(map_resid_adj_model_df, "prop_suicidal_thoughts_resid")
-ggsave(paste("./maps/", "prop_suicidal_thoughts_adj_resid.png", sep = ""), suicidal_thoughts_resid_adj_map)
-alcohol_use_disorder_resid_adj_map <- map_var(map_resid_adj_model_df, "prop_alcohol_use_disorder_resid")
-ggsave(paste("./maps/", "prop_alcohol_use_disorder_adj_resid.png", sep = ""), alcohol_use_disorder_resid_adj_map)
+map_and_save_var("./maps/prop_MDE_resid_adj.png", map_resid_adj_model_df, "prop_MDE_resid", "Residuals for state-adjusted alcohol use disorder model", percent_flag=FALSE)
+
+map_and_save_var("./maps/prop_alcohol_use_disorder_resid_adj.png", map_resid_adj_model_df, "prop_alcohol_use_disorder_resid", "Residuals for state-adjusted alcohol use disorder model", percent_flag=FALSE)
+
+map_and_save_var("./maps/prop_suicidal_thoughts_resid_adj.png", map_resid_adj_model_df, "prop_suicidal_thoughts_resid", "Residuals for state-adjusted suicidal thoughts model", percent_flag=FALSE)
 ```
 
 ### Secondary/Sensitivity Models
