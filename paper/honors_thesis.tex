@@ -630,6 +630,28 @@ A table of the minimum and maximum fitted values
 attained by each model is found in the Appendix,
 Table~\ref{tab:fitted}.
 
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_resid.png}
+    \caption{\label{fig:map-resid-suicidal-thoughts}A map of the residuals
+    for the model with
+    proportion of people experiencing
+    suicidal thoughts as the predictor,
+    from the primary model group.
+    }
+\end{figure}
+
+A second concern with using linear models was spatial clustering.
+A linear model assumes that observations are independent,
+while we could anticipate that observations of our response variables
+are spatially related.
+Maps of model residuals only showed clustering for
+the model with reported suicidal thoughts as a response.
+As can be seen in Figure~\ref{fig:map-resid-suicidal-thoughts},
+There seems to be spatial clustering
+in the northwestern U.S.,
+with the model systematically underfitting values
+in that area.
 
 \subsection{Secondary Analyses}
 
@@ -661,7 +683,8 @@ poverty in the model with suicidal thoughts as the response
 was an order of magnitude larger in the median-income-adjusted model,
 while the overall difference in the coefficient was 0.027.
 
-The other notable difference between this model group and the
+The other notable difference between
+the median-income-adjusted model group and the
 primary model group was the reduction in the
 size of $\hat{\beta}_{pov}$ in the model with
 proportion of reported alcohol use disorder as the response.
@@ -679,7 +702,7 @@ with a value of -0.001.
 
 As seen in Table~\label{tab:state-ind-model-results},
 all three of the confidence intervals for
-$\hat{\beta}_{pov}$ contained zero.
+$\hat{\beta}_{pov}$ in the state-adjusted model group contained zero.
 
 The coefficient $\hat{\beta}_{pov}$ was smaller
 in the state-adjusted model compared to the
@@ -687,6 +710,34 @@ corresponding model in the
 primary model group.
 The other two coefficients were close to their
 primary model counterparts.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_resid_adj.png}
+    \caption{\label{fig:map-resid-adj-suicidal-thoughts}A map of the residuals
+    for the model with
+    proportion of people experiencing
+    suicidal thoughts as the predictor,
+    from the state-adjusted model group
+    }
+\end{figure}
+
+Given that the primary model group contained
+a model whose residuals showed evidence of spatial clustering,
+the state-adjusted model group provides a matching
+model adjusted by state,
+which should serve as a demonstration of whether
+the state indicator variables help to remove
+effects of spatial clustering from the model.
+As seen in Figure~\ref{fig:map-resid-adj-suicidal-thoughts},
+there is no appreciable residual spatial clustering
+for the state-adjusted model with
+suicidal thoughts as the response.
+However, we should also note that the residuals
+are much smaller overall than the previous model,
+which could indicate some level of overfitting due
+to the large number of predictors
+introduced by adding an indicator for each state.
 
 \begin{table}[t]
 \begin{center}
@@ -706,6 +757,8 @@ primary model counterparts.
 \end{center}
 \end{table}
 
+Next, we can examine the results
+from the models only adjusted by state indicators
 As seen in Table~\label{tab:state-ind-only-model-results},
 the confidence intervals for $\hat{\beta}_{pov}$
 in the models with the proportion of people
