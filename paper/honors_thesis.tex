@@ -483,6 +483,7 @@ For details, see Section~\ref{sec:variables}.}
 \end{table}
 
 \begin{figure}[!htb]
+    \centering
     \includegraphics[width=0.75\textwidth]{prop_below_poverty_level_aggregated.png}
     \caption{\label{fig:map-poverty}A map of the population-weighted average of the proportion of
     people living below poverty in each substate region.
@@ -822,10 +823,17 @@ as to what mediating effects may exist,
 and how then we might interpret the significance of
 the coefficient for this particular model.
 
-A second concern was that of spatial correlation.
-There was no evidence of spatial correlation in the residuals
-of the primary models;
-however, the resesarch plan laid out the state-indicator
+A second concern was that of spatial correlation
+causing issues in model fit.
+Examining residual plots for the primary model
+and the sensitivity model,
+no violations of linearity
+or constant variance were found.
+
+%There was no evidence of spatial correlation in the residuals
+%of the primary models;
+
+The resesarch plan laid out the state-indicator
 models to investigate whether a proxy for geographic
 location would affect the significance of
 $\hat{\beta}_{pov}$
@@ -1182,7 +1190,6 @@ All data aggregation and visualization was done with the
 
 \subsection{Tables}
 
-
 \begin{table}[t]
 \begin{center}
 \begin{tabular}{lll}
@@ -1190,12 +1197,12 @@ All data aggregation and visualization was done with the
     Variable & Estimate & 95\% CI\\
     \midrule
     (Intercept) & 0.09913 & (0.083, 0.115)\\
-    prop\_white & 0.03951 & (0.031, 0.048)\\
-    prop\_black & 0.0044 & (-0.006, 0.015)\\
-    median\_age & -0.00086 & (-0.001, -0.001)\\
-    prop\_25\_years\_over\_high\_school & 0.01934 & (0.001, 0.037)\\
-    prop\_married\_15\_years\_and\_older & -0.053 & (-0.078, -0.028)\\
-    prop\_below\_poverty\_level & -0.02371 & (-0.05, 0.003)\\
+    Proportion of white ethnicity & 0.03951 & (0.031, 0.048)\\
+    Proportion of black ethnicity & 0.0044 & (-0.006, 0.015)\\
+    Median age & -0.00086 & (-0.001, -0.001)\\
+    Proportion of people with a high school diploma & 0.01934 & (0.001, 0.037)\\
+    Proportion of married people & -0.053 & (-0.078, -0.028)\\
+    Proportion of people below poverty level & -0.02371 & (-0.05, 0.003)\\
     \bottomrule
 \end{tabular}
 \end{center}
@@ -1213,12 +1220,12 @@ All data aggregation and visualization was done with the
     Variable & Estimate & 95\% CI\\
     \midrule
     (Intercept) & 0.06173 & (0.051, 0.073)\\
-    prop\_white & 0.01665 & (0.011, 0.023)\\
-    prop\_black & -0.00443 & (-0.012, 0.003)\\
-    median\_age & -0.00075 & (-0.001, -0.001)\\
-    prop\_25\_years\_over\_high\_school & 0.01301 & (0, 0.026)\\
-    prop\_married\_15\_years\_and\_older & -0.00745 & (-0.025, 0.01)\\
-    prop\_below\_poverty\_level & -0.00324 & (-0.022, 0.015)\\
+    Proportion of white ethnicity & 0.01665 & (0.011, 0.023)\\
+    Proportion of black ethnicity & -0.00443 & (-0.012, 0.003)\\
+    Median age & -0.00075 & (-0.001, -0.001)\\
+    Proportion of people with a high school diploma & 0.01301 & (0, 0.026)\\
+    Proportion of married people & -0.00745 & (-0.025, 0.01)\\
+    Proportion of people below poverty level & -0.00324 & (-0.022, 0.015)\\
     \bottomrule
 \end{tabular}
 \end{center}
@@ -1236,12 +1243,12 @@ All data aggregation and visualization was done with the
         Variable & Estimate & 95\% CI\\
         \midrule
         (Intercept) & 0.16519 & (0.147, 0.184)\\
-        prop\_white & 0.02282 & (0.013, 0.033)\\
-        prop\_black & -0.02457 & (-0.036, -0.013)\\
-        median\_age & -0.00021 & (-0.001, 0)\\
-        prop\_25\_years\_over\_high\_school & -0.04412 & (-0.065, -0.024)\\
-        prop\_married\_15\_years\_and\_older & -0.18505 & (-0.213, -0.157)\\
-        prop\_below\_poverty\_level & -0.08641 & (-0.116, -0.056)\\
+        Proportion of white ethnicity & 0.02282 & (0.013, 0.033)\\
+        Proportion of black ethnicity & -0.02457 & (-0.036, -0.013)\\
+        Median age & -0.00021 & (-0.001, 0)\\
+        Proportion of people with a high school diploma & -0.04412 & (-0.065, -0.024)\\
+        Proportion of married people & -0.18505 & (-0.213, -0.157)\\
+        Proportion of people below poverty level & -0.08641 & (-0.116, -0.056)\\
         \bottomrule
     \end{tabular}
 \end{center}
@@ -1259,9 +1266,9 @@ All data aggregation and visualization was done with the
     \toprule
     Response Variable & Minimum fitted value & Maximum fitted value\\
     \midrule
-    prop\_MDE & 0.052 & 0.085\\
-    prop\_suicidal\_thoughts & 0.034 & 0.056\\
-    prop\_alcohol\_use\_disorder & 0.037 & 0.082\\
+    Proportion of reported MDEs & 0.052 & 0.085\\
+    Proportion of reported suicidal thoughts & 0.034 & 0.056\\
+    Proportion of reported alcohol use disorder & 0.037 & 0.082\\
     \bottomrule
 \end{tabular}
 \end{center}
