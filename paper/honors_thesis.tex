@@ -57,6 +57,15 @@ One plausible reason for mental health issues arising
 on an individual or group level
 is financial stress.
 
+Financial stress is difficult to measure directly,
+and thus difficult to obtain measurements for.
+In this paper, we use poverty as a proxy for financial stress.
+Although poverty is by no means a perfect proxy
+for our quantity of interest,
+using poverty has appreciable benefits:
+data regarding poverty is widely available,
+and there is a precedent of studying
+the association between poverty and mental health.
 It is widely accepted that there is a
 negative cycle between poverty and mental health,
 especially in developing countries,
@@ -88,13 +97,13 @@ We selected mental health outcomes that
 could be construed as changing due to
 individual circumstance,
 rather than genetic---or even long-term environmental---factors.
+
 As such, three response variables were selected
 with the aim of isolating mental health effects that were
 most influenced by immediate cirumstances:
 major depressive episodes (MDEs),
 suicidal thoughts,
 and alcohol use disorder.
-
 The Diagnostic and Statistical Manual of Mental Disorders (DSM-5)
 classifies a major depressive episode as
 a period in which a person experiences
@@ -117,39 +126,55 @@ failed repeated attempts at controlling consumption,
 and impairment of everyday activities
 as the result of alcohol consumption.
 For a full list of criteria, see the DSM-5~\cite{apa_2013}.
+These three response variables can be directly
+related to stresses in daily living.
+Given that it is not known whether
+each of these variables serves as a good proxy
+for situationally-influenced mental health,
+we explored all three variables
+as candidates for a relationship with poverty levels.
 
-% The variable choices for this paper were informed both
-% by the research question and
-% by the availability of data for a
-% meaningfully large, represenative sample of the U.S. population.
-% The main predictor variable, the
-% proportion of individuals below the poverty level, was chosen
-% because we are attempting to discern the relationship between financial
-% stress and mental health.
-% The main response variables were chosen to measure mental health
-% symptoms that could have a relationship to environmental factors.
-% General mental illness, for instance, can be related to genetic factors
-% even more strongly than our predictor(s) of interest. The
-% mental-health-related variables chosen were: the proportion of individuals 12
-% or older who reported experiencing a major depressive episode in the
-% past year, the proportion of individuals 12 or older who reported
-% experiencing suicidal thoughts in the past year, and the proportion of
-% individuals 12 or older who reported an alcohol use disorder in the past
-% year. Each of these variables could intuitively have a relationship with
-% environmental variables, notably income, rather than genetic factors.
-
-A secondary question
-to be explored is whether
-median income of a region does give us more information about mental
-health outcomes, even given the proportion of individuals below the
-poverty level. It is still feasible that a measure of center does encode
-relevant information about financial stress, or is still related to
-mental health outcomes.
-
+The research aim of this paper is complicated by
+the difficulty of measuring the quantities of interest.
+Both ``financial stress'' and ``mental health''
+are somewhat ambiguous terms,
+and the proxies for both phenomena that
+this paper uses are not authoritative.
+However, there is an established literature on the
+association between poverty and mental illness,
+which has served and continues to serve
+as a guide for policy recommendations on a global scale.
+In analyzing data for a first-world country
+on a national scale, we hope to contribute insight
+into how poverty and mental health are related
+when ``mental health'' is more narrowly defined than
+in other literature.
+This insight could in turn show how financial policy
+and mental health policy intersect.
 
 \section{Methods}
 
 \subsection{Data Sources}
+
+The variable choices for this paper were informed both
+by the research question and
+by the availability of data for a
+meaningfully large, represenative sample of the U.S. population.
+The main predictor variable, the
+proportion of individuals below the poverty level, was chosen
+because we are attempting to discern the relationship between financial
+stress and mental health.
+The main response variables were chosen to measure mental health
+symptoms that could have a relationship to environmental factors.
+General mental illness, for instance, can be related to genetic factors
+even more strongly than our predictor(s) of interest. The
+mental-health-related variables chosen were: the proportion of individuals 12
+or older who reported experiencing a major depressive episode in the
+past year, the proportion of individuals 12 or older who reported
+experiencing suicidal thoughts in the past year, and the proportion of
+individuals 12 or older who reported an alcohol use disorder in the past
+year. Each of these variables could intuitively have a relationship with
+environmental variables, notably income, rather than genetic factors.
 
 We obtained data from nationally representative sources
 in the United States:
@@ -243,29 +268,7 @@ Finally, the proportion of the population 15 years or older that is
 married was included, to control for socioeconomic effects arising from
 a greater marriage rate. For instance, reported household income is
 likely higher in areas where more households consist of married
-individuals (FIXME).
-
-%
-% county_fips
-% substate_region_id
-% substate_region_name
-% state_fips
-% state
-% prop_MDE
-% state_fips_x
-% prop_suicidal_thoughts
-% state_fips_y
-% prop_alcohol_use_disorder
-% total_pop
-% prop_white
-% prop_black
-% median_age
-% median_household_income
-% prop_25_years_over_high_school
-% prop_married_15_years_and_older
-% prop_below_poverty_level
-% fips
-%
+individuals.
 
 Note that in all of the above descriptions, the variables are described in their
 non-aggregated state. A full description of the census-level variables would
@@ -393,6 +396,13 @@ from the primary model,
 and
 (the population-weighted average of)
 median household income.
+Given that poverty was chosen as a measure of financial stress,
+it is a related question whether
+median income of a region does give us more information about mental
+health outcomes, even given the proportion of individuals below the
+poverty level. It is still feasible that a measure of center does encode
+relevant information about financial stress, or is still related to
+mental health outcomes.
 These three models were fit to ascertain whether
 the relationship between the
 (the population-weighted average of)
@@ -897,9 +907,6 @@ Examining residual plots for the primary model
 and the sensitivity model,
 no violations of linearity
 or constant variance were found.
-
-%There was no evidence of spatial correlation in the residuals
-%of the primary models;
 
 The resesarch plan laid out the state-indicator
 models to investigate whether a proxy for geographic
