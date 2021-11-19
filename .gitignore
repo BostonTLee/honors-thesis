@@ -13,3 +13,5 @@ paper/*.blg
 paper/*.log
 paper/*.out
 paper/*.xml
+paper/*.toc
+paper/*-blx.bib
