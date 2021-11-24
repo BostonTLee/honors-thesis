@@ -501,4 +501,12 @@ for (pair in list(
     df_with_model_group
   )
 }
+overall_df_bar_graph$response <- as.factor(overall_df_bar_graph$response)
+overall_df_bar_graph$model_group <- as.factor(overall_df_bar_graph$model_group)
+
+ggplot(data = overall_df_bar_graph) +
+  geom_bar(aes(x = response, y = estimate, fill = response, group = response), stat = "identity", position = "dodge") +
+  facet_wrap(. ~ model_group) +
+  geom_errorbar(aes(x = response, ymin = lower, ymax = upper), width = 0.2) +
+  theme_bw()
 ```
