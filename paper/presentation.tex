@@ -1,0 +1,172 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{booktabs}
+\usepackage[
+backend=bibtex,
+]{biblatex}
+\addbibresource{references.bib}
+
+\mode<presentation>
+{
+  \usetheme{default}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{seahorse} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+}
+
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\title{The Relationship Between Financial Stress and Mental Health in the U.S.}
+\author{Boston Lee}
+\institute{Colorado State University, Honors Program}
+\date{11/30/2021}
+
+\begin{document}
+
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Background}
+
+\begin{frame}{}
+\end{frame}
+
+\begin{frame}{Data Sources}
+Data came from two nationally-representative sources:
+\begin{itemize}
+    \item The National Survey on Drug Use and Health 
+                    \cite{acs_demographics_data}
+                    \cite{acs_poverty_data}
+                    \cite{acs_income_data}
+                    \cite{acs_marital_data}
+                    \cite{acs_education_data}\\
+    \item The American Community Survey \cite{samhsa_data}\\
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Variables}
+\begin{table}[t]
+\tiny
+\begin{center}
+\begin{tabular}{l r r r r r}
+    \toprule
+    & Mean & SD & Min & Median & Max\\
+    \midrule
+    Proportion of reported MDEs & 0.073 & 0.009 & 0.050 & 0.073 & 0.102\\
+    Proportion of reported suicidal thoughts & 0.045 & 0.006 & 0.030 & 0.044 & 0.071\\
+    Proportion of reported alcohol use disorder & 0.057 & 0.012 & 0.035 & 0.055 & 0.119\\
+    Proportion of white ethnicity & 0.766 & 0.162 & 0.180 & 0.815 & 0.971\\
+    Proportion of black ethnicity & 0.111 & 0.128 & 0.001 & 0.060 & 0.630\\
+    Median age & 38.7 & 3.6 & 24.6 & 38.8 & 51.4\\
+    Median household income & 59911 & 14078 & 32334 & 56552 & 117265\\
+    Proportion of people with a high school diploma & 0.289 & 0.063 & 0.123 & 0.292 & 0.466\\
+    Proportion of married people & 0.485 & 0.057 & 0.269 & 0.492 & 0.613\\
+    Proportion of people below poverty level & 0.143 & 0.043 & 0.054 & 0.141 & 0.305\\
+    \bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}{Distribution of Poverty}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_below_poverty_level_aggregated.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Distribution of MDE}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_MDE_aggregated.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Distribution of Reported Suicidal Thoughts}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_aggregated.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Distribution of Reported Alcohol Use Disorder}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_alcohol_use_disorder_aggregated.png}
+\end{figure}
+\end{frame}
+
+\section{Methods}
+
+\begin{frame}{Model Groups}
+\begin{table}[t]
+\small
+\begin{center}
+\begin{tabular}{lll}
+    \toprule
+    Predictor & Response & Controlling Variables\\ 
+    \toprule
+    Poverty & NSDUH Variables & Demographic Variables\\
+    \midrule
+    Poverty & NSDUH Variables & Median Income, Demographic Variables\\
+    Poverty & NSDUH Variables & State Indicator, Demographic Variables\\
+    Poverty & NSDUH Variables & State Indicator\\
+    \bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+\end{frame}
+
+\section{Results}
+
+\begin{frame}{Residuals Without State Adjustment}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_resid.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Residuals \textit{With} State Adjustment}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_resid_adj.png}
+\end{figure}
+\end{frame}
+
+\section{Discussion}
+
+\begin{frame}{Takeaways}
+    \begin{itemize}
+        \item Significance is suspect;
+            variable choices may not match intuition\\
+        \item Spatial clustering is present in some of the sensitivity models,
+            but adjusting for state indicators would take away power\\
+        \item Regardless, we should take care to avoid the ecological
+            fallacy~\cite{piantadosi_1988}.\\
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Questions?}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+    \frametitle{References}
+    \tiny
+    \printbibliography
+\end{frame}
+
+\end{document}
