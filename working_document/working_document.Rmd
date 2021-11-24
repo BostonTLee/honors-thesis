@@ -140,7 +140,7 @@ map_model_df <- modified_full_df %>%
 ```
 
 ```{r map-func-county}
-map_var <- function(mental_health_df, var_name, legend_title="", percent_flag = FALSE) {
+map_var <- function(mental_health_df, var_name, legend_title = "", percent_flag = FALSE) {
   # Grab county FIPS, pad with zeros to match data, and pull out columns
   maps::county.fips %>%
     as_tibble() %>%
@@ -177,9 +177,9 @@ map_var <- function(mental_health_df, var_name, legend_title="", percent_flag = 
   }
 }
 
-map_and_save_var <- function(filename, mental_health_df, var_name, legend_title="", percent_flag = FALSE) {
+map_and_save_var <- function(filename, mental_health_df, var_name, legend_title = "", percent_flag = FALSE) {
   map_plot <- map_var(mental_health_df, var_name, legend_title, percent_flag)
-  ggsave(filename, map_plot, width=7, height=5)
+  ggsave(filename, map_plot, width = 7, height = 5)
 }
 ```
 
@@ -187,7 +187,7 @@ map_and_save_var <- function(filename, mental_health_df, var_name, legend_title=
 # Main results figures
 map_and_save_var("./maps/prop_MDE_aggregated.png", map_model_df, "prop_MDE", "Percent of reported MDEs", percent_flag = TRUE)
 map_and_save_var("./maps/prop_suicidal_thoughts_aggregated.png", map_model_df, "prop_suicidal_thoughts", "Percent of reported suicidal thoughts", percent_flag = TRUE)
-map_and_save_var("./maps/prop_alcohol_use_disorder_aggregated.png",map_model_df, "prop_alcohol_use_disorder", "Percent of reported alcohol use disorder", percent_flag = TRUE)
+map_and_save_var("./maps/prop_alcohol_use_disorder_aggregated.png", map_model_df, "prop_alcohol_use_disorder", "Percent of reported alcohol use disorder", percent_flag = TRUE)
 map_and_save_var("./maps/median_household_income_aggregated.png", map_model_df, "median_household_income", "Median Household Income", percent_flag = FALSE)
 map_and_save_var("./maps/prop_below_poverty_level_aggregated.png", map_model_df, "prop_below_poverty_level", "Percent of the population below poverty level", percent_flag = TRUE)
 ```
@@ -379,8 +379,8 @@ map_fitted_model_df <- modified_full_df %>%
 
 # Maps of fitted values for primary model
 map_and_save_var("./maps/prop_MDE_fitted.png", map_fitted_model_df, "prop_MDE_fitted", "Fitted values for primary MDE model", percent_flag = FALSE)
-map_and_save_var("./maps/prop_suicidal_thoughts_fitted.png", map_fitted_model_df,  "prop_suicidal_thoughts_fitted", "Fitted values for primary suicidal thoughts model", percent_flag=FALSE)
-map_and_save_var("./maps/prop_alcohol_use_disorder_fitted.png", map_fitted_model_df, "prop_alcohol_use_disorder_fitted", "Fitted values for primary alcohol use disorder model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_suicidal_thoughts_fitted.png", map_fitted_model_df, "prop_suicidal_thoughts_fitted", "Fitted values for primary suicidal thoughts model", percent_flag = FALSE)
+map_and_save_var("./maps/prop_alcohol_use_disorder_fitted.png", map_fitted_model_df, "prop_alcohol_use_disorder_fitted", "Fitted values for primary alcohol use disorder model", percent_flag = FALSE)
 
 max_min_fitted_table <- cbind(
   c(
@@ -413,11 +413,11 @@ resid_primary_model_df$prop_alcohol_use_disorder_resid <- resid(primary_model_li
 map_resid_model_df <- modified_full_df %>%
   full_join(resid_primary_model_df)
 
-map_and_save_var("./maps/prop_MDE_resid.png", map_resid_model_df, "prop_MDE_resid", "Residuals for primary MDE model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_MDE_resid.png", map_resid_model_df, "prop_MDE_resid", "Residuals for primary MDE model", percent_flag = FALSE)
 
-map_and_save_var("./maps/prop_alcohol_use_disorder_resid.png", map_resid_model_df, "prop_alcohol_use_disorder_resid", "Residuals for primary alcohol use disorder model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_alcohol_use_disorder_resid.png", map_resid_model_df, "prop_alcohol_use_disorder_resid", "Residuals for primary alcohol use disorder model", percent_flag = FALSE)
 
-map_and_save_var("./maps/prop_suicidal_thoughts_resid.png", map_resid_model_df, "prop_suicidal_thoughts_resid", "Residuals for primary suicidal thoughts model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_suicidal_thoughts_resid.png", map_resid_model_df, "prop_suicidal_thoughts_resid", "Residuals for primary suicidal thoughts model", percent_flag = FALSE)
 ```
 
 ```{r resid-state-plots}
@@ -431,11 +431,11 @@ resid_model_with_state_df$prop_alcohol_use_disorder_resid <- resid(model_with_st
 map_resid_adj_model_df <- modified_full_df %>%
   full_join(resid_model_with_state_df)
 
-map_and_save_var("./maps/prop_MDE_resid_adj.png", map_resid_adj_model_df, "prop_MDE_resid", "Residuals for state-adjusted alcohol use disorder model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_MDE_resid_adj.png", map_resid_adj_model_df, "prop_MDE_resid", "Residuals for state-adjusted alcohol use disorder model", percent_flag = FALSE)
 
-map_and_save_var("./maps/prop_alcohol_use_disorder_resid_adj.png", map_resid_adj_model_df, "prop_alcohol_use_disorder_resid", "Residuals for state-adjusted alcohol use disorder model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_alcohol_use_disorder_resid_adj.png", map_resid_adj_model_df, "prop_alcohol_use_disorder_resid", "Residuals for state-adjusted alcohol use disorder model", percent_flag = FALSE)
 
-map_and_save_var("./maps/prop_suicidal_thoughts_resid_adj.png", map_resid_adj_model_df, "prop_suicidal_thoughts_resid", "Residuals for state-adjusted suicidal thoughts model", percent_flag=FALSE)
+map_and_save_var("./maps/prop_suicidal_thoughts_resid_adj.png", map_resid_adj_model_df, "prop_suicidal_thoughts_resid", "Residuals for state-adjusted suicidal thoughts model", percent_flag = FALSE)
 ```
 
 ### Secondary/Sensitivity Models
@@ -452,4 +452,53 @@ model_with_state_no_adjust_list <- make_lms(model_with_state_no_adjust_df)
 cor(base_model_df$prop_MDE, base_model_df$prop_suicidal_thoughts)
 cor(base_model_df$prop_MDE, base_model_df$prop_alcohol_use_disorder)
 cor(base_model_df$prop_suicidal_thoughts, base_model_df$prop_alcohol_use_disorder)
+```
+
+# Presentation
+
+We want a figure with the model coefficients and CIs as bars,
+grouped by model group
+
+```{r graph-pres}
+make_df_from_model_group <- function(model_list) {
+  estimate <- c()
+  lower <- c()
+  upper <- c()
+  response <- c()
+  for (dep_var_pair in list(
+    list("prop_MDE", "Reported MDEs"),
+    list("prop_suicidal_thoughts", "Reported suicidal thoughts"),
+    list("prop_alcohol_use_disorder", "Reported alcohol abuse disorder")
+  )) {
+    dep_var <- dep_var_pair[[1]]
+    dep_var_name <- dep_var_pair[[2]]
+    model <- model_list[[dep_var]]
+    coef_val <- coef(model)[["prop_below_poverty_level"]]
+    confidence <- confint(model, parm = c("prop_below_poverty_level"), level = 0.95)
+    response <- append(response, dep_var_name)
+    estimate <- append(estimate, coef_val)
+    lower <- append(lower, confidence[1])
+    upper <- append(upper, confidence[2])
+  }
+  ret_df <- data.frame(response, estimate, lower, upper)
+  return(ret_df)
+}
+
+overall_df_bar_graph <- data.frame()
+for (pair in list(
+  list(model_with_income_list, "Income-adjusted"),
+  list(model_with_state_list, "State-adjusted (with additional)"),
+  list(model_with_state_no_adjust_list, "Only state-adjusted"),
+  list(primary_model_list, "Primary")
+)) {
+  model_list <- pair[[1]]
+  model_group <- pair[[2]]
+  print(model_list)
+  df_with_model_group <- make_df_from_model_group(model_list)
+  df_with_model_group$model_group <- model_group
+  overall_df_bar_graph <- rbind(
+    overall_df_bar_graph,
+    df_with_model_group
+  )
+}
 ```
