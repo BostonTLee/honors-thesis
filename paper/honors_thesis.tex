@@ -52,7 +52,7 @@ Program.
 Mental health issues are a growing societal and public health concern
 in the United States.
 There are a myriad of potential causes for the prevalence mental health
-of mental health issues in the United States.
+of mental health issues.
 One plausible reason for mental health issues arising
 on an individual or group level
 is financial stress.
@@ -74,7 +74,7 @@ The World Health Organization accepts
 the complex and bidirectional
 relationship between poverty and mental health,
 and has called for the issues to be addressed
-in tandem in multiple policy initiatives~\cite{who_2003} \cite{who_2010}.
+in tandem in multiple policy initiatives~\cite{who_2003, who_2010}.
 
 There is also evidence that the relationship
 between poverty and mental health persists
@@ -185,13 +185,12 @@ The United States Census Bureau
 conducts the ACS yearly
 to determine how to allocate federal
 funding~\cite{acs_description}.
+All ACS estimates were obtained from
+the ACS 5-Year Estimates from the year 2018.
 ACS samples a representative subset of
 approximately 3.5 million households per year
 in the U.S.~\cite{acs_sampling}.
 
-
-All ACS estimates were obtained from
-the ACS 5-Year Estimates from the year 2018.
 
 The Substance Abuse and Mental Health Services Administration
 (SAMHSA)
@@ -200,12 +199,11 @@ the U.S Department of Health and Human services which
 aims to combat substance abuse and mental health
 issues in America~\cite{samhsa_about_us}.
 SAMHSA conducts
-the National Survey on Drug Use and Health (NSDUH),
+the (NSDUH),
 which provides
 estimates of the prevalence of drug use and mental illness
 in the U.S.
 \cite{samhsa_data}.
-
 The NSDUH estimates used in this paper are the
 2016-2018 NSDUH Substate Region Estimates.
 NSDUH data is collected via a multistage area probability sample,
@@ -233,7 +231,7 @@ ACS provided demographic data used as controlling variables.
 
 \subsection{Variables}\label{sec:finalvars}
 
-The predictor variable in each of the
+The predictor variable of interest in each of the
 models was the proportion of individuals below the poverty level in a region.
 The proportion of individuals below the
 poverty level encodes information about the lower tail of the
@@ -358,23 +356,24 @@ effect on the variables from different sources.
 It leaves the substate-region-level NSDUH estimates unchanged,
 while providing substate-region-level ACS aggregated estimates
 that reflect the weight of relative population within a given substate region.
-
-After the county-level population estimates were used
-to create a weighted average for the numeric variables,
-they were dropped from the final dataset.
-That is, population was not used as a predictor or response variable.
 Only the variables mentioned in \ref{sec:finalvars}
 were included in the final model.
-
-
 
 \subsection{Primary Model Group}
 
 The primary models used were linear regression models with the three NSDUH
 variables as response variables, and
 the proportion of individuals below the poverty line as a primary predictor.
-The other demographic variables were included as control variables,
-and median household income was not included.
+%FIXME
+Proportion of white ethnicity,
+proportion of black ethnicity,
+median age,
+median household income,
+proportion of people with a high school diploma,
+and
+proportion of married people
+were included as control variables
+Median household income was not included.
 
 These three models were treated as the primary test
 of a significant relationship,
@@ -391,10 +390,10 @@ and thus not considered in the testing adjustment.
 
 \subsection{Secondary Analyses}
 
-The second group of three linear regression models included all variables
-from the primary model,
+The second group of three linear regression models
+was fit that included all variables
+from the primary model
 and
-(the population-weighted average of)
 median household income.
 Given that poverty was chosen as a measure of financial stress,
 it is a related question whether
@@ -407,12 +406,12 @@ These three models were fit to ascertain whether
 the relationship between the
 (the population-weighted average of)
 proportion of individuals below the poverty line
-and the NSDUH variables was altered in the
+and the three outcomes was altered in the
 with the inclusion of a measure of center for income.
 
 The third group of three linear regression models included all variables
 from the primary model,
-and and indicator for US state for each the
+and indicator for US state for each the
 substate regions defined in the NSDUH data.
 State membership was a variable of interest for two
 reasons:
@@ -425,35 +424,12 @@ that spatial variation was strongest within state boundaries
 \ref{fig:map-suicidal-thoughts},
 \ref{fig:map-alcohol-use}
 ).
-Second, although there did not seem to be string spatial
+Second, although there did not seem to be strong spatial
 clustering in the fitted values of the primary model group,
 it was still of interest whether adding a spatial component to
 the primary model would alter any relationship between
 the predictor and response for each model.
 Adding an indicator for state helped accomplish both goals.
-Furthermore, adding an indicator for state was much less
-time-intensive than attempting to form a precise spatial model
-that captured all the specially-defined NSDUH substate regions.
-
-As demonstrated by
-Figure~\ref{fig:map-resid-suicidal-thoughts}
-and Figure~\ref{fig:map-resid-adj-suicidal-thoughts},
-the state-adjusted model did seem to succeed in
-reducing residual spatial variation
-not captured by the models.
-We should note that only the model with suicidal
-thoughts as a response in the primary model group
-showed any major spatial clustering.
-Given that there was no spatial clustering in
-the model with reported alcohol use disorder as the response,
-spatial clustering should not have much
-bearing on the inferential conclusions drawn from that model.
-We should also note that the residuals
-are much smaller overall in the state-adjusted
-models than the corresponding primary models,
-which could indicate some level of overfitting due
-to the large number of predictors
-introduced by adding an indicator for each state.
 
 Finally, a fourth group of sensitivity models was fit
 containing only the proportion of individuals living
@@ -483,7 +459,8 @@ Median age had very low deviation compared to the mean value.
 
 The distributional characteristics of the proportion of African Americans
 in a region showed significant skew.
-Although the median proportion of African Americans in a region was 0.06,
+Although the median proportion of individuals of 
+black ethnicity in a region was 0.06,
 the maximum was 0.63, and the mean was 0.111.
 
 
@@ -546,8 +523,6 @@ For details, see Section~\ref{sec:variables}.}
 	reported having an alcohol use disorder during the last 12 months.}
 \end{figure}
 
-\subsection{Response Variable Correlations}~\label{sec:results-corr}
-
 The correlation between the proportion of people who reported experiencing
 a major depressive episode and
 who reported experiencing suicidal thoughts was
@@ -579,7 +554,7 @@ alcohol use disorder is the least specific.
 
 \subsection{Primary Model Group}
 
-As can be seen from Table~\ref{tab:primary-model-results},
+Table~\ref{tab:primary-model-results} shows that
 after adjustment,
 the coefficient for the proportion of people below the poverty level
 was only significantly different from zero
@@ -597,8 +572,9 @@ a \textit{negative} difference of 0.86\%
 in the percentage of the population
 reporting alcohol use disorder.
 
-We can see that the (unadjusted) confidence intervals for both
-the proportion of people reporting a MDE
+We can see that the confidence intervals 
+(unadjusted for multiple comparisons) 
+for both the proportion of people reporting a MDE
 and the proportion of people reporting suicidal thoughts
 are relatively narrow around zero.
 
@@ -704,13 +680,16 @@ in that area.
 \end{table}
 
 As seen in Table~\ref{tab:median-income-model-results},
-ompared to the primary model the model adjusted for median income
-was not drastically different with respect to coefficient values and
-confidence interval bounds.
+compared to the primary model the model adjusted for median income
+was not drastically different with respect to 
+coefficient values for and
+confidence interval bounds for
+the proportion of people under the poverty.
 
 The coefficient for the proportion of people under
 poverty in the model with suicidal thoughts as the response
-was an order of magnitude larger in the median-income-adjusted model,
+was an order of magnitude larger in the median-income-adjusted model
+compared to the primary model group,
 while the overall difference in the coefficient was 0.027.
 
 The other notable difference between
@@ -730,7 +709,7 @@ in the primary model group.
 However, the right bound was very close to zero,
 with a value of -0.001.
 
-As seen in Table~\label{tab:state-ind-model-results},
+As seen in Table~\ref{tab:state-ind-model-results},
 all three of the confidence intervals for
 $\hat{\beta}_{pov}$ in the state-adjusted model group contained zero.
 
@@ -759,10 +738,26 @@ model adjusted by state,
 which should serve as a demonstration of whether
 the state indicator variables help to remove
 effects of spatial clustering from the model.
-As seen in Figure~\ref{fig:map-resid-adj-suicidal-thoughts},
-there is no appreciable residual spatial clustering
-for the state-adjusted model with
-suicidal thoughts as the response.
+As demonstrated by
+Figure~\ref{fig:map-resid-suicidal-thoughts}
+and Figure~\ref{fig:map-resid-adj-suicidal-thoughts},
+the state-adjusted model did seem to succeed in
+reducing residual spatial variation
+not captured by the models.
+We should note that only the model with suicidal
+thoughts as a response in the primary model group
+showed any major spatial clustering.
+Given that there was no spatial clustering in
+the model with reported alcohol use disorder as the response,
+spatial clustering should not have much
+bearing on the inferential conclusions drawn from that model.
+We should also note that the residuals
+are much smaller overall in the state-adjusted
+models than the corresponding primary models,
+which could indicate some level of overfitting due
+to the large number of predictors
+introduced by adding an indicator for each state.
+
 
 \begin{table}[t]
 \begin{center}
@@ -836,7 +831,7 @@ as the response had a CI that did not contain zero.
 If it were discovered that financial hardship and mental
 health issues covary, it would perhaps inform
 either mental health policy, economic policy, or both.
-Although the standard statistical methods used in this paper
+Although the statistical methods used in this paper
 cannot be used to draw causal conclusions with observational data,
 perhaps insight into whether there is evidence that there
 is a linear relationship between poverty and negative mental health effects
@@ -979,12 +974,6 @@ While this paper may attempt to describe
 intuition for causes of certain behaviors on an individual
 level, we hope to avoid making inference at the individual level.
 
-Furthermore, any inferential conclusions drawn will concern correlative
-relationships.
-Data about prevalence of mental health issues and poverty is observational
-in nature, and thus modeling these phenomena does not license causal
-conclusions.
-
 Even barring problems with ecological bias,
 the results from all of the models presented in this paper
 are somewhat difficult to interpret,
@@ -1008,8 +997,8 @@ in the first place.
 Furthermore, although stress is likely influenced by
 extraneous genetic and environmental factors,
 stress on an individual level is potentially more
-senstitive to general lifestyle conditions than
-, for instance,
+senstitive to general lifestyle conditions than,
+for instance,
 major depressive episodes.
 
 A different approach along the same lines would be
