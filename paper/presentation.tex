@@ -4,6 +4,7 @@
 \usepackage{booktabs}
 \usepackage[
 backend=bibtex,
+sorting=none
 ]{biblatex}
 \addbibresource{references.bib}
 
@@ -42,23 +43,50 @@ backend=bibtex,
 
 \section{Background}
 
-\begin{frame}{}
+\begin{frame}{Problem statement}
+\begin{itemize}
+    \item Do people who experience more financial stress experience
+        more circumstantial mental health effects?
+    \item The literature bears out the fact that
+        \textit{poverty} and mental health
+        status are associated, especially for low-income countries\\
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Variable choices}
+\begin{itemize}
+    \item Predictor: What is a proxy for ``financial stress''?
+        \begin{itemize}
+            \item Poverty rates\\
+            \item Low average income compared to cost of living\\
+        \end{itemize}
+    \item Response What is a proxy circumstantial mental health effects?
+        \begin{itemize}
+            \item Major Depressive Episodes (MDEs)
+            \item Suicidal Thoughts
+            \item Alcohol Use Disorder
+        \end{itemize}
+
+        The above variables are defined in the DSM-5.
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Data Sources}
 Data came from two nationally-representative sources:
 \begin{itemize}
-    \item The National Survey on Drug Use and Health 
+    \item The National Survey on Drug Use and Health
                     \cite{acs_demographics_data}
                     \cite{acs_poverty_data}
                     \cite{acs_income_data}
                     \cite{acs_marital_data}
-                    \cite{acs_education_data}\\
-    \item The American Community Survey \cite{samhsa_data}\\
+                    \cite{acs_education_data},
+          which provided substate-region-level estimates.\\
+    \item The American Community Survey \cite{samhsa_data},
+        which provided county-level estimates\\
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Variables}
+\begin{frame}{Predictor and Response Variables}
 \begin{table}[t]
 \tiny
 \begin{center}
@@ -69,12 +97,6 @@ Data came from two nationally-representative sources:
     Proportion of reported MDEs & 0.073 & 0.009 & 0.050 & 0.073 & 0.102\\
     Proportion of reported suicidal thoughts & 0.045 & 0.006 & 0.030 & 0.044 & 0.071\\
     Proportion of reported alcohol use disorder & 0.057 & 0.012 & 0.035 & 0.055 & 0.119\\
-    Proportion of white ethnicity & 0.766 & 0.162 & 0.180 & 0.815 & 0.971\\
-    Proportion of black ethnicity & 0.111 & 0.128 & 0.001 & 0.060 & 0.630\\
-    Median age & 38.7 & 3.6 & 24.6 & 38.8 & 51.4\\
-    Median household income & 59911 & 14078 & 32334 & 56552 & 117265\\
-    Proportion of people with a high school diploma & 0.289 & 0.063 & 0.123 & 0.292 & 0.466\\
-    Proportion of married people & 0.485 & 0.057 & 0.269 & 0.492 & 0.613\\
     Proportion of people below poverty level & 0.143 & 0.043 & 0.054 & 0.141 & 0.305\\
     \bottomrule
 \end{tabular}
@@ -110,15 +132,40 @@ Data came from two nationally-representative sources:
 \end{figure}
 \end{frame}
 
+\begin{frame}{Full Variable List}
+    \begin{itemize}
+        \item Predictor:
+        \begin{itemize}
+             \item Proportion of people below poverty level
+        \end{itemize}
+        \item Response:
+        \begin{itemize}
+             \item Proportion of reported MDEs
+             \item Proportion of reported suicidal thoughts
+             \item Proportion of reported alcohol use disorder
+        \end{itemize}
+        \item Controls:
+        \begin{itemize}
+             \item Proportion of white ethnicity
+             \item Proportion of black ethnicity
+             \item Median age
+             \item Median household income
+             \item Proportion of people with a high school diploma
+             \item Proportion of married people
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
 \section{Methods}
 
 \begin{frame}{Model Groups}
+
 \begin{table}[t]
 \small
 \begin{center}
 \begin{tabular}{lll}
     \toprule
-    Predictor & Response & Controlling Variables\\ 
+    Predictor & Response & Controlling Variables\\
     \toprule
     Poverty & NSDUH Variables & Demographic Variables\\
     \midrule
@@ -129,14 +176,33 @@ Data came from two nationally-representative sources:
 \end{tabular}
 \end{center}
 \end{table}
+
+\begin{itemize}
+     \item Linear regression models
+     \item One observation per substate region (NSDUH)
+\end{itemize}
 \end{frame}
 
 \section{Results}
 
+\begin{frame}{Model Coefficients and CIs}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{result_coef_plot.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Multicollinearity}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\textwidth]{multicol_plot_large.png}
+\end{figure}
+\end{frame}
+
 \begin{frame}{Residuals Without State Adjustment}
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.75\textwidth]{prop_suicidal_thoughts_resid.png}
+    \includegraphics[width=.75\textwidth]{prop_suicidal_thoughts_resid.png}
 \end{figure}
 \end{frame}
 
@@ -149,13 +215,23 @@ Data came from two nationally-representative sources:
 
 \section{Discussion}
 
-\begin{frame}{Takeaways}
+\begin{frame}{What do the results suggest?}
     \begin{itemize}
+        \item We found no evidence of a statistically-significant linear
+            relationship between poverty and either MDEs or suicidal thoughts\\
+        \item We did find a significant relationship between poverty
+            and alcohol use disorder, but in the negative direction.
+            It is hard to interpret this result. \\
         \item Significance is suspect;
             variable choices may not match intuition\\
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Other Takeaways}
+    \begin{itemize}
         \item Spatial clustering is present in some of the sensitivity models,
             but adjusting for state indicators would take away power\\
-        \item Regardless, we should take care to avoid the ecological
+        \item We should take care to avoid the ecological
             fallacy~\cite{piantadosi_1988}.\\
     \end{itemize}
 \end{frame}
