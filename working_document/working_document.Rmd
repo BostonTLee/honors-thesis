@@ -2,7 +2,7 @@
 title: "Honors Thesis Working Document"
 author: "Boston Lee"
 date: "9/19/2021"
-output: 
+output:
   pdf_document:
     extra_dependencies: ["booktabs"]
 ---
@@ -486,10 +486,10 @@ make_df_from_model_group <- function(model_list) {
 
 overall_df_bar_graph <- data.frame()
 for (pair in list(
+  list(primary_model_list, "Primary"),
   list(model_with_income_list, "Income-adjusted"),
   list(model_with_state_list, "State-adjusted (with additional)"),
-  list(model_with_state_no_adjust_list, "Only state-adjusted"),
-  list(primary_model_list, "Primary")
+  list(model_with_state_no_adjust_list, "Only state-adjusted")
 )) {
   model_list <- pair[[1]]
   model_group <- pair[[2]]
@@ -502,11 +502,55 @@ for (pair in list(
   )
 }
 overall_df_bar_graph$response <- as.factor(overall_df_bar_graph$response)
-overall_df_bar_graph$model_group <- as.factor(overall_df_bar_graph$model_group)
+overall_df_bar_graph$model_group <- factor(overall_df_bar_graph$model_group,
+  levels = c(
+    "Primary",
+    "Income-adjusted",
+    "State-adjusted (with additional)",
+    "Only state-adjusted"
+  )
+)
 
-ggplot(data = overall_df_bar_graph) +
-  geom_bar(aes(x = response, y = estimate, fill = response, group = response), stat = "identity", position = "dodge") +
+result_coef_plot <- ggplot(data = overall_df_bar_graph) +
+  geom_errorbar(aes(x = response, ymin = lower, ymax = upper, color = response), width = 0.1, size=3) +
+  geom_point(aes(
+    x = response,
+    y = estimate,
+  ), stat = "identity", position = "dodge",
+  size = 5) +
+  geom_hline(aes(yintercept = 0), size = 2) +
   facet_wrap(. ~ model_group) +
-  geom_errorbar(aes(x = response, ymin = lower, ymax = upper), width = 0.2) +
-  theme_bw()
+  guides(
+    color = guide_legend(title = "Response",
+    override.aes = list(size = 20))
+  ) +
+  xlab("") +
+  ylab("Coefficient and CI") +
+  theme_bw() +
+  theme(
+    strip.text = element_text(size = 30),
+    legend.title = element_text(size = 30),
+    legend.text = element_text(size = 30),
+    axis.text.y = element_text(size = 30)
+  )
+print(result_coef_plot)
+
+ggsave("./plots/result_coef_plot.png", result_coef_plot, width = 20, height = 10)
+```
+
+```{r multicol}
+multicol_plot <- ggplot(data = model_with_income_df) +
+  geom_point(aes(x = prop_below_poverty_level, y = median_household_income)) +
+  theme_bw() +
+  xlab("Proportion of people below poverty level") +
+  ylab("Median household income ($US)")
+ggsave("./plots/multicol_plot.png", multicol_plot, width = 20, height = 10)
+multicol_plot_large <- multicol_plot +
+  theme(
+    axis.text.x = element_text(size = 15),
+    axis.text.y = element_text(size = 15),
+    axis.title = element_text(size = 30)
+  )
+print(multicol_plot_large)
+ggsave("./plots/multicol_plot_large.png", multicol_plot_large, width = 20, height = 10)
 ```
