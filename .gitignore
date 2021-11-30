@@ -5,6 +5,10 @@ data/*
 *.pdf
 *.log
 *.png
+
+*.RData
+*.Rhistory
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
