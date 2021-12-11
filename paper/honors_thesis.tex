@@ -423,6 +423,11 @@ but not any auxiliary controlling variables.
 
 \section{Results}
 
+Note that throughout the paper,
+we use $\hat{\beta}_{pov}$ to refer to the
+coefficient for the proportion of people below the poverty level in any of the
+models.
+
 \subsection{Descriptive Statistics}
 
 Many of the proportion variables took values on a much smaller range
@@ -536,6 +541,10 @@ the coefficient for the proportion of people below the poverty level
 was only significantly different from zero
 in the model with proportion of people reporting
 alcohol use disorder as a response.
+Note that throughout the paper,
+we use $\hat{\beta}_{pov}$ to refer to the
+coefficient for the proportion of people below the poverty level in any of the
+models.
 That is, with a family-wise error rate of 5\%,
 there is evidence of a linear relationship between
 the proportion of people below the poverty level
@@ -737,10 +746,7 @@ not captured by the models.
 We should note that only the model with suicidal
 thoughts as a response in the primary model group
 showed any major spatial clustering.
-Given that there was no spatial clustering in
-the model with reported alcohol use disorder as the response,
-spatial clustering should not have much
-bearing on the inferential conclusions drawn from that model.
+
 We should also note that the residuals
 are much smaller overall in the state-adjusted
 models than the corresponding primary models,
@@ -886,12 +892,33 @@ as to what mediating effects may exist,
 and how then we might interpret the significance of
 the coefficient for this particular model.
 
+Another possibility that could explain the significance
+of alcohol use disorder in the primary model group
+is sampling bias.
+The response variables, including alcohol use disorder,
+were all collected via survey.
+This means that the significant effect could represent
+that in areas with higher poverty,
+on average less people \textit{report} alcohol
+use disorder,
+regardless of the comparitive level of alcohol use disorder
+in areas with less poverty.
+Given that substance use is often the subject of social stigma,
+this is a plausible reason for significance in this case,
+and it would explain the unintuitive direction of the effect.
+
 A second concern was that of spatial correlation
 causing issues in model fit.
-Examining residual plots for the primary model
-and the sensitivity model,
-no violations of linearity
-or constant variance were found.
+Although there was no visible spatial clustering in
+the model with reported alcohol use disorder as the response,
+spatial clustering could have had an effect
+on the inferential conclusions drawn from that model.
+Spatial confounding could have biased
+our point estimates for $\hat{\beta}_{pov}$,
+or altered the confidence interval widths of the estimates
+in ways that we cannot percieve~\cite{hodges_2010}.
+This could have effected the significance of the coefficients in
+any of our primary models.
 
 The resesarch plan laid out the state-indicator
 models to investigate whether a proxy for geographic
@@ -1062,6 +1089,9 @@ methodology for this paper.
 
 I would also like to thank Dr.\ Aaron Nielsen,
 for participation as a thesis committee member.
+
+I would like to thank Dr.\ Dan Cooley for
+helpful comments in the revision of the paper.
 
 I would also like to thank my parents, who supported
 me through a difficult academic year; and my wife,
