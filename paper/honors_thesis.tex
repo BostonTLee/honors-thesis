@@ -290,8 +290,7 @@ initially represented at the county level,
 with repeated observations for the NSDUH estimates
 the final models were constructed at the substate region level.
 That is, the final models were fit using data at the original
-scale provided by the NSDUH estimates, before the joining described in
-Section~\ref{sec:joining}.
+scale provided by the NSDUH estimates.
 The ACS estimates were aggregated to the substate region level
 by a population weighted average for the substate region in question.
 Each numeric variable was grouped by substate region
@@ -550,10 +549,10 @@ there is evidence of a linear relationship between
 the proportion of people below the poverty level
 and the proportion of people reporting alcohol use disorder.
 We can interpret the coefficient value as saying that
-a 10\% positive difference in the percentage of the
+a 10 percentage point positive difference in the percentage of the
 population below the poverty level
 is associated with, on average,
-a \textit{negative} difference of 0.86\%
+a \textit{negative} difference of 0.86 percentage points
 in the percentage of the population
 reporting alcohol use disorder.
 
@@ -700,7 +699,6 @@ After the addition of median income as an adjusting variable,
 the value of $\hat{\beta}_{pov}$ fell from -0.86 to -0.68,
 although the 95\% CI for the parameter still did not include zero.
 
-% FIXME
 The right bound of the CI for $\hat{\beta}_{pov}$ in the
 model with suicidal thoughts as the response
 shifted to the other side of zero than the corresponding model
@@ -775,7 +773,7 @@ introduced by adding an indicator for each state.
 
 Next, we can examine the results
 from the models only adjusted by state indicators
-As seen in Table~\label{tab:state-ind-only-model-results},
+As seen in Table~\ref{tab:state-ind-only-model-results},
 the confidence intervals for $\hat{\beta}_{pov}$
 in the models with the proportion of people
 reporting suicidal thoughts
@@ -837,12 +835,11 @@ The most interesting result from the primary model group
 was the fact that of the three primary models,
 only the model with reported alcohol use disorder
 as the predictor had a significant $\hat{\beta}_{pov}$
-(see Table \ref{tab:primary-model-results}).
+(see Table~\ref{tab:primary-model-results}).
 The two response variables in the models in which
 $\hat{\beta}_{pov}$ was not sigificant were also
 seen to be much more strongly correlated to each other
-than either was to reported alcohol use disorder
-(see Section~\ref{sec:results-corr}).
+than either was to reported alcohol use disorder.
 This shows that alcohol use disorder may not
 be a good proxy for mental health.
 Intuitively, reported MDEs and suicidal thoughts
